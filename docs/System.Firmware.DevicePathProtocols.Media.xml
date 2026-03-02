@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Firmware.DevicePathProtocols.Media</name>
+    </assembly>
+    <members>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath">
+            <summary>
+            The CD-ROM Media Device Path is used to define a system partition that exists on a CD-ROM. The CD-ROM is assumed to contain an ISO-9660 file system and follow the CD-ROM “El Torito” format
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#cd-rom-media-device-path
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.#ctor">
+            <summary>
+            The CD-ROM Media Device Path is used to define a system partition that exists on a CD-ROM. The CD-ROM is assumed to contain an ISO-9660 file system and follow the CD-ROM “El Torito” format
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#cd-rom-media-device-path
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.BootEntry">
+            <summary>
+            Boot Entry number from the Boot Catalog. The Initial/Default entry is defined as zero.
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.PartitionStart">
+            <summary>
+            Starting RBA of the partition on the medium. CD-ROMs use Relative logical Block Addressing.
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.PartitionSize">
+            <summary>
+            Size of the partition in units of Blocks, also called Sectors.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.#ctor(System.UInt32,System.UInt64,System.UInt64)">
+            <summary>
+            Create new <see cref="T:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath"/> protocol instance from boot entry and partition offset
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.CdRomMediaDevicePath.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath">
+            <summary>
+            File Path Media Device Path
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.#ctor">
+            <summary>
+            File Path Media Device Path
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.PathName">
+            <summary>
+            A NULL-terminated Path string including directory and file name.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.#ctor(System.String)">
+            <summary>
+            Create new <see cref="T:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath"/> protocol instance from file path
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.FilePathMediaDevicePath.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.PartitionFormat">
+            <summary>
+            Partition format
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.PartitionFormat.LegacyMBR">
+            <summary>
+            Mastre boot record
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.PartitionFormat.GuidPartitionTable">
+            <summary>
+            Guid partition table
+            </summary>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.SignatureType">
+            <summary>
+            Signature type
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.SignatureType.NoDiskSignature">
+            <summary>
+            Raw
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.SignatureType.MbrSignature">
+            <summary>
+            Mastre boot record
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.SignatureType.GuidSignature">
+            <summary>
+            Guid partition table
+            </summary>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath">
+            <summary>
+            The Hard Drive Media Device Path is used to represent a partition on a hard drive.
+            <see href="https://uefi.org/specs/UEFI/2.9_A/10_Protocols_Device_Path_Protocol.html#hard-drive-media-device-path"/>
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.#ctor">
+            <summary>
+            The Hard Drive Media Device Path is used to represent a partition on a hard drive.
+            <see href="https://uefi.org/specs/UEFI/2.9_A/10_Protocols_Device_Path_Protocol.html#hard-drive-media-device-path"/>
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.PartitionNumber">
+            <summary>
+            Describes the entry in a partition table, starting with entry 1. Partition number zero represents the entire device. Valid partition numbers for a MBR partition are [1, 4]. Valid partition numbers for a GPT partition are [1, NumberOfPar titionEntries].
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.PartitionStart">
+            <summary>
+            Starting LBA of the partition on the hard drive
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.PartitionSize">
+            <summary>
+            Size of the partition in units of Logical Blocks
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.GptPartitionSignature">
+            <summary>
+            Signature unique to this partition, this field contains a 16 byte signature.
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.PartitionFormat">
+            <summary>
+            Partition Format: (Unused values reserved) 0x01 - PC-AT compatible legacy MBR (Legacy MBR) . Partition Start and Partition Size come from Parti tionStartingLBA and PartitionSizeInLBA for the partition.0x02—GUID Partition Table
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.SignatureType">
+            <summary>
+            Type of Disk Signature: (Unused values reserved) 0x00 - No Disk Signature. 0x01 - 32-bit signature from address 0x1b8 of the type 0x01 MBR. 0x02 - GUID signature.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.#ctor(System.Firmware.Win32Native.PARTITION_INFORMATION_EX)">
+            <summary>
+            Create new <see cref="T:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath"/> protocol instance from <see cref="T:System.Firmware.Win32Native.PARTITION_INFORMATION_EX"/> structure
+            </summary>
+            <param name="partition"></param>
+            <exception cref="T:System.IO.InvalidDataException"></exception>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.#ctor(System.Guid)">
+            <summary>
+            Create a protocol from unique partition <see cref="T:System.Guid"/>
+            </summary>
+            <param name="partitionIdentificator"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.HardDriveMediaDevicePath.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType">
+            <summary>
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-device-path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.HardDrive">
+            <summary>
+            The Hard Drive Media Device Path is used to represent a partition on a hard drive. Each partition has at least Hard Drive Device Path node, each describing an entry in a partition table. EFI supports MBR and GPT partitioning formats. Partitions are numbered according to their entry in their respective partition table, starting with 1. Partitions are addressed in EFI starting at LBA zero. A partition number of zero can be used to represent the raw hard drive or a raw extended partition
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.CdRom">
+            <summary>
+            The CD-ROM Media Device Path is used to define a system partition that exists on a CD-ROM. The CD-ROM is assumed to contain an ISO-9660 file system and follow the CD-ROM “El Torito” format. The Boot Entry number from the Boot Catalog is how the “El Torito” specification defines the existence of bootable entities on a CD-ROM. In EFI the bootable entity is an EFI System Partition that is pointed to by the Boot Entry.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.Vendor">
+            <summary>
+            Vendor-Defined Media Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.FilePath">
+            <summary>
+            A NULL-terminated Path string including directory and file names. The length of this string n can be determined by subtracting 4 from the Length entry. A device path may contain one or more of these nodes. Each node can optionally add a “" separator to the beginning and/or the end of the Path Name string. The complete path to a file can be found by logically concatenating all the Path Name strings in the File Path Media Device Path nodes. This is typically used to describe the directory path in one node, and the filename in another node.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.Media">
+            <summary>
+            The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.PiwgFirmwareFile">
+            <summary>
+            This type is used by systems implementing the UEFI PI Specification to describe a firmware file. The exact format and usage are defined in that specification.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.PiwgFirmwareVolume">
+            <summary>
+            This type is used by systems implementing the UEFI PI Specification to describe a firmware volume. The exact format and usage are defined in that specification.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.RelativeOffsetRange">
+            <summary>
+            This device path node specifies a range of offsets relative to the first byte available on the device. The starting offset is the first byte of the range and the ending offset is the last byte of the range (not the last byte + 1).
+            </summary>
+        </member>
+        <member name="F:System.Firmware.MediaDevicePathProtocols.MediaDeviceProtocolType.RamDisk">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath">
+            <summary>
+            The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-protocol-device-path
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.#ctor">
+            <summary>
+            The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-protocol-device-path
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.ProtocolGUID">
+            <summary>
+            The ID of the protocol
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.#ctor(System.Guid)">
+            <summary>
+            Create new <see cref="T:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath"/> protocol instance from protocol GUID identificator
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.MediaProtocolMediaDevicePath.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath">
+            <summary>
+            Vendor-Defined Media Device Path
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-media-device-path
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.#ctor">
+            <summary>
+            Vendor-Defined Media Device Path
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-media-device-path
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.VendorGuid">
+            <summary>
+            Vendor-assigned GUID that defines the data that follows
+            </summary>
+        </member>
+        <member name="P:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.VendorDefinedData">
+            <summary>
+            Vendor-defined variable size data.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.MediaDevicePathProtocols.VendorDefinedMediaDevicePath.ToString">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Firmware.BootService</name>
+    </assembly>
+    <members>
+        <member name="T:System.Firmware.BootService.InvalidHandleValueException">
+            <summary>
+            Invalid descriptor value
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.InvalidHandleValueException.#ctor(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.FreeLoadOptionIndexNotFound">
+            <summary>
+            Failed to find free loadOption index
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.FreeLoadOptionIndexNotFound.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.InvalidInheritedClassException">
+            <summary>
+            The registering type has the wrong parent
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.InvalidInheritedClassException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.DeviceProtocolCastingException">
+            <summary>
+            Failed to cast DevicePathProtocol
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DeviceProtocolCastingException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.InvalidLoadOptionStrcutreException">
+            <summary>
+            Load option has incorrect structure
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.InvalidLoadOptionStrcutreException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException">
+            <summary>
+            The wrapper class does not contain a defining attribute
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.InvalidDevicePathProtocolStructureException">
+            <summary>
+            The wrapper class has the wrong structure
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.InvalidDevicePathProtocolStructureException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute">
+            <summary>
+            Attribute describing the wrapper class for the DevicePath protocol
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            Attribute describing the wrapper class for the DevicePath protocol
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+        </member>
+        <member name="P:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.Type">
+            <summary>
+            Type of protocol to be wrapped
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.SubType">
+            <summary>
+            SubType of protocol to be wrapped
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase">
+            <summary>
+            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
+            </summary>
+            <remarks>
+            Abstract constructor
+            </remarks>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
+            </summary>
+            <remarks>
+            Abstract constructor
+            </remarks>
+        </member>
+        <member name="P:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Type">
+            <summary>
+            Protocol type
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.SubType">
+            <summary>
+            Protocol Sub-Type - Varies by Type
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.GetSerializationDataLength">
+            <summary>
+            Returns the length, in bytes, of the data required to serialize the current object.
+            </summary>
+            <remarks>
+            Implementations should ensure that the returned length accurately reflects the size of the serialized data for the current object state.
+            This value can be used to allocate buffers or validate storage requirements before serialization.
+            </remarks>
+            <returns>The number of bytes needed to serialize the object. The value is always non-negative.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <summary>
+            Deserialize raw data into managed data. 
+            </summary>
+            <param name="reader"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Serialize(System.IO.BinaryWriter)">
+            <summary>
+            Serialize managed data into raw data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType">
+            <summary>
+            Type of device path protocol
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Hardware">
+            <summary>
+            Hardware Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.ACPI">
+            <summary>
+            ACPI Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Message">
+            <summary>
+            Messaging Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Media">
+            <summary>
+            Media Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.BIOS">
+            <summary>
+            BIOS Boot Specification Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.End">
+            <summary>
+            End of Hardware Device Path
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd">
+            <summary>
+            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.#ctor">
+            <summary>
+            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath">
+            <summary>
+            The default instance for protocols, has no abstractions, but only raw data
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            The default instance for protocols, has no abstractions, but only raw data
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.ProtocolData">
+            <summary>
+            <para>GUID - An EFI GUID in standard format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.</para>
+            <para>Keyword - In some cases, one of a series of keywords must be listed.</para>
+            <para>Integer - Unless otherwise specified, this indicates an unsigned integer in the range of 0 to 2^32-1. The value is decimal, unless preceded by �0x� or �0X�, in which case it is hexadecimal.</para>
+            <para>EISAID - A seven character text identifier in the format used by the ACPI specification. The first three characters must be alphabetic, either upper or lower case. The second four characters are hexadecimal digits, either numeric, upper case or lower case. Optionally, it can be the number 0.</para>
+            <para>String - Series of alphabetic, numeric and punctuation characters not including a right parenthesis �)�, bar �</para>
+            <para>HexDump - Series of bytes, represented by two hexadecimal characters per byte. Unless otherwise indicated, the size is only limited by the length of the device node.</para>
+            <para>IPv4 Address - Series of four integer values (each between 0-255), separated by a �.� Optionally, followed by a �:� and an integer value between 0-65555. If the �:� is not present, then the port value is zero.</para>
+            <para>IPv6 Address - IPv6 Address is expressed in the format [address]:port. The �address� is expressed in the way defined in RFC4291 Section 2.2. The �:port� after the [address] is optional. If present, the �port� is an integer value between 0-65535 to represent the port number, or else, port number is zero.</para>
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+            <param name="protocolData"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.FirmwareBootService">
+            <summary>
+            Provides methods to read, write, update, and delete boot entries from your computer's UEFI NVRAM
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.FirmwareBootService.CurrentLoadOptionIndex">
+            <summary>
+            Gets the index of the boot record this computer was booted from. Use this index in methods of this <see cref="T:System.Firmware.BootService.FirmwareBootService"/>
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.FirmwareBootService.NextLoadOptionIndex">
+            <summary>
+            Sets the index of the boot entry that will be loaded next time ONCE. Use this index in methods of this class
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.FirmwareBootService.LoadOrder">
+            <summary>
+            Gets or sets the boot order. The array contains the indexes of all boot entries in the order in which they will be loaded. Use this index in methods of this class
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.DeleteLoadOption(System.Firmware.BootOptionIndex)">
+            <summary>
+            Resets the Boot#### variable at the specified index and removes it from the boot order
+            </summary>
+            <param name="bootOptionIndex"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.EnumerateBootOptions">
+            <summary>
+            Lists all load options in boot order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.EnumrateBootOptions``1">
+            <summary>
+            Lists all load options in boot order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.EnumrateRawBootOptions">
+            <summary>
+            Lists all load options in boot order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.EditLoadOption(System.Firmware.BootOptionIndex,System.Action{System.Firmware.BootService.LoadOption.FirmwareBootOption})">
+            <summary>
+            Reads the boot option from NVRAM, issues it to the delegate for processing and updates the variable at the specified index
+            </summary>
+            <param name="bootOptionIndex"></param>
+            <param name="UpdateOptionAction"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.CreateLoadOption(System.Firmware.BootService.LoadOption.LoadOptionBase,System.Boolean)">
+            <summary>
+            Creates a new load option at the first free index, writes into it a serialized copy of the <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionBase"/> instance passed to the function, and returns the index of the new entry. Specify the <paramref name="AddFirst"/> parameter as <see langword="true"/> to add the option as the first boot option
+            </summary>
+            <param name="loadOption"></param>
+            <param name="AddFirst"></param>
+            <returns></returns>
+            <exception cref="T:System.Firmware.BootService.FreeLoadOptionIndexNotFound"></exception>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.UpdateLoadOption(System.Firmware.BootService.LoadOption.LoadOptionBase,System.Firmware.BootOptionIndex)">
+            <summary>
+            Writes serialized copy of the <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionBase"/> instance passed to the function into existing load option variable at the specified index
+            </summary>
+            <param name="loadOption"></param>
+            <param name="bootOptionIndex"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.ReadRawLoadOption(System.Firmware.BootOptionIndex)">
+            <summary>
+            Reads the native representation of the boot option from NVRAM
+            </summary>
+            <param name="bootOptionIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.ReadLoadOption(System.Firmware.BootOptionIndex)">
+            <summary>
+            Reads boot option from NVRAM
+            </summary>
+            <param name="bootOptionIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.BootService.FirmwareBootService.ReadLoadOption``1(System.Firmware.BootOptionIndex)">
+            <summary>
+            Reads a boot option from NVRAM and converts it to the specified type <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bootOptionIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:System.Firmware.BootService.LoadOption.FirmwareBootOption">
+            <summary>
+            Basic implementation of <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionBase"/>
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.LoadOption.FirmwareBootOption.#ctor">
+            <summary>
+            Initializes a new instance of the FirmwareBootOption class with default attribute and description values.
+            </summary>
+            <remarks>
+            The Attributes property is set to LoadOptionAttributes.CATEGORY_BOOT, and the Description property is initialized as an empty string.
+            This constructor is typically used when creating a boot option with default settings before customizing its properties.
+            </remarks>
+        </member>
+        <member name="M:System.Firmware.BootService.LoadOption.FirmwareBootOption.#ctor(System.Firmware.BootService.LoadOption.LoadOptionAttributes,System.String)">
+            <summary>
+            Create new <see cref="T:System.Firmware.BootService.LoadOption.FirmwareBootOption"/> load option instance from <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionAttributes"/> and Option description
+            </summary>
+            <param name="attributes"></param>
+            <param name="description"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.LoadOption.FirmwareBootOption.#ctor(System.Firmware.BootService.LoadOption.LoadOptionAttributes,System.String,System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase[],System.Byte[])">
+            <summary>
+            Create new <see cref="T:System.Firmware.BootService.LoadOption.FirmwareBootOption"/> load option instance from <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionAttributes"/>, Option description, <see cref="P:System.Firmware.BootService.LoadOption.LoadOptionBase.OptionalData"/> and <see cref="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase"/>s
+            </summary>
+            <param name="attributes"></param>
+            <param name="description"></param>
+            <param name="optionalData"></param>
+            <param name="protocols"></param>
+        </member>
+        <member name="T:System.Firmware.BootService.LoadOption.LoadOptionAttributes">
+            <summary>
+            The attributes for this load option entry
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.ACTIVE">
+            <summary>
+            If a load option is marked as LOAD_OPTION_ACTIVE, the boot manager will attempt to boot automatically using the device path information in the load option
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.FORCE_RECONNECT">
+            <summary>
+            If any Driver#### load option is marked as LOAD_OPTION_FORCE_RECONNECT , then all of the UEFI drivers in the system will be disconnected and reconnected after the last Driver#### load option is processed
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.HIDDEN">
+            <summary>
+            If any Boot#### load option is marked as LOAD_OPTION_HIDDEN , then the load option will not appear in the menu (if any) provided by the boot manager for load option selection
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.CATEGORY">
+            <summary>
+            The LOAD_OPTION_CATEGORY is a sub-field of Attributes that provides details to the boot manager to describe how it should group the Boot#### load options
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.CATEGORY_BOOT">
+            <summary>
+            Boot#### load options with LOAD_OPTION_CATEGORY set to LOAD_OPTION_CATEGORY_BOOT are meant to be part of the normal boot processing
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.LoadOption.LoadOptionAttributes.CATEGORY_APP">
+            <summary>
+            Boot#### load options with LOAD_OPTION_CATEGORY set to LOAD_OPTION_CATEGORY_APP are executables which are not part of the normal boot processing but can be optionally chosen for execution if boot menu is provided, or via Hot Keys
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.LoadOption.LoadOptionBase">
+            <summary>
+            <see href="https://uefi.org/specs/UEFI/2.9_A/03_Boot_Manager.html#load-options">Load option</see> used to determine the boot parameters of a specific object, be it a driver or an OS
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.LoadOption.LoadOptionBase.#ctor">
+            <summary>
+            <see href="https://uefi.org/specs/UEFI/2.9_A/03_Boot_Manager.html#load-options">Load option</see> used to determine the boot parameters of a specific object, be it a driver or an OS
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.LoadOption.LoadOptionBase.Attributes">
+            <summary>
+            The attributes for this load option entry
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.LoadOption.LoadOptionBase.Description">
+            <summary>
+            The user readable description for the load option
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.LoadOption.LoadOptionBase.Protocols">
+            <summary>
+            <para>FilePathList</para>
+            A packed array of UEFI device paths.The first element of the array is a device path that describes the device and location of the Image for this load option.The FilePathList[0] is specific to the device type.Other device paths may optionally exist in the FilePathList, but their usage is OSV specific. Each element in the array is variable length, and ends at the device path end structure. Because the size of Description is arbitrary, this data structure is not guaranteed to be aligned on a natural boundary.This data structure may have to be copied to an aligned natural boundary before it is used
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.LoadOption.LoadOptionBase.OptionalData">
+            <summary>
+            The remaining bytes in the load option descriptor are a binary data buffer that is passed to the loaded image. If the field is zero bytes long, a NULL pointer is passed to the loaded image. The number of bytes in OptionalData can be computed by subtracting the starting offset of OptionalData from total size in bytes of the EFI_LOAD_OPTION
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector">
+            <summary>
+            An assistant class that tells the marshaler what type to use to represent the native <see cref="T:System.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL"/> structure
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.GetRegisteredType(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            Retrieves the registered protocol wrapper type associated with the specified protocol type and subtype.
+            </summary>
+            <remarks>
+            This method returns only types that have been previously registered using RegisterWrapperLibrary.
+            If no matching type is found, the method returns null.
+            </remarks>
+            <param name="type">The protocol type for which to retrieve the registered wrapper type.</param>
+            <param name="subType">The protocol subtype used to further identify the wrapper type. Typically represents a protocol variant or
+            extension.</param>
+            <returns>The registered wrapper type corresponding to the specified protocol type and subtype, or null if no matching type is registered.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.RegisterType``1">
+            <summary>
+            Registers a protocol wrapper type for later use in marshaling boot options
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.RegisterType(System.Type)">
+            <summary>
+            Registers a protocol wrapper type for later use in marshaling boot options
+            </summary>
+            <param name="wrapperType"></param>
+            <exception cref="T:System.Firmware.BootService.InvalidInheritedClassException"></exception>
+            <exception cref="T:System.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException"></exception>
+        </member>
+    </members>
+</doc>

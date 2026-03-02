@@ -1,0 +1,847 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Firmware</name>
+    </assembly>
+    <members>
+        <member name="T:System.Firmware.BootOptionIndex">
+            <summary>
+            Represents a boot option index, which is a 16-bit unsigned integer value used to identify a specific boot option in the system's firmware.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.#ctor(System.UInt16)">
+            <summary>
+            Represents a boot option index, which is a 16-bit unsigned integer value used to identify a specific boot option in the system's firmware.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.CompareTo(System.Firmware.BootOptionIndex)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.CompareTo(System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.Equals(System.Firmware.BootOptionIndex)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.Equals(System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.op_Equality(System.Firmware.BootOptionIndex,System.Firmware.BootOptionIndex)">
+            <summary>
+            Determines whether two BootOptionIndex instances are equal.
+            </summary>
+            <param name="left">The first BootOptionIndex to compare.</param>
+            <param name="right">The second BootOptionIndex to compare.</param>
+            <returns>true if the specified BootOptionIndex instances are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.op_Inequality(System.Firmware.BootOptionIndex,System.Firmware.BootOptionIndex)">
+            <summary>
+            Determines whether two BootOptionIndex instances are not equal.
+            </summary>
+            <param name="left">The first BootOptionIndex to compare.</param>
+            <param name="right">The second BootOptionIndex to compare.</param>
+            <returns>true if the specified BootOptionIndex instances are not equal; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.ToString">
+            <summary>
+            Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.op_Implicit(System.Firmware.BootOptionIndex)~System.UInt16">
+            <summary>
+            Impictly converts <see cref="T:System.Firmware.BootOptionIndex"/> structure to <see langword="ushort"/>
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.op_Implicit(System.UInt16)~System.Firmware.BootOptionIndex">
+            <summary>
+            Implicitly converts <see langword="ushort"/> value to <see cref="T:System.Firmware.BootOptionIndex"/> structure.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:System.Firmware.BootOptionIndex.op_Implicit(System.Firmware.BootOptionIndex)~System.String">
+            <summary>
+            Converts a BootOptionIndex instance to its string representation.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="T:System.Firmware.EfiOsIindications">
+            <summary>
+            The firmware and an Operating System may exchange information through the OsIndicationsSupported and the OSIndications variables as follows
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.BOOT_TO_FW_UI">
+            <summary>
+            Once the firmware consumes this bit in the OsIndications variable and stops at the firmware user interface
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.TIMESTAMP_REVOCATION">
+            <summary>
+            If the firmware supports timestamp based revocation and the � dbt � uthorized timestamp database variable.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.FILE_CAPSULE_DELIVERY_SUPPORTED">
+            <summary>
+            When submitting capsule via the Mass Storage Device method of Delivery of Capsules via file on Mass Storage Device, the bit EFI_OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED in OsIndications variable must be set by submitter to trigger processing of submitted capsule on next reboot
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.FMP_CAPSULE_SUPPORTED">
+            <summary>
+            If platform supports processing of Firmware Management Protocol update capsule as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/23_Firmware_Update_and_Reporting.html#dependency-expression-instruction-set">Dependency Expression Instruction Set</see>
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.CAPSULE_RESULT_VAR_SUPPORTED">
+            <summary>
+            If platform supports reporting of deferred capsule processing by creation of result variable as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#uefi-variable-reporting-on-the-success-or-any-errors-encountered-in-processing-of-capsules-after-restart">UEFI variable reporting on the Success or any Errors encountered in processing of capsules after restart</see>
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.START_OS_RECOVERY">
+            <summary>
+            Indicate that OS-defined recovery should commence upon reboot
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.START_PLATFORM_RECOVERY">
+            <summary>
+            Indicate that Platform-defined recovery should commence upon reboot
+            </summary>
+        </member>
+        <member name="F:System.Firmware.EfiOsIindications.JSON_CONFIG_DATA_REFRESH">
+            <summary>
+            Bit is set in the OsIndications variable by submitter to trigger collecting current configuration and reporting the refreshed data to EFI System Configuration Table on next boot
+            </summary>
+        </member>
+        <member name="T:System.Firmware.FirmwareGlobalEnvironment">
+            <summary>
+            Interface for reading and editing UEFI environment variables
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.AuditMode">
+            <summary>
+            Whether the system is operating in Audit Mode (1) or not (0). All other values are reserved. Should be treated as read-only except when DeployedMode is 0. Always becomes read-only after ExitBootServices() is called.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.BootCurrent">
+            <summary>
+            The boot option that was selected for the current boot.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.BootNext">
+            <summary>
+            The boot option for the next boot only.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.BootOrder">
+            <summary>
+            The ordered boot option load list.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.BootOptionSupport">
+            <summary>
+            The types of boot options supported by the boot manager. Should be treated as read-only.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.DeployedMode">
+            <summary>
+            Whether the system is operating in Deployed Mode (1) or not (0). All other values are reserved. Should be treated as read-only when its value is 1. Always becomes read-only after ExitBootServices() is called.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.devAuthBoot">
+            <summary>
+            Whether the platform firmware is operating in device authentication boot mode (1) or not (0). All other values are reserved. Should be treated as read-only.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.DriverOrder">
+            <summary>
+            The ordered driver load option list.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.HwErrRecSupport">
+            <summary>
+            Identifies the level of hardware error record persistence support implemented by the platform. This variable is only modified by firmware and is read-only to the OS.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.Lang">
+            <summary>
+            The language code that the system is configured for. This value is deprecated.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.LangCodes">
+            <summary>
+            The language codes that the firmware supports. This value is deprecated.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.OsIndications">
+            <summary>
+            Allows the OS to request the firmware to enable certain features and to take certain actions.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.OsIndicationsSupported">
+            <summary>
+            Allows the firmware to indicate supported features and actions to the OS.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.OsRecoveryOrder">
+            <summary>
+            OS-specified recovery options.
+            Variable attributes : BS, RT, NV, AT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.PlatformLangCodes">
+            <summary>
+            The language codes that the firmware supports.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.PlatformLang">
+            <summary>
+            The language code that the system is configured for.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.SignatureSupport">
+            <summary>
+            Array of GUIDs representing the type of signatures supported by the platform firmware. Should be treated as read-only.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.SecureBoot">
+            <summary>
+            Whether the platform firmware is operating in Secure boot mode (1) or not (0). All other values are reserved. Should be treated as read-only.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.SetupMode">
+            <summary>
+            Whether the system should require authentication on SetVariable() requests to Secure Boot policy variables (0) or not (1). Should be treated as read-only. The system is in "Setup Mode" when SetupMode==1, AuditMode==0, and DeployedMode==0.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.Timeout">
+            <summary>
+            The firmware's boot managers timeout, in seconds, before initiating the default boot selection.
+            Variable attributes : NV, BS, RT
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareGlobalEnvironment.VendorKeys">
+            <summary>
+            Whether the system is configured to use only vendor-provided keys or not. Should be treated as read-only.
+            Variable attributes : BS, RT
+            </summary>
+        </member>
+        <member name="T:System.Firmware.FirmwareInterface">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:System.Firmware.FirmwareInterface.Available">
+            <summary>
+            Checks whether the UEFI platform is available on this system
+            </summary>
+            <returns>If available, return <see langword="true"/>, else <see langword="false"/></returns>
+        </member>
+        <member name="P:System.Firmware.FirmwareInterface.SystemPartition">
+            <summary>
+            Searches among the partition for the one that is marked as EfiSystemPartition
+            </summary>
+            <returns><see cref="T:System.IO.DirectoryInfo"/> of EfiSystemPartition</returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareInterface.BootToUserInterface">
+            <summary>
+            Boot into the UEFI user interface after rebooting the computer. Does NOT reboot the computer, but sets the boot condition
+            </summary>
+        </member>
+        <member name="T:System.Firmware.FirmwareUtilities">
+            <summary>
+            Features for interacting with UEFI
+            </summary>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.CheckFirmwareAvailablity">
+            <summary>
+            Determines whether firmware environment variable functionality is available on the current system.
+            </summary>
+            <remarks>
+            Firmware environment variables are typically used for advanced system configuration and are
+            only supported on certain platforms, such as Windows running on UEFI firmware. This method can be used to check
+            for support before attempting operations that require firmware environment variables.
+            </remarks>
+            <returns>true if firmware environment variable support is available; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.ReadStringVariable(System.String)">
+            <summary>
+            Retrieves the value of a global environment variable as a string.
+            </summary>
+            <remarks>
+            The returned value is read from the global environment. If the specified variable is not found, the method returns null.
+            This method allocates and frees unmanaged memory internally, callers do not need to manage memory for the returned string.
+            </remarks>
+            <param name="VarName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
+            <returns>A string containing the value of the specified environment variable, or null if the variable does not exist.</returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.WriteStringVariable(System.String,System.String)">
+            <summary>
+            Sets a global environment variable with the specified name to the provided string value.
+            </summary>
+            <remarks>
+            The variable is set globally and may affect other processes or components that read environment variables.
+            The value is stored as a Unicode string. Ensure that the variable name and value conform to any platform-specific restrictions.
+            </remarks>
+            <param name="VarName">The name of the environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The string value to assign to the environment variable. Cannot be null.</param>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.ReadVariable``1(System.String)">
+            <summary>
+            Retrieves the value of a global environment variable and returns it as a value type.
+            </summary>
+            <remarks>
+            This method reads the variable from the global environment and marshals it to the specified value type.
+            The caller must ensure that the variable exists and is compatible with the requested type.
+            If the variable does not exist or cannot be marshaled to type T, the result may be undefined.
+            </remarks>
+            <typeparam name="T">The value type to which the environment variable will be marshaled. Must be a struct.</typeparam>
+            <param name="VarName">The name of the global environment variable to read. Cannot be null or empty.</param>
+            <returns>The value of the specified environment variable, marshaled to type T.</returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.WriteVariable``1(System.String,``0)">
+            <summary>
+            Writes a value of a specified struct type to a global environment variable identified by name.
+            </summary>
+            <remarks>
+            This method stores the value as a binary representation using unmanaged memory.
+            The caller should ensure that the variable name is unique and valid within the global environment.
+            Only value types (structs) are supported.</remarks>
+            <typeparam name="T">The struct type of the value to write to the environment variable.</typeparam>
+            <param name="VarName">The name of the global environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The value to assign to the environment variable.</param>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.ReadArrayVariable``1(System.String)">
+            <summary>
+            Retrieves the value of a global environment variable as an array of value type elements.
+            </summary>
+            <remarks>
+            The method reads the raw memory of the environment variable and interprets it as an array of the specified value type.
+            Use this method only when the variable is known to contain binary data compatible with the type T.
+            The caller is responsible for ensuring the variable's format matches the expected type.
+            </remarks>
+            <typeparam name="T">The value type of the elements to read from the environment variable.</typeparam>
+            <param name="VarName">The name of the global environment variable to retrieve. Cannot be null or empty.</param>
+            <returns>An array of elements of type T containing the values stored in the specified environment variable. The array
+            will be empty if the variable contains no data.</returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.WriteArrayVariable``1(System.String,``0[])">
+            <summary>
+            Writes a global environment variable as an array of value type elements.
+            </summary>
+            <remarks>
+            This method pins the array in memory and writes its contents to the specified global environment variable.
+            The variable is set as a contiguous block of memory representing the array.
+            Use caution when passing large arrays, as this operation involves unmanaged memory handling.
+            </remarks>
+            <typeparam name="T">The value type of the elements in the array to be written.</typeparam>
+            <param name="VarName">The name of the global environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The array of value type elements to write. Cannot be null and must contain at least one element.</param>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.SetGlobalEnvironmentVariable(System.String,System.IntPtr,System.Int32)">
+            <summary>
+            Sets a global environment variable with the specified name and value pointer.
+            </summary>
+            <remarks>
+            This method sets a global environment variable using a native identifier. Use this method
+            when you need to update environment variables that are shared across the firmware or system context. The caller
+            is responsible for ensuring that the pointer and size are valid and that the memory referenced remains
+            accessible for the duration required by the environment.
+            </remarks>
+            <param name="VarName">The name of the environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">A pointer to the value to assign to the environment variable.</param>
+            <param name="PtrSize">The size, in bytes, of the value pointed. Must be greater than zero.</param>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.GetGlobalEnvironmentVariable(System.String,System.Int32@,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="VarName"></param>
+            <param name="DataLength"></param>
+            <param name="VarSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.SetGlobalEnvironmentVariableEx(System.String,System.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="VarName"></param>
+            <param name="attributes"></param>
+            <param name="Value"></param>
+            <param name="PtrSize"></param>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.GetGlobalEnvironmentVariableEx(System.String,System.Firmware.VariableAttributes@,System.Int32@,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="VarName"></param>
+            <param name="attributes"></param>
+            <param name="DataLength"></param>
+            <param name="VarSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.SetEnvironmentVariable(System.String,System.Guid,System.IntPtr,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="VarName"></param>
+            <param name="EnvironmentIdentificator"></param>
+            <param name="Value"></param>
+            <param name="PtrSize"></param>
+            <exception cref="T:System.PlatformNotSupportedException"></exception>
+            <exception cref="T:System.Firmware.FirmwareEnvironmentException"></exception>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.GetEnvironmentVariable(System.String,System.Guid,System.Int32@,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="VarName"></param>
+            <param name="EnvironmentIdentificator"></param>
+            <param name="DataLength"></param>
+            <param name="VarSize"></param>
+            <returns></returns>
+            <exception cref="T:System.PlatformNotSupportedException"></exception>
+            <exception cref="T:System.Firmware.FirmwareEnvironmentException"></exception>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.SetEnvironmentVariableEx(System.String,System.Guid,System.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
+            <summary>
+            Sets the value of an environment variable with the specified name and attributes in the specified environment.
+            The variable is stored in non-volatile memory and will persist across system reboots.
+            The variable is associated with the specified environment, which is identified by a GUID.
+            The attributes parameter specifies the attributes of the variable, such as whether it is read-only or can be accessed from user mode.
+            The value parameter is a pointer to a buffer that contains the data to be stored in the variable, and ptrSize specifies the size of the buffer in bytes.
+            </summary>
+            <param name="VarName"></param>
+            <param name="EnvironmentIdentificator"></param>
+            <param name="attributes"></param>
+            <param name="Value"></param>
+            <param name="PtrSize"></param>
+            <exception cref="T:System.PlatformNotSupportedException"></exception>
+            <exception cref="T:System.Firmware.FirmwareEnvironmentException"></exception>
+        </member>
+        <member name="M:System.Firmware.FirmwareUtilities.GetEnvironmentVariableEx(System.String,System.Guid,System.Firmware.VariableAttributes@,System.Int32@,System.Int32)">
+            <summary>
+            Gets the value of an environment variable with the specified name and attributes from the specified environment.
+            </summary>
+            <param name="VarName"></param>
+            <param name="EnvironmentIdentificator"></param>
+            <param name="attributes"></param>
+            <param name="DataLength"></param>
+            <param name="VarSize"></param>
+            <returns></returns>
+            <exception cref="T:System.PlatformNotSupportedException"></exception>
+            <exception cref="T:System.Firmware.FirmwareEnvironmentException"></exception>
+        </member>
+        <member name="T:System.Firmware.FirmwareUtilities.SystemEnvironmentPriviledge">
+            <summary>
+            Manages the temporary elevation of the current process to enable the system environment privilege.
+            </summary>
+            <remarks>
+            This class acquires the system environment privilege for the lifetime of the instance and reverts the privilege when disposed.
+            It is intended for use with a using statement to ensure proper privilege management and resource cleanup.
+            This class is not thread-safe.
+            </remarks>
+        </member>
+        <member name="T:System.Firmware.FirmwareEnvironmentException">
+            <summary>
+            Represents an error that occurred while working with UEFI
+            </summary>
+        </member>
+        <member name="M:System.Firmware.FirmwareEnvironmentException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.FirmwareEnvironmentException.#ctor(System.String,System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.SystemPartition.EfiExecutableInfo">
+            <summary>
+            Provides properties of Efi application files, such as architecture, application provider, and file information
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiExecutableInfo.FullName">
+            <summary>
+            Full path to the executable file, including the partition path
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiExecutableInfo.Application">
+            <summary>
+            The name of the folder in which the EFI executable is stored is the name of the provider of the executable file
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiExecutableInfo.FileInfo">
+            <summary>
+            Executable's file information
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiExecutableInfo.Architecture">
+            <summary>
+            Executable architecture based on <see href="https://uefi.org/specs/UEFI/2.9_A/03_Boot_Manager.html#removable-media-boot-behavior">Boot manager docs</see>
+            </summary>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.IO.FileInfo)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> from info of efi application file
+            </summary>
+            <param name="EfiExecutableFile"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> from the full path to the efi application file
+            </summary>
+            <param name="FullPath"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.Firmware.SystemPartition.FirmwareApplicationArchitecture)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> located on the ESP from the name of the application provider and its architecture with the default application name "boot"
+            </summary>
+            <param name="architecture"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> located on the ESP from the name of the application provider and application file name
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="ApplicationFile"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.IO.DriveInfo,System.Firmware.SystemPartition.FirmwareApplicationArchitecture)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> located on external drive from the and its architecture with the default application name "boot"
+            </summary>
+            <param name="ApplicationRoot"></param>
+            <param name="architecture"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:System.Firmware.SystemPartition.EfiExecutableInfo.#ctor(System.IO.DriveInfo,System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Firmware.SystemPartition.EfiExecutableInfo"/> located on external drive from the name of the application provider and application file name
+            </summary>
+            <param name="ApplicationRoot"></param>
+            <param name="ApplicationName"></param>
+            <param name="ApplicationFile"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.DriveNotFoundException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:System.Firmware.SystemPartition.EfiPartition">
+            <summary>
+            System partition containing boot files of operating systems
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiPartition.Identificator">
+            <summary>
+            GUID identifier of the system EFI partition.
+            This is a unique identifier assigned to the partition when it is created,
+            and can be used to identify the partition among other partitions on the same disk.
+            It is not related to the partition type, and is not a constant value.
+            It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiPartition.TypeID">
+            <summary>
+            GUID identifier of the system EFI partition type.
+            This is a constant value defined by the UEFI specification for EFI System Partitions,
+            and is used to identify partitions that are intended to be used as EFI System Partitions.
+            </summary>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiPartition.VolumePath">
+            <summary>
+            Full path to the system EFI partition, in the form of "\\?\Volume{GUID}\".
+            This path can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
+            Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:System.Firmware.SystemPartition.EfiPartition.PartitionInfo">
+            <summary>
+            Get volume information for system EFI partition.
+            Avoid using this propert, unless you need to access the partition's low-level properties that are not provided by <see cref="P:System.Firmware.SystemPartition.EfiPartition.VolumePath"/>, like partition length or starting offset.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:System.Firmware.SystemPartition.FirmwareApplicationArchitecture">
+            <summary>
+            Enumeration of supported processor architectures for firmware applications
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.Unknown">
+            <summary>
+            Unknown architecture
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.Ia32">
+            <summary>
+            32-bit
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.x64">
+            <summary>
+            AMD64
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.Ia64">
+            <summary>
+            Intel Itanium 64
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.Arm">
+            <summary>
+            AArch32 architecture
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.AArch64">
+            <summary>
+            AArch64 architecture
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.RISC_V32">
+            <summary>
+            RISC-V 32-bit architecture
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.RISC_V64">
+            <summary>
+            RISC-V 64-bit architecture
+            </summary>
+        </member>
+        <member name="F:System.Firmware.SystemPartition.FirmwareApplicationArchitecture.RISC_V128">
+            <summary>
+            RISC-V 128-bit architecture
+            </summary>
+        </member>
+        <member name="T:System.Firmware.VariableAttributes">
+            <summary>
+            Attributes bitmask to set for the variable
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.NON_VOLATILE">
+            <summary>
+            The variable is accessible from a non volatile environment
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.BOOTSERVICE_ACCESS">
+            <summary>
+            The variable is available while the Boot service is running
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.RUNTIME_ACCESS">
+            <summary>
+            The variable is available at runtime
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.HARDWARE_ERROR_RECORD">
+            <summary>
+            NoDescription
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.AUTHENTICATED_WRITE_ACCESS">
+            <summary>
+            The variable is available only to authorized sources
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.TIME_BASED_AUTHENTICATED_WRITE_ACCESS">
+            <summary>
+            NoDescription
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.APPEND_WRITE">
+            <summary>
+            NoDescription
+            </summary>
+        </member>
+        <member name="F:System.Firmware.VariableAttributes.ENHANCED_AUTHENTICATED_ACCESS">
+            <summary>
+            NoDescription
+            </summary>
+        </member>
+        <member name="T:System.Firmware.VolumePath">
+            <summary>
+            Represents a strongly-typed volume path based on a unique volume identifier (GUID). Provides comparison, equality,
+            and conversion operations for working with volume paths in a type-safe manner.
+            </summary>
+            <remarks>
+            Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
+            enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
+            Instances are immutable and can be compared or used in collections that require equality or ordering.
+            Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
+            </remarks>
+            <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.#ctor(System.Guid)">
+            <summary>
+            Represents a strongly-typed volume path based on a unique volume identifier (GUID). Provides comparison, equality,
+            and conversion operations for working with volume paths in a type-safe manner.
+            </summary>
+            <remarks>
+            Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
+            enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
+            Instances are immutable and can be compared or used in collections that require equality or ordering.
+            Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
+            </remarks>
+            <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
+        </member>
+        <member name="P:System.Firmware.VolumePath.Identificator">
+            <summary>
+            Gets the unique identifier associated with this instance.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.VolumePath.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the VolumePath class using the specified string representation of a GUID.
+            </summary>
+            <param name="guidStr">A string containing the GUID that identifies the volume path. Must be a valid GUID format.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.CompareTo(System.Firmware.VolumePath)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.VolumePath.CompareTo(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.VolumePath.Equals(System.Firmware.VolumePath)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.VolumePath.Equals(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.VolumePath.ToString">
+            <summary>
+            Returns the string representation of the volume in the Windows device path format.
+            </summary>
+            <remarks>
+            This format is commonly used for referencing volumes in Windows APIs and system utilities.
+            The returned string can be used for operations that require the full device path of a volume.
+            </remarks>
+            <returns>
+            A string containing the volume path in the format "\\?\Volume{GUID}\",
+            where GUID is the value of the <c>Identificator</c> property.
+            </returns>
+        </member>
+        <member name="M:System.Firmware.VolumePath.op_Implicit(System.Firmware.VolumePath)~System.Guid">
+            <summary>
+            Converts a <see cref="T:System.Firmware.VolumePath"/> instance to its associated <see cref="T:System.Guid"/> identifier.
+            </summary>
+            <param name="path">The <see cref="T:System.Firmware.VolumePath"/> object to convert to a <see cref="T:System.Guid"/>.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.op_Implicit(System.Guid)~System.Firmware.VolumePath">
+            <summary>
+            Defines an implicit conversion from a <see cref="T:System.Guid"/> to a <c>VolumePath</c> instance.
+            </summary>
+            <param name="guid">The <see cref="T:System.Guid"/> value representing the unique identifier of the volume path to convert.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.op_Implicit(System.Firmware.VolumePath)~System.String">
+            <summary>
+            Converts a <see cref="T:System.Firmware.VolumePath"/> instance to its string representation.
+            </summary>
+            <param name="path">The <see cref="T:System.Firmware.VolumePath"/> instance to convert.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.op_Implicit(System.String)~System.Firmware.VolumePath">
+            <summary>
+            Converts a string containing a volume GUID path to a <see cref="T:System.Firmware.VolumePath"/> instance.
+            </summary>
+            <param name="guidStr">A string representing the volume GUID path to convert. Must not be null or empty.</param>
+        </member>
+        <member name="M:System.Firmware.VolumePath.op_Implicit(System.Firmware.VolumePath)~System.IO.DirectoryInfo">
+            <summary>
+            Converts a <see cref="T:System.Firmware.VolumePath"/> instance to a <see cref="T:System.IO.DirectoryInfo"/> representing the same file system path.
+            </summary>
+            <param name="path">The <see cref="T:System.Firmware.VolumePath"/> to convert to a <see cref="T:System.IO.DirectoryInfo"/>.</param>
+        </member>
+        <member name="T:System.Firmware.Win32Native.IoctlVolumeEnumerable">
+            <summary>
+            Enumerable collection of volumes by physical hard drive index
+            </summary>
+        </member>
+        <member name="M:System.Firmware.Win32Native.IoctlVolumeEnumerable.GetEnumerator">
+            <summary>
+            Create new instance of <see cref="T:System.Firmware.Win32Native.IoctlVolumeEnumerable"/>'s enumerator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.IoctlVolumeEnumerable.#ctor(System.Int32)">
+            <summary>
+            Create new instance of <see cref="T:System.Firmware.Win32Native.IoctlVolumeEnumerable"/>
+            </summary>
+            <param name="DriveIndex"></param>
+        </member>
+        <member name="T:System.Firmware.Win32Native.EfiPartitionAttribute">
+            <summary>
+            The Extensible Firmware Interface (EFI) attributes of the partition.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.Win32Native.EfiPartitionAttribute.GPT_ATTRIBUTE_PLATFORM_REQUIRED">
+            <summary>
+            If this attribute is set, the partition is required by a computer to function properly. 
+            </summary>
+        </member>
+        <member name="F:System.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_NO_DRIVE_LETTER">
+            <summary>
+            If this attribute is set, the partition does not receive a drive letter by default when the disk is moved to another computer or when the disk is seen for the first time by a computer. 
+            </summary>
+        </member>
+        <member name="F:System.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_HIDDEN">
+            <summary>
+            If this attribute is set, the partition is not detected by the Mount Manager. 
+            </summary>
+        </member>
+        <member name="F:System.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_SHADOW_COPY">
+            <summary>
+            If this attribute is set, the partition is a shadow copy of another partition.
+            </summary>
+        </member>
+        <member name="F:System.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_READ_ONLY">
+            <summary>
+            If this attribute is set, the partition is read-only. 
+            </summary>
+        </member>
+        <member name="T:System.Firmware.Win32Native.PartitionStyle">
+            <summary>
+            Specifies the partition style used on a disk, such as Master Boot Record (MBR), GUID Partition Table (GPT), or raw (uninitialized).
+            </summary>
+        </member>
+        <member name="T:System.Firmware.Win32Native.DRIVE_LAYOUT_INFORMATION_EX">
+            <summary>
+            Contains extended information about a drive's partitions.
+            </summary>
+        </member>
+        <member name="T:System.Firmware.Win32Native.PARTITION_INFORMATION_GPT">
+            <summary>
+            Contains GUID partition table (GPT) partition information.
+            </summary>
+        </member>
+        <member name="T:System.Firmware.Win32Native.PARTITION_INFORMATION_EX">
+            <summary>
+            Contains information about a disk partition.
+            </summary>
+        </member>
+    </members>
+</doc>
