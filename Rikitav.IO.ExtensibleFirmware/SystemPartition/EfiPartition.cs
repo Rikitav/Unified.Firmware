@@ -28,8 +28,7 @@ public static class EfiPartition
     private static readonly PARTITION_INFORMATION_EX _partitionInfo = FindEfiPartitionInfo();
     private static readonly Guid _partitionInfoTypeId = Guid.Parse("c12a7328-f81f-11d2-ba4b-00a0c93ec93b");
     
-    private static string? _rawFullPath = null;
-    private static DirectoryInfo? _directoryInfo = null;
+    private static VolumePath? _rawFullPath = null;
 
     /// <summary>
     /// GUID identifier of the system EFI partition.
@@ -57,31 +56,16 @@ public static class EfiPartition
     /// Full path to the system EFI partition, in the form of "\\?\Volume{GUID}\".
     /// This path can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
     /// Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
-    /// 
-    /// Use <see cref="VolumeDirectory"/> to access the partition's files and directories using .NET's file system APIs.
     /// </summary>
     /// <returns></returns>
-    public static string VolumeFullPath
+    public static VolumePath VolumePath
     {
-        get => _rawFullPath ??= string.Concat(@"\\?\Volume{", Identificator.ToString(), @"}\");
-    }
-
-    /// <summary>
-    /// <see cref="DirectoryInfo"/> of system EFI partition.
-    /// This can be used to access the partition's files and directories using .NET's file system APIs.
-    /// Note that this is not a drive letter and cannot be used with functions that expect a drive letter.
-    /// 
-    /// Use <see cref="VolumeFullPath"/> to get the partition's full path for use with Win32 API functions that require a volume path.
-    /// </summary>
-    /// <returns></returns>
-    public static DirectoryInfo VolumeDirectory
-    {
-        get => _directoryInfo ??= new DirectoryInfo(VolumeFullPath);
+        get => _rawFullPath ??= new VolumePath(Identificator);
     }
 
     /// <summary>
     /// Get volume information for system EFI partition.
-    /// Avoid using this propert, unless you need to access the partition's low-level properties that are not provided by <see cref="VolumeDirectory"/> or <see cref="VolumeFullPath"/>, like partition length or starting offset.
+    /// Avoid using this propert, unless you need to access the partition's low-level properties that are not provided by <see cref="VolumePath"/>, like partition length or starting offset.
     /// </summary>
     /// <returns></returns>
     public static PARTITION_INFORMATION_EX PartitionInfo

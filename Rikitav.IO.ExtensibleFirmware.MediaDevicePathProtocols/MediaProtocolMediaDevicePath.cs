@@ -15,47 +15,42 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
+using Rikitav.IO.ExtensibleFirmware.Win32Native;
 using System;
+using System.IO;
 
-namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols;
+
+/// <summary>
+/// The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
+/// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-protocol-device-path
+/// </summary>
+[DefineDevicePathProtocol(DeviceProtocolType.Media, 5)]
+public sealed class MediaProtocolMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 5)
 {
     /// <summary>
-    /// The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
-    /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-protocol-device-path
+    /// The ID of the protocol
     /// </summary>
-    [DefineDevicePathProtocol(DeviceProtocolType.Media, 5)]
-    public sealed class MediaProtocolMediaDevicePath : DevicePathProtocolBase
-    {
-        /// <inheritdoc/>
-        public override DeviceProtocolType Type => DeviceProtocolType.Media;
+    public Guid ProtocolGUID { get; set; }
 
-        /// <inheritdoc/>
-        public override byte SubType => 5;
+    /// <summary>
+    /// Create new <see cref="MediaProtocolMediaDevicePath"/> protocol instance from protocol GUID identificator
+    /// </summary>
+    public MediaProtocolMediaDevicePath(Guid protocolGUID) : this()
+        => ProtocolGUID = protocolGUID;
 
-        /// <summary>
-        /// The ID of the protocol
-        /// </summary>
-        public Guid ProtocolGUID { get; set; }
+    /// <inheritdoc/>
+    public override ushort GetSerializationDataLength()
+        => 16; // GUID is 16 bytes long
 
-        /// <summary>
-        /// Create new <see cref="MediaProtocolMediaDevicePath"/> protocol instance
-        /// </summary>
-        public MediaProtocolMediaDevicePath()
-            : base() { }
+    /// <inheritdoc/>
+    public override void Deserialize(BinaryReader reader, ushort length)
+        => ProtocolGUID = reader.ReadGuid();
 
-        /// <summary>
-        /// Create new <see cref="MediaProtocolMediaDevicePath"/> protocol instance from protocol GUID identificator
-        /// </summary>
-        public MediaProtocolMediaDevicePath(Guid protocolGUID)
-            : base() => ProtocolGUID = protocolGUID;
+    /// <inheritdoc/>
+    public override void Serialize(BinaryWriter writer)
+        => writer.WriteGuid(ProtocolGUID);
 
-        /// <inheritdoc/>
-        protected override void Deserialize(byte[] protocolData) => ProtocolGUID = new Guid(protocolData);
-
-        /// <inheritdoc/>
-        protected override byte[] Serialize() => ProtocolGUID.ToByteArray();
-
-        /// <inheritdoc/>
-        public override string ToString() => ProtocolGUID.ToString();
-    }
+    /// <inheritdoc/>
+    public override string ToString() => ProtocolGUID.ToString();
 }

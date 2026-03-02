@@ -17,14 +17,13 @@
 using Rikitav.IO.ExtensibleFirmware.BootService.LoadOption;
 
 #pragma warning disable CS1591
-namespace Rikitav.IO.ExtensibleFirmware.BootService.UefiNative
+namespace Rikitav.IO.ExtensibleFirmware.BootService.UefiNative;
+
+public struct EFI_LOAD_OPTION
 {
-    public struct EFI_LOAD_OPTION
-    {
-        public LoadOptionAttributes Attributes;
-        public ushort FilePathListLength;
-        public string Description;
-        public EFI_DEVICE_PATH_PROTOCOL[] FilePathList;
-        public byte[] OptionalData;
-    }
+    public LoadOptionAttributes Attributes;
+    public ushort FilePathListLength;
+    public string Description;
+    public EFI_DEVICE_PATH_PROTOCOL[] FilePathList;
+    public byte[] OptionalData;
 }

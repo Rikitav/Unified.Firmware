@@ -14,41 +14,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
+
+/// <summary>
+/// Type of device path protocol
+/// </summary>
+public enum DeviceProtocolType : byte
 {
     /// <summary>
-    /// Type of device path protocol
+    /// Hardware Device Path
     /// </summary>
-    public enum DeviceProtocolType : byte
-    {
-        /// <summary>
-        /// Hardware Device Path
-        /// </summary>
-        Hardware = 0x01,
+    Hardware = 0x01,
 
-        /// <summary>
-        /// ACPI Device Path
-        /// </summary>
-        ACPI = 0x02,
+    /// <summary>
+    /// ACPI Device Path
+    /// </summary>
+    ACPI = 0x02,
 
-        /// <summary>
-        /// Messaging Device Path
-        /// </summary>
-        Message = 0x03,
+    /// <summary>
+    /// Messaging Device Path
+    /// </summary>
+    Message = 0x03,
 
-        /// <summary>
-        /// Media Device Path
-        /// </summary>
-        Media = 0x04,
+    /// <summary>
+    /// Media Device Path
+    /// </summary>
+    Media = 0x04,
 
-        /// <summary>
-        /// BIOS Boot Specification Device Path
-        /// </summary>
-        BIOS = 0x05,
+    /// <summary>
+    /// BIOS Boot Specification Device Path
+    /// </summary>
+    BIOS = 0x05,
 
-        /// <summary>
-        /// End of Hardware Device Path
-        /// </summary>
-        End = 0x7F
-    }
+    /// <summary>
+    /// End of Hardware Device Path
+    /// </summary>
+    End = 0x7F
 }

@@ -54,8 +54,8 @@ public static class FirmwareBootService
     /// </summary>
     public static BootOptionIndex[] LoadOrder
     {
-        get => FirmwareGlobalEnvironment.BootOrder.Cast<BootOptionIndex>().ToArray();
-        set => FirmwareGlobalEnvironment.BootOrder = value.Cast<ushort>().ToArray();
+        get => [.. FirmwareGlobalEnvironment.BootOrder];
+        set => FirmwareGlobalEnvironment.BootOrder = [.. value.Select(x => x)];
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public static class FirmwareBootService
         FirmwareUtilities.SetGlobalEnvironmentVariable(bootOptionIndex, IntPtr.Zero, 0);
 
         // Removing index from boot order
-        //LoadOrder = LoadOrder.Where(x => x != bootOptionIndex).ToArray();
+        LoadOrder = [.. LoadOrder.Where(x => x != bootOptionIndex)];
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static IEnumerable<FirmwareBootOption> EnumerateBootOptions()
     {
-        return LoadOrder.Select(i => ReadLoadOption(i));
+        return LoadOrder.Select(ReadLoadOption);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static IEnumerable<T> EnumrateBootOptions<T>() where T : LoadOptionBase, new()
     {
-        return LoadOrder.Select(i => ReadLoadOption<T>(i));
+        return LoadOrder.Select(ReadLoadOption<T>);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static IEnumerable<EFI_LOAD_OPTION> EnumrateRawBootOptions()
     {
-        return LoadOrder.Select(i => ReadRawLoadOption(i));
+        return LoadOrder.Select(ReadRawLoadOption);
     }
 
     /// <summary>
@@ -154,7 +154,8 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static EFI_LOAD_OPTION ReadRawLoadOption(BootOptionIndex bootOptionIndex)
     {
-        return ReadFirmwareLoadOption(bootOptionIndex);
+        using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);
+        return reader.ReadRawLoadOption();
     }
 
     /// <summary>
@@ -164,8 +165,8 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static FirmwareBootOption ReadLoadOption(BootOptionIndex bootOptionIndex)
     {
-        EFI_LOAD_OPTION loadOption = ReadFirmwareLoadOption(bootOptionIndex);
-        return new FirmwareBootOption(loadOption);
+        using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);
+        return reader.ReadLoadOption<FirmwareBootOption>();
     }
 
     /// <summary>
@@ -176,43 +177,29 @@ public static class FirmwareBootService
     /// <returns></returns>
     public static T ReadLoadOption<T>(BootOptionIndex bootOptionIndex) where T : LoadOptionBase, new()
     {
-        EFI_LOAD_OPTION loadOption = ReadFirmwareLoadOption(bootOptionIndex);
-        return (T)Activator.CreateInstance(typeof(T), loadOption);
+        using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);
+        return reader.ReadLoadOption<T>();
     }
 
-    private static EFI_LOAD_OPTION ReadFirmwareLoadOption(BootOptionIndex loadOptionIndex)
+    private static BinaryReader ReadFirmwareLoadOption(BootOptionIndex loadOptionIndex)
     {
         // Getting variable data
         IntPtr pointer = FirmwareUtilities.GetGlobalEnvironmentVariable(loadOptionIndex, out int DataLength, 1024);
-        using BinaryReader reader = new BinaryReader(new MemoryPointerStream(pointer, DataLength, true));
-
-        // Marshalling variable
-        EFI_LOAD_OPTION loadOption = LoadOptionMarshaller.BinaryReaderToStructure(reader);
-        Marshal.FreeHGlobal(pointer);
-        return loadOption;
+        return new BinaryReader(new MemoryPointerStream(pointer, DataLength, false));
     }
 
     private static void WriteFirmwareLoadOption(LoadOptionBase loadOption, BootOptionIndex bootOptionIndex)
     {
-        /*
-        // Checking for End protocol
-        if (!(loadOption.OptionProtocols.Last() is DevicePathProtocolEnd))
-            throw new InvalidLoadOptionStrcutreException("Load option does not have DevicePathProtocolEnd at the end of the OptionProtocols list. This protocol is necessary for correct recording");
-        */
-
         // Marshalling structure to unmanaged memory pointer
-        int structureLength = LoadOptionMarshaller.GetStrcutureLength(loadOption);
-        IntPtr pointer = Marshal.AllocHGlobal(structureLength);
-        
-        using (BinaryWriter writer = new BinaryWriter(new MemoryPointerStream(pointer, structureLength, true), Encoding.Unicode, true))
-            LoadOptionMarshaller.MarshalToBinaryWriter(loadOption, writer);
-#if DEBUG
-        byte[] DebugData = new byte[structureLength];
-        Marshal.Copy(pointer, DebugData, 0, structureLength);
-#endif
+        int structureLength = loadOption.GetStrcutureLength();
+        using MemoryPointerStream pointer = new MemoryPointerStream(structureLength);
+
+        // Serializing structure to memory
+        using (BinaryWriter writer = new BinaryWriter(pointer, Encoding.Unicode, true))
+            writer.WriteLoadOption(loadOption);
+
         // Writing variable to firmware
-        FirmwareUtilities.SetGlobalEnvironmentVariable(bootOptionIndex, pointer, structureLength);
-        Marshal.FreeHGlobal(pointer);
+        FirmwareUtilities.SetGlobalEnvironmentVariable(bootOptionIndex, pointer.Buffer, structureLength);
     }
 
     private static BootOptionIndex? GetFirstFreeLoadOptionName()

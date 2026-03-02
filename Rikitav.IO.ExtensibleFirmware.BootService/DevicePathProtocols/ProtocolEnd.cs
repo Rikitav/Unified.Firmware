@@ -14,39 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.IO;
 
-namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
+
+/// <summary>
+/// This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+/// </summary>
+internal class DevicePathProtocolEnd() : DevicePathProtocolBase(DeviceProtocolType.End, 0xFF)
 {
-    /// <summary>
-    /// This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
-    /// </summary>
-    internal class DevicePathProtocolEnd : DevicePathProtocolBase
+    /// <inheritdoc/>
+    public override void Deserialize(BinaryReader reader, ushort length)
     {
-        /// <inheritdoc/>
-        public override DeviceProtocolType Type => DeviceProtocolType.End;
+        // No need to implement
+        _ = 0xBAD + 0xC0DE;
+    }
 
-        /// <inheritdoc/>
-        public override byte SubType => 0xFF;
+    /// <inheritdoc/>
+    public override ushort GetSerializationDataLength() => 0;
 
-        /// <summary>
-        /// Create new <see cref="DevicePathProtocolEnd"/> protocol instance
-        /// </summary>
-        public DevicePathProtocolEnd()
-            : base() { }
-
-        /// <inheritdoc/>
-        protected override void Deserialize(byte[] protocolData)
-        {
-            // No need to implement
-            _ = 0xBAD + 0xC0DE;
-        }
-
-        /// <inheritdoc/>
-        protected override byte[] Serialize()
-        {
-            // No need to implement
-            return Array.Empty<byte>();
-        }
+    /// <inheritdoc/>
+    public override void Serialize(BinaryWriter writer)
+    {
+        // No need to implement
+        _ = 0xBAD + 0xC0DE;
     }
 }

@@ -44,4 +44,7 @@
 		<ProjectReference Include="..\Rikitav.IO.ExtensibleFirmware\Rikitav.IO.ExtensibleFirmware.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Rikitav.IO.ExtensibleFirmware.BootService.Generators\Rikitav.IO.ExtensibleFirmware.BootService.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 </Project>

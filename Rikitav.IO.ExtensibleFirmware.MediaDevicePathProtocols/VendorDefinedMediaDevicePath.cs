@@ -15,62 +15,50 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
+using Rikitav.IO.ExtensibleFirmware.Win32Native;
 using System;
 using System.IO;
 
-namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols;
+
+/// <summary>
+/// Vendor-Defined Media Device Path
+/// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-media-device-path
+/// </summary>
+[DefineDevicePathProtocol(DeviceProtocolType.Media, 3)]
+public class VendorDefinedMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 3)
 {
     /// <summary>
-    /// Vendor-Defined Media Device Path
-    /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-media-device-path
+    /// Vendor-assigned GUID that defines the data that follows
     /// </summary>
-    [DefineDevicePathProtocol(DeviceProtocolType.Media, 3)]
-    public class VendorDefinedMediaDevicePath : DevicePathProtocolBase
+    public Guid VendorGuid { get; set; }
+
+    /// <summary>
+    /// Vendor-defined variable size data.
+    /// </summary>
+    public byte[] VendorDefinedData { get; set; } = [];
+
+    /// <inheritdoc/>
+    public override ushort GetSerializationDataLength()
     {
-        /// <inheritdoc/>
-        public override DeviceProtocolType Type => DeviceProtocolType.Media;
-
-        /// <inheritdoc/>
-        public override byte SubType => 3;
-
-        /// <summary>
-        /// Vendor-assigned GUID that defines the data that follows
-        /// </summary>
-        public Guid VendorGuid { get; set; }
-
-        /// <summary>
-        /// Vendor-defined variable size data.
-        /// </summary>
-        public byte[] VendorDefinedData { get; set; }
-
-        /// <summary>
-        /// Create new <see cref="MediaProtocolMediaDevicePath"/> protocol instance
-        /// </summary>
-        public VendorDefinedMediaDevicePath()
-            : base() => VendorDefinedData = Array.Empty<byte>();
-
-        /// <inheritdoc/>
-        protected override void Deserialize(byte[] protocolData)
-        {
-            using BinaryReader reader = new BinaryReader(new MemoryStream(protocolData));
-
-            VendorGuid = new Guid(reader.ReadBytes(16));
-            VendorDefinedData = reader.ReadBytes(protocolData.Length - 16);
-        }
-
-        /// <inheritdoc/>
-        protected override byte[] Serialize()
-        {
-            using MemoryStream protocolData = new MemoryStream();
-            using BinaryWriter writer = new BinaryWriter(protocolData);
-
-            writer.Write(VendorGuid.ToByteArray());
-            writer.Write(VendorDefinedData);
-
-            return protocolData.ToArray();
-        }
-
-        /// <inheritdoc/>
-        public override string ToString() => VendorGuid.ToString();
+        // VendorGuid (16 bytes) + VendorDefinedData
+        return (ushort)(16 + VendorDefinedData.Length);
     }
+
+    /// <inheritdoc/>
+    public override void Deserialize(BinaryReader reader, ushort length)
+    {
+        VendorGuid = reader.ReadGuid();
+        VendorDefinedData = reader.ReadBytes(length - 16);
+    }
+
+    /// <inheritdoc/>
+    public override void Serialize(BinaryWriter writer)
+    {
+        writer.Write(VendorGuid.ToByteArray());
+        writer.Write(VendorDefinedData);
+    }
+
+    /// <inheritdoc/>
+    public override string ToString() => VendorGuid.ToString();
 }

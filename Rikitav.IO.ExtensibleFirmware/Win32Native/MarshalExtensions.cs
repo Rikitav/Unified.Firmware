@@ -15,6 +15,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Text;
 
 namespace Rikitav.IO.ExtensibleFirmware.Win32Native;
 
@@ -24,5 +26,54 @@ public static partial class MarshalExtensions
     {
         ReadOnlySpan<T> span = new ReadOnlySpan<T>(memory.ToPointer(), length);
         return span.ToArray();
+    }
+
+    public static BinaryWriter WriteCstyleWideString(this BinaryWriter writer, string value)
+    {
+        if (value == null)
+            return writer;
+
+        byte[] bytes = Encoding.Unicode.GetBytes(value);
+        byte[] terminator = Encoding.Unicode.GetBytes("\0");
+
+        writer.Write(bytes);
+        writer.Write(terminator);
+
+        return writer;
+    }
+
+    public static string ReadCstyleWideString(this BinaryReader reader)
+    {
+        StringBuilder builder = new StringBuilder();
+        for (ushort chr = reader.ReadUInt16(); chr != 0; chr = reader.ReadUInt16())
+            builder.Append((char)chr);
+
+        return builder.ToString();
+    }
+
+    public static ushort GetCstyleWideStringLength(this string value)
+    {
+        if (value == null)
+            return 0;
+        
+        return (ushort)((value.Length + 1) * sizeof(ushort));
+    }
+
+    public static byte[] ReadRemainingBytes(this BinaryReader reader)
+    {
+        int remainingBytesLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
+        return reader.ReadBytes(remainingBytesLength);
+    }
+
+    public static BinaryWriter WriteGuid(this BinaryWriter writer, Guid guid)
+    {
+        writer.Write(guid.ToByteArray());
+        return writer;
+    }
+
+    public static Guid ReadGuid(this BinaryReader reader)
+    {
+        byte[] guidBytes = reader.ReadBytes(16);
+        return new Guid(guidBytes);
     }
 }

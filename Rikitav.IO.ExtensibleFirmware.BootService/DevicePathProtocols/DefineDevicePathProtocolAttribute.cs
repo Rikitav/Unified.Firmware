@@ -16,41 +16,23 @@
 
 using System;
 
-namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
+
+/// <summary>
+/// Attribute describing the wrapper class for the DevicePath protocol
+/// </summary>
+/// <param name="type"></param>
+/// <param name="subType"></param>
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+public class DefineDevicePathProtocolAttribute(DeviceProtocolType type, byte subType) : Attribute
 {
     /// <summary>
-    /// Attribute describing the wrapper class for the DevicePath protocol
+    /// Type of protocol to be wrapped
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class DefineDevicePathProtocolAttribute : Attribute
-    {
-        /// <summary>
-        /// Type of protocol to be wrapped
-        /// </summary>
-        public DeviceProtocolType Type { get; private set; }
+    public DeviceProtocolType Type { get; private set; } = type;
 
-        /// <summary>
-        /// SubType of protocol to be wrapped
-        /// </summary>
-        public byte SubType { get; private set; }
-
-        /// <summary>
-        /// Create new <see cref="DefineDevicePathProtocolAttribute"/> attribute instance
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="subType"></param>
-        /// <exception cref="InvalidInheritedClassException"></exception>
-        public DefineDevicePathProtocolAttribute(DeviceProtocolType type, byte subType) //, Type protocolWrapperType)
-        {
-            /*
-            // Checking inherited class
-            if (!typeof(DevicePathProtocolBase).IsAssignableFrom(protocolWrapperType))
-                throw new InvalidInheritedClassException(string.Format("The type {0} is not a descendant of class {1}", protocolWrapperType.Name, typeof(DevicePathProtocolBase).Name));
-            */
-
-            // Assigning info
-            Type = type;
-            SubType = subType;
-        }
-    }
+    /// <summary>
+    /// SubType of protocol to be wrapped
+    /// </summary>
+    public byte SubType { get; private set; } = subType;
 }

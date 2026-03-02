@@ -45,7 +45,7 @@ public static class FirmwareInterface
             if (!Available)
                 throw new PlatformNotSupportedException("This system does not support UEFI, or is loaded in LEGACY mode");
 
-            return EfiPartition.VolumeDirectory;
+            return EfiPartition.VolumePath;
         }
     }
 

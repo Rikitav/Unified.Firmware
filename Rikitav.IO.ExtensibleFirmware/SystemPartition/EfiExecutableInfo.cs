@@ -112,7 +112,7 @@ public class EfiExecutableInfo
     /// </summary>
     /// <param name="architecture"></param>
     /// <exception cref="ArgumentException"></exception>
-    public EfiExecutableInfo(FirmwareApplicationArchitecture architecture) : this(Path.Combine(EfiPartition.GetFullPath(), "EFI", "Boot", string.Format("boot{0}.efi", architecture)))
+    public EfiExecutableInfo(FirmwareApplicationArchitecture architecture) : this(Path.Combine(EfiPartition.VolumePath, "EFI", "Boot", string.Format("boot{0}.efi", architecture)))
     {
         if (!Enum.IsDefined(typeof(FirmwareApplicationArchitecture), architecture))
             throw new ArgumentException("The provided architecture was not recognized", nameof(architecture));
@@ -124,7 +124,7 @@ public class EfiExecutableInfo
     /// <param name="ApplicationName"></param>
     /// <param name="ApplicationFile"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public EfiExecutableInfo(string ApplicationName, string ApplicationFile) : this(Path.Combine(EfiPartition.GetFullPath(), "EFI", ApplicationName, ApplicationFile))
+    public EfiExecutableInfo(string ApplicationName, string ApplicationFile) : this(Path.Combine(EfiPartition.VolumePath, "EFI", ApplicationName, ApplicationFile))
     {
         if (string.IsNullOrEmpty(ApplicationName))
             throw new ArgumentNullException(nameof(ApplicationName));

@@ -69,11 +69,7 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
     public PARTITION_INFORMATION_EX Current { get; private set; }
     object IEnumerator.Current => Current;
 
-    public bool IsDisposed
-    {
-        get;
-        private set;
-    } = true;
+    public bool IsDisposed { get; private set; } = true;
 
     public IoctlVolumeEnumerator(int DriveIndex = 0)
     {

@@ -17,13 +17,12 @@
 using Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
 
 #pragma warning disable CS1591
-namespace Rikitav.IO.ExtensibleFirmware.BootService.UefiNative
+namespace Rikitav.IO.ExtensibleFirmware.BootService.UefiNative;
+
+public struct EFI_DEVICE_PATH_PROTOCOL
 {
-    public struct EFI_DEVICE_PATH_PROTOCOL
-    {
-        public DeviceProtocolType Type;
-        public byte SubType;
-        public ushort Length;
-        public byte[] Data;
-    }
+    public DeviceProtocolType Type;
+    public byte SubType;
+    public ushort Length;
+    public byte[] Data;
 }

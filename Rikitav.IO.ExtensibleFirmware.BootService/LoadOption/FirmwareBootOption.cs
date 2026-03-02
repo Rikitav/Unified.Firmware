@@ -15,55 +15,48 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
-using Rikitav.IO.ExtensibleFirmware.BootService.UefiNative;
-using Rikitav.IO.ExtensibleFirmware.BootService.Win32Native;
-using System.IO;
 
-namespace Rikitav.IO.ExtensibleFirmware.BootService.LoadOption
+namespace Rikitav.IO.ExtensibleFirmware.BootService.LoadOption;
+
+/// <summary>
+/// Basic implementation of <see cref="LoadOptionBase"/>
+/// </summary>
+public class FirmwareBootOption : LoadOptionBase
 {
     /// <summary>
-    /// Basic implementation of <see cref="LoadOptionBase"/>
+    /// Initializes a new instance of the FirmwareBootOption class with default attribute and description values.
     /// </summary>
-    public class FirmwareBootOption : LoadOptionBase
+    /// <remarks>
+    /// The Attributes property is set to LoadOptionAttributes.CATEGORY_BOOT, and the Description property is initialized as an empty string.
+    /// This constructor is typically used when creating a boot option with default settings before customizing its properties.
+    /// </remarks>
+    public FirmwareBootOption()
     {
-        /// <summary>
-        /// The data coming after the main ones is additional
-        /// </summary>
-        public new byte[] OptionalData => OptionalData;
+        Attributes = LoadOptionAttributes.CATEGORY_BOOT;
+        Description = string.Empty;
+    }
 
-        /// <summary>
-        /// Create new <see cref="FirmwareBootOption"/> load option instance
-        /// </summary>
-        /// <param name="loadOption"></param>
-        public FirmwareBootOption(EFI_LOAD_OPTION loadOption)
-            : base(loadOption) { }
+    /// <summary>
+    /// Create new <see cref="FirmwareBootOption"/> load option instance from <see cref="LoadOptionAttributes"/> and Option description
+    /// </summary>
+    /// <param name="attributes"></param>
+    /// <param name="description"></param>
+    public FirmwareBootOption(LoadOptionAttributes attributes, string description)
+    {
+        Attributes = attributes;
+        Description = description;
+    }
 
-        /// <summary>
-        /// Create new <see cref="FirmwareBootOption"/> load option instance from raw variable data
-        /// </summary>
-        /// <param name="loadOptionVarData"></param>
-        public FirmwareBootOption(byte[] loadOptionVarData)
-            : base(LoadOptionMarshaller.BinaryReaderToStructure(new BinaryReader(new MemoryStream(loadOptionVarData)))) { }
-
-        /// <summary>
-        /// Create new <see cref="FirmwareBootOption"/> load option instance from <see cref="LoadOptionAttributes"/> and Option description
-        /// </summary>
-        /// <param name="attributes"></param>
-        /// <param name="description"></param>
-        public FirmwareBootOption(LoadOptionAttributes attributes, string description)
-            : base(attributes, description) { }
-
-        /// <summary>
-        /// Create new <see cref="FirmwareBootOption"/> load option instance from <see cref="LoadOptionAttributes"/>, Option description, <see cref="OptionalData"/> and <see cref="DevicePathProtocolBase"/>s
-        /// </summary>
-        /// <param name="attributes"></param>
-        /// <param name="description"></param>
-        /// <param name="optionalData"></param>
-        /// <param name="protocols"></param>
-        public FirmwareBootOption(LoadOptionAttributes attributes, string description, byte[] optionalData, DevicePathProtocolBase[] protocols) : base(attributes, description)
-        {
-            base.OptionalData = optionalData;
-            OptionProtocols = protocols;
-        }
+    /// <summary>
+    /// Create new <see cref="FirmwareBootOption"/> load option instance from <see cref="LoadOptionAttributes"/>, Option description, <see cref="LoadOptionBase.OptionalData"/> and <see cref="DevicePathProtocolBase"/>s
+    /// </summary>
+    /// <param name="attributes"></param>
+    /// <param name="description"></param>
+    /// <param name="optionalData"></param>
+    /// <param name="protocols"></param>
+    public FirmwareBootOption(LoadOptionAttributes attributes, string description, DevicePathProtocolBase[] protocols, byte[] optionalData) : this(attributes, description)
+    {
+        Protocols = protocols;
+        OptionalData = optionalData;
     }
 }

@@ -10,7 +10,6 @@ namespace Rikitav.IO.ExtensibleFirmware;
 public readonly struct BootOptionIndex(ushort value) : IEquatable<BootOptionIndex>, IEquatable<ushort>, IComparable<BootOptionIndex>, IComparable<ushort>
 {
     private readonly ushort _value = value;
-    private readonly string _stringValue = $"Boot{value:X4}";
 
     /// <inheritdoc/>
     public int CompareTo(BootOptionIndex other) => _value.CompareTo(other._value);
@@ -24,10 +23,32 @@ public readonly struct BootOptionIndex(ushort value) : IEquatable<BootOptionInde
     /// <inheritdoc/>
     public bool Equals(ushort other) => _value.Equals(other);
 
+    /// <inheritdoc/>
+    public override bool Equals(object? obj) => obj is BootOptionIndex other && Equals(other);
+
+    /// <inheritdoc/>
+    public override int GetHashCode() => _value.GetHashCode();
+
+    /// <summary>
+    /// Determines whether two BootOptionIndex instances are equal.
+    /// </summary>
+    /// <param name="left">The first BootOptionIndex to compare.</param>
+    /// <param name="right">The second BootOptionIndex to compare.</param>
+    /// <returns>true if the specified BootOptionIndex instances are equal; otherwise, false.</returns>
+    public static bool operator ==(BootOptionIndex left, BootOptionIndex right) => left.Equals(right);
+
+    /// <summary>
+    /// Determines whether two BootOptionIndex instances are not equal.
+    /// </summary>
+    /// <param name="left">The first BootOptionIndex to compare.</param>
+    /// <param name="right">The second BootOptionIndex to compare.</param>
+    /// <returns>true if the specified BootOptionIndex instances are not equal; otherwise, false.</returns>
+    public static bool operator !=(BootOptionIndex left, BootOptionIndex right) => !left.Equals(right);
+
     /// <summary>
     /// Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
     /// </summary>
-    public override readonly string ToString() => _stringValue;
+    public override readonly string ToString() => $"Boot{_value:X4}";
 
     /// <summary>
     /// Impictly converts <see cref="BootOptionIndex"/> structure to <see langword="ushort"/>

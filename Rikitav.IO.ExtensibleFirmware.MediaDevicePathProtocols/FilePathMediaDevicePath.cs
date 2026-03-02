@@ -15,47 +15,42 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Rikitav.IO.ExtensibleFirmware.BootService.DevicePathProtocols;
-using System.Text;
+using Rikitav.IO.ExtensibleFirmware.Win32Native;
+using System.IO;
 
-namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols
+namespace Rikitav.IO.ExtensibleFirmware.MediaDevicePathProtocols;
+
+/// <summary>
+/// File Path Media Device Path
+/// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
+/// </summary>
+[DefineDevicePathProtocol(DeviceProtocolType.Media, 4)]
+public sealed class FilePathMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 4)
 {
     /// <summary>
-    /// File Path Media Device Path
-    /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
+    /// A NULL-terminated Path string including directory and file name.
     /// </summary>
-    [DefineDevicePathProtocol(DeviceProtocolType.Media, 4)]
-    public sealed class FilePathMediaDevicePath : DevicePathProtocolBase
-    {
-        /// <inheritdoc/>
-        public override DeviceProtocolType Type => DeviceProtocolType.Media;
+    public string PathName { get; set; } = string.Empty;
 
-        /// <inheritdoc/>
-        public override byte SubType => 4;
+    /// <summary>
+    /// Create new <see cref="FilePathMediaDevicePath"/> protocol instance from file path
+    /// </summary>
+    public FilePathMediaDevicePath(string pathName) : this()
+        => PathName = pathName;
 
-        /// <summary>
-        /// A NULL-terminated Path string including directory and file name.
-        /// </summary>
-        public string PathName { get; set; } = string.Empty;
+    /// <inheritdoc/>
+    public override ushort GetSerializationDataLength()
+        => PathName.GetCstyleWideStringLength();
 
-        /// <summary>
-        /// Create new <see cref="FilePathMediaDevicePath"/> protocol instance
-        /// </summary>
-        public FilePathMediaDevicePath()
-            : base() { }
+    /// <inheritdoc/>
+    public override void Deserialize(BinaryReader reader, ushort length)
+        => PathName = reader.ReadCstyleWideString();
 
-        /// <summary>
-        /// Create new <see cref="FilePathMediaDevicePath"/> protocol instance from file path
-        /// </summary>
-        public FilePathMediaDevicePath(string pathName)
-            : base() => PathName = pathName;
+    /// <inheritdoc/>
+    public override void Serialize(BinaryWriter writer)
+        => writer.WriteCstyleWideString(PathName);
 
-        /// <inheritdoc/>
-        protected override void Deserialize(byte[] protocolData) => PathName = Encoding.Unicode.GetString(protocolData).TrimEnd('\0');
-
-        /// <inheritdoc/>
-        protected override byte[] Serialize() => Encoding.Unicode.GetBytes(PathName + '\0');
-
-        /// <inheritdoc/>
-        public override string ToString() => PathName;
-    }
+    /// <inheritdoc/>
+    public override string ToString()
+        => PathName;
 }
