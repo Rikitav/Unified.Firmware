@@ -60,172 +60,6 @@
         <member name="M:System.Firmware.BootService.InvalidDevicePathProtocolStructureException.#ctor(System.String)">
             <inheritdoc/>
         </member>
-        <member name="T:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute">
-            <summary>
-            Attribute describing the wrapper class for the DevicePath protocol
-            </summary>
-            <param name="type"></param>
-            <param name="subType"></param>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
-            <summary>
-            Attribute describing the wrapper class for the DevicePath protocol
-            </summary>
-            <param name="type"></param>
-            <param name="subType"></param>
-        </member>
-        <member name="P:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.Type">
-            <summary>
-            Type of protocol to be wrapped
-            </summary>
-        </member>
-        <member name="P:System.Firmware.BootService.DevicePathProtocols.DefineDevicePathProtocolAttribute.SubType">
-            <summary>
-            SubType of protocol to be wrapped
-            </summary>
-        </member>
-        <member name="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase">
-            <summary>
-            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
-            </summary>
-            <remarks>
-            Abstract constructor
-            </remarks>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
-            <summary>
-            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
-            </summary>
-            <remarks>
-            Abstract constructor
-            </remarks>
-        </member>
-        <member name="P:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Type">
-            <summary>
-            Protocol type
-            </summary>
-        </member>
-        <member name="P:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.SubType">
-            <summary>
-            Protocol Sub-Type - Varies by Type
-            </summary>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.GetSerializationDataLength">
-            <summary>
-            Returns the length, in bytes, of the data required to serialize the current object.
-            </summary>
-            <remarks>
-            Implementations should ensure that the returned length accurately reflects the size of the serialized data for the current object state.
-            This value can be used to allocate buffers or validate storage requirements before serialization.
-            </remarks>
-            <returns>The number of bytes needed to serialize the object. The value is always non-negative.</returns>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Deserialize(System.IO.BinaryReader,System.UInt16)">
-            <summary>
-            Deserialize raw data into managed data. 
-            </summary>
-            <param name="reader"></param>
-            <param name="length"></param>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase.Serialize(System.IO.BinaryWriter)">
-            <summary>
-            Serialize managed data into raw data
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType">
-            <summary>
-            Type of device path protocol
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Hardware">
-            <summary>
-            Hardware Device Path
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.ACPI">
-            <summary>
-            ACPI Device Path
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Message">
-            <summary>
-            Messaging Device Path
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.Media">
-            <summary>
-            Media Device Path
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.BIOS">
-            <summary>
-            BIOS Boot Specification Device Path
-            </summary>
-        </member>
-        <member name="F:System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType.End">
-            <summary>
-            End of Hardware Device Path
-            </summary>
-        </member>
-        <member name="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd">
-            <summary>
-            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
-            </summary>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.#ctor">
-            <summary>
-            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
-            </summary>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.Deserialize(System.IO.BinaryReader,System.UInt16)">
-            <inheritdoc/>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.GetSerializationDataLength">
-            <inheritdoc/>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolEnd.Serialize(System.IO.BinaryWriter)">
-            <inheritdoc/>
-        </member>
-        <member name="T:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath">
-            <summary>
-            The default instance for protocols, has no abstractions, but only raw data
-            </summary>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
-            <summary>
-            The default instance for protocols, has no abstractions, but only raw data
-            </summary>
-        </member>
-        <member name="P:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.ProtocolData">
-            <summary>
-            <para>GUID - An EFI GUID in standard format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.</para>
-            <para>Keyword - In some cases, one of a series of keywords must be listed.</para>
-            <para>Integer - Unless otherwise specified, this indicates an unsigned integer in the range of 0 to 2^32-1. The value is decimal, unless preceded by �0x� or �0X�, in which case it is hexadecimal.</para>
-            <para>EISAID - A seven character text identifier in the format used by the ACPI specification. The first three characters must be alphabetic, either upper or lower case. The second four characters are hexadecimal digits, either numeric, upper case or lower case. Optionally, it can be the number 0.</para>
-            <para>String - Series of alphabetic, numeric and punctuation characters not including a right parenthesis �)�, bar �</para>
-            <para>HexDump - Series of bytes, represented by two hexadecimal characters per byte. Unless otherwise indicated, the size is only limited by the length of the device node.</para>
-            <para>IPv4 Address - Series of four integer values (each between 0-255), separated by a �.� Optionally, followed by a �:� and an integer value between 0-65555. If the �:� is not present, then the port value is zero.</para>
-            <para>IPv6 Address - IPv6 Address is expressed in the format [address]:port. The �address� is expressed in the way defined in RFC4291 Section 2.2. The �:port� after the [address] is optional. If present, the �port� is an integer value between 0-65535 to represent the port number, or else, port number is zero.</para>
-            </summary>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte,System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <param name="subType"></param>
-            <param name="protocolData"></param>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.GetSerializationDataLength">
-            <inheritdoc/>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
-            <inheritdoc/>
-        </member>
-        <member name="M:System.Firmware.BootService.DevicePathProtocols.RawMediaDevicePath.Serialize(System.IO.BinaryWriter)">
-            <inheritdoc/>
-        </member>
         <member name="T:System.Firmware.BootService.FirmwareBootService">
             <summary>
             Provides methods to read, write, update, and delete boot entries from your computer's UEFI NVRAM
@@ -336,9 +170,9 @@
             <param name="attributes"></param>
             <param name="description"></param>
         </member>
-        <member name="M:System.Firmware.BootService.LoadOption.FirmwareBootOption.#ctor(System.Firmware.BootService.LoadOption.LoadOptionAttributes,System.String,System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase[],System.Byte[])">
+        <member name="M:System.Firmware.BootService.LoadOption.FirmwareBootOption.#ctor(System.Firmware.BootService.LoadOption.LoadOptionAttributes,System.String,System.Firmware.BootService.Protocols.DevicePathProtocolBase[],System.Byte[])">
             <summary>
-            Create new <see cref="T:System.Firmware.BootService.LoadOption.FirmwareBootOption"/> load option instance from <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionAttributes"/>, Option description, <see cref="P:System.Firmware.BootService.LoadOption.LoadOptionBase.OptionalData"/> and <see cref="T:System.Firmware.BootService.DevicePathProtocols.DevicePathProtocolBase"/>s
+            Create new <see cref="T:System.Firmware.BootService.LoadOption.FirmwareBootOption"/> load option instance from <see cref="T:System.Firmware.BootService.LoadOption.LoadOptionAttributes"/>, Option description, <see cref="P:System.Firmware.BootService.LoadOption.LoadOptionBase.OptionalData"/> and <see cref="T:System.Firmware.BootService.Protocols.DevicePathProtocolBase"/>s
             </summary>
             <param name="attributes"></param>
             <param name="description"></param>
@@ -411,12 +245,183 @@
             The remaining bytes in the load option descriptor are a binary data buffer that is passed to the loaded image. If the field is zero bytes long, a NULL pointer is passed to the loaded image. The number of bytes in OptionalData can be computed by subtracting the starting offset of OptionalData from total size in bytes of the EFI_LOAD_OPTION
             </summary>
         </member>
+        <member name="T:System.Firmware.BootService.Protocols.DefineDevicePathProtocolAttribute">
+            <summary>
+            Attribute describing the wrapper class for the DevicePath protocol
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DefineDevicePathProtocolAttribute.#ctor(System.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            Attribute describing the wrapper class for the DevicePath protocol
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+        </member>
+        <member name="P:System.Firmware.BootService.Protocols.DefineDevicePathProtocolAttribute.Type">
+            <summary>
+            Type of protocol to be wrapped
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.Protocols.DefineDevicePathProtocolAttribute.SubType">
+            <summary>
+            SubType of protocol to be wrapped
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.Protocols.DevicePathProtocolBase">
+            <summary>
+            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
+            </summary>
+            <remarks>
+            Abstract constructor
+            </remarks>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolBase.#ctor(System.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.
+            </summary>
+            <remarks>
+            Abstract constructor
+            </remarks>
+        </member>
+        <member name="P:System.Firmware.BootService.Protocols.DevicePathProtocolBase.Type">
+            <summary>
+            Protocol type
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.Protocols.DevicePathProtocolBase.SubType">
+            <summary>
+            Protocol Sub-Type - Varies by Type
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolBase.GetSerializationDataLength">
+            <summary>
+            Returns the length, in bytes, of the data required to serialize the current object.
+            </summary>
+            <remarks>
+            Implementations should ensure that the returned length accurately reflects the size of the serialized data for the current object state.
+            This value can be used to allocate buffers or validate storage requirements before serialization.
+            </remarks>
+            <returns>The number of bytes needed to serialize the object. The value is always non-negative.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolBase.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <summary>
+            Deserialize raw data into managed data. 
+            </summary>
+            <param name="reader"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolBase.Serialize(System.IO.BinaryWriter)">
+            <summary>
+            Serialize managed data into raw data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:System.Firmware.BootService.Protocols.DeviceProtocolType">
+            <summary>
+            Type of device path protocol
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.Hardware">
+            <summary>
+            Hardware Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.ACPI">
+            <summary>
+            ACPI Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.Message">
+            <summary>
+            Messaging Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.Media">
+            <summary>
+            Media Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.BIOS">
+            <summary>
+            BIOS Boot Specification Device Path
+            </summary>
+        </member>
+        <member name="F:System.Firmware.BootService.Protocols.DeviceProtocolType.End">
+            <summary>
+            End of Hardware Device Path
+            </summary>
+        </member>
+        <member name="T:System.Firmware.BootService.Protocols.DevicePathProtocolEnd">
+            <summary>
+            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolEnd.#ctor">
+            <summary>
+            This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolEnd.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolEnd.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.DevicePathProtocolEnd.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="T:System.Firmware.BootService.Protocols.RawMediaDevicePath">
+            <summary>
+            The default instance for protocols, has no abstractions, but only raw data
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            The default instance for protocols, has no abstractions, but only raw data
+            </summary>
+        </member>
+        <member name="P:System.Firmware.BootService.Protocols.RawMediaDevicePath.ProtocolData">
+            <summary>
+            <para>GUID - An EFI GUID in standard format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.</para>
+            <para>Keyword - In some cases, one of a series of keywords must be listed.</para>
+            <para>Integer - Unless otherwise specified, this indicates an unsigned integer in the range of 0 to 2^32-1. The value is decimal, unless preceded by �0x� or �0X�, in which case it is hexadecimal.</para>
+            <para>EISAID - A seven character text identifier in the format used by the ACPI specification. The first three characters must be alphabetic, either upper or lower case. The second four characters are hexadecimal digits, either numeric, upper case or lower case. Optionally, it can be the number 0.</para>
+            <para>String - Series of alphabetic, numeric and punctuation characters not including a right parenthesis �)�, bar �</para>
+            <para>HexDump - Series of bytes, represented by two hexadecimal characters per byte. Unless otherwise indicated, the size is only limited by the length of the device node.</para>
+            <para>IPv4 Address - Series of four integer values (each between 0-255), separated by a �.� Optionally, followed by a �:� and an integer value between 0-65555. If the �:� is not present, then the port value is zero.</para>
+            <para>IPv6 Address - IPv6 Address is expressed in the format [address]:port. The �address� is expressed in the way defined in RFC4291 Section 2.2. The �:port� after the [address] is optional. If present, the �port� is an integer value between 0-65535 to represent the port number, or else, port number is zero.</para>
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.RawMediaDevicePath.#ctor(System.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="subType"></param>
+            <param name="protocolData"></param>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.RawMediaDevicePath.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.RawMediaDevicePath.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:System.Firmware.BootService.Protocols.RawMediaDevicePath.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
         <member name="T:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector">
             <summary>
             An assistant class that tells the marshaler what type to use to represent the native <see cref="T:System.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL"/> structure
             </summary>
         </member>
-        <member name="M:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.GetRegisteredType(System.Firmware.BootService.DevicePathProtocols.DeviceProtocolType,System.Byte)">
+        <member name="P:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.DisallowCastingUnknownWrappersToRawProtocol">
+            <summary>
+            Tells if the marshaler should throw an exception when it encounters a protocol for which no wrapper is registered, instead of just returning a <see cref="T:System.Firmware.BootService.Protocols.RawMediaDevicePath"/> instance.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.GetRegisteredType(System.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
             <summary>
             Retrieves the registered protocol wrapper type associated with the specified protocol type and subtype.
             </summary>
@@ -442,6 +447,122 @@
             <param name="wrapperType"></param>
             <exception cref="T:System.Firmware.BootService.InvalidInheritedClassException"></exception>
             <exception cref="T:System.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException"></exception>
+        </member>
+        <member name="T:System.Firmware.BootService.Win32Native.MarshalExtensions">
+            <summary>
+            Provides extension methods for marshalling UEFI boot service structures.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadRawLoadOption(System.IO.BinaryReader)">
+            <summary>
+            Reads an EFI load option from the binary reader without processing device path protocols into specific types.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The raw EFI load option.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadRawDevicePathProtocol(System.IO.BinaryReader)">
+            <summary>
+            Reads a raw EFI device path protocol from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The raw EFI device path protocol.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader)">
+            <summary>
+            Reads a firmware boot option from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The firmware boot option.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader,System.Type)">
+            <summary>
+            Reads a load option of the specified type from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <param name="loadOptionType">The type of the load option to read.</param>
+            <returns>The read load option.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader)">
+            <summary>
+            Reads a device path protocol from the binary reader, automatically determining the specific protocol type.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The device path protocol.</returns>
+            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader,System.Type)">
+            <summary>
+            Reads a device path protocol of the specified type from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <param name="devicePathType">The type of the device path protocol.</param>
+            <returns>The device path protocol.</returns>
+            <exception cref="T:System.Firmware.BootService.DeviceProtocolCastingException">Thrown when the protocol type or subtype does not match the expected type.</exception>
+            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption``1(System.IO.BinaryReader)">
+            <summary>
+            Reads a load option of type T from the binary reader.
+            </summary>
+            <typeparam name="T">The type of the load option.</typeparam>
+            <param name="reader">The binary reader.</param>
+            <returns>The read load option.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol``1(System.IO.BinaryReader)">
+            <summary>
+            Reads a device path protocol of type T from the binary reader.
+            </summary>
+            <typeparam name="T">The type of the device path protocol.</typeparam>
+            <param name="reader">The binary reader.</param>
+            <returns>The device path protocol.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.WriteLoadOption(System.IO.BinaryWriter,System.Firmware.BootService.UefiNative.EFI_LOAD_OPTION)">
+            <summary>
+            Writes a raw EFI load option to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="loadOption">The load option to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.WriteDevicePathProtocol(System.IO.BinaryWriter,System.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL)">
+            <summary>
+            Writes a raw EFI device path protocol to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="protocol">The protocol to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.WriteLoadOption``1(System.IO.BinaryWriter,``0)">
+            <summary>
+            Writes a load option to the binary writer.
+            </summary>
+            <typeparam name="T">The type of the load option.</typeparam>
+            <param name="writer">The binary writer.</param>
+            <param name="loadOption">The load option to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.WriteDevicePathProtocol``1(System.IO.BinaryWriter,``0)">
+            <summary>
+            Writes a device path protocol to the binary writer.
+            </summary>
+            <typeparam name="T">The type of the device path protocol.</typeparam>
+            <param name="writer">The binary writer.</param>
+            <param name="protocol">The protocol to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.GetStrcutureLength(System.Firmware.BootService.LoadOption.LoadOptionBase)">
+            <summary>
+            Calculates the total structure length of the load option in bytes.
+            </summary>
+            <param name="loadOption">The load option.</param>
+            <returns>The length in bytes.</returns>
+        </member>
+        <member name="M:System.Firmware.BootService.Win32Native.MarshalExtensions.GetStrctureLength(System.Firmware.BootService.Protocols.DevicePathProtocolBase)">
+            <summary>
+            Calculates the total structure length of the device path protocol in bytes.
+            </summary>
+            <param name="devicePathProtocol">The device path protocol.</param>
+            <returns>The length in bytes.</returns>
         </member>
     </members>
 </doc>

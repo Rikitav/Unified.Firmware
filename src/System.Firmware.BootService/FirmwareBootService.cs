@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
-using System.Firmware.BootService.LoadOption;
-using System.Firmware.BootService.UefiNative;
-using System.Firmware.BootService.Win32Native;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Firmware.BootService.LoadOption;
+using System.Firmware.BootService.UefiNative;
+using System.Firmware.BootService.Win32Native;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace System.Firmware.BootService;

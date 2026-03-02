@@ -1,8 +1,8 @@
-﻿using System.Firmware.BootService.DevicePathProtocols;
-using System.Firmware.BootService.UefiNative;
+﻿using System.Firmware.BootService.UefiNative;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Firmware.BootService.Protocols;
 
 namespace System.Firmware.BootService.Win32Native;
 
@@ -17,13 +17,16 @@ public static class DevicePathProtocolWrapperSelector
     };
 
     private static readonly string[] KnownWrapperLibraries = [
-        "System.Firmware.HardwareDevicePathProtocols",
-        "System.Firmware.AcpiDevicePathProtocols",
-        "System.Firmware.MessagingDevicePathProtocols",
-        "System.Firmware.MediaDevicePathProtocols",
-        "System.Firmware.BiosBootSpecificationDevicePathProtocols"
+        "System.Firmware.DevicePathProtocols.Hardware",
+        "System.Firmware.DevicePathProtocols.Acpi",
+        "System.Firmware.DevicePathProtocols.Messaging",
+        "System.Firmware.DevicePathProtocols.Media",
+        "System.Firmware.DevicePathProtocols.BiosBootSpecification"
     ];
 
+    /// <summary>
+    /// Tells if the marshaler should throw an exception when it encounters a protocol for which no wrapper is registered, instead of just returning a <see cref="RawMediaDevicePath"/> instance.
+    /// </summary>
     public static bool DisallowCastingUnknownWrappersToRawProtocol { get; set; } = false;
 
     static DevicePathProtocolWrapperSelector()

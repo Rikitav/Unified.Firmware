@@ -1,7 +1,6 @@
 ﻿using System.Firmware.BootService;
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.BootService.LoadOption;
-using System.Firmware.MediaDevicePathProtocols;
+using System.Firmware.BootService.Protocols;
 using System.Firmware.SystemPartition;
 
 namespace System.Firmware.TestsApplication;
@@ -30,18 +29,22 @@ public static class Examples
         // Setting device path protocols
         // This protocols instructions boot service how to load your option
         DevicePathProtocolBase[] protocols = [
-            new HardDriveMediaDevicePath(new Guid("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")), // The partition on which the bootloader is located
-            new FilePathMediaDevicePath("EFI\\MyApplication\\bootx64.efi"), // Path to the EFI application to be loaded
+            
+            // The partition on which the bootloader is located
+            new HardDriveProtocol(new Guid("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")),
+            
+            // Path to the EFI application to be loaded
+            new FilePathProtocol("EFI\\MyApplication\\bootx64.efi"),
         ];
 
         // Creating simple load option
         FirmwareBootOption bootOption = new FirmwareBootOption(LoadOptionAttributes.ACTIVE, "MyLoader", protocols, []);
 
         // Creating new load option
-        ushort newLoadOptionIndex = FirmwareBootService.CreateLoadOption(bootOption, true);
+        BootOptionIndex newOption = FirmwareBootService.CreateLoadOption(bootOption, true);
 
         // Logging new boot option index
-        Console.WriteLine("Boot option sucessfully created, new option index : {0}", newLoadOptionIndex);
+        Console.WriteLine("Boot option sucessfully created, new option index : {0}", newOption);
     }
 
     public static void ReadingOption()

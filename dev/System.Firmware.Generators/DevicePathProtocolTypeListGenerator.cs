@@ -64,9 +64,10 @@ public class DevicePathProtocolTypeListGenerator : IIncrementalGenerator
         ));
 
         NamespaceDeclarationSyntax namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("System.Firmware.BootService"))
+            .WithLeadingTrivia(SyntaxFactory.ParseLeadingTrivia("#pragma warning disable CS1591"))
             .AddMembers(SyntaxFactory.ClassDeclaration("DevicePathProtocolTypeList")
-                .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword), SyntaxFactory.Token(SyntaxKind.PartialKeyword))
-                .AddMembers(fields.ToArray())
+            .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword), SyntaxFactory.Token(SyntaxKind.PartialKeyword))
+            .AddMembers(fields.ToArray())
         );
 
         CompilationUnitSyntax compilationUnit = SyntaxFactory.CompilationUnit()

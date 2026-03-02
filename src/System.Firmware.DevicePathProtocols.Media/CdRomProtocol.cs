@@ -14,17 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.IO;
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// The CD-ROM Media Device Path is used to define a system partition that exists on a CD-ROM. The CD-ROM is assumed to contain an ISO-9660 file system and follow the CD-ROM “El Torito” format
 /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#cd-rom-media-device-path
 /// </summary>
 [DefineDevicePathProtocol(DeviceProtocolType.Media, 2)]
-public sealed class CdRomMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 2)
+public sealed class CdRomProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 2)
 {
     /// <summary>
     /// Boot Entry number from the Boot Catalog. The Initial/Default entry is defined as zero.
@@ -42,9 +41,9 @@ public sealed class CdRomMediaDevicePath() : DevicePathProtocolBase(DeviceProtoc
     public ulong PartitionSize { get; set; }
 
     /// <summary>
-    /// Create new <see cref="CdRomMediaDevicePath"/> protocol instance from boot entry and partition offset
+    /// Create new <see cref="CdRomProtocol"/> protocol instance from boot entry and partition offset
     /// </summary>
-    public CdRomMediaDevicePath(uint bootEntry, ulong partitionStart, ulong partitionSize) : this()
+    public CdRomProtocol(uint bootEntry, ulong partitionStart, ulong partitionSize) : this()
     {
         BootEntry = bootEntry;
         PartitionStart = partitionStart;
@@ -75,5 +74,6 @@ public sealed class CdRomMediaDevicePath() : DevicePathProtocolBase(DeviceProtoc
     }
 
     /// <inheritdoc/>
-    public override string ToString() => BootEntry.ToString();
+    public override string ToString()
+        => BootEntry.ToString();
 }

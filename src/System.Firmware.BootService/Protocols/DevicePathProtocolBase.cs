@@ -16,7 +16,7 @@
 
 using System.IO;
 
-namespace System.Firmware.BootService.DevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// A <see href="https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#generic-device-path-structures">Device Path</see> is used to define the programmatic path to a device. The primary purpose of a Device Path is to allow an application, such as an OS loader, to determine the physical device that the interfaces are abstracting.

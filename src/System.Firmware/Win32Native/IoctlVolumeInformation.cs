@@ -1,12 +1,20 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 
 namespace System.Firmware.Win32Native;
 
-public class IoctlVolumeInformation
+/// <summary>
+/// Provides methods for retrieving volume information using IOCTL commands.
+/// </summary>
+public static class IoctlVolumeInformation
 {
+    /// <summary>
+    /// Retrieves extended partition information for the specified volume.
+    /// </summary>
+    /// <param name="volumePath">The path to the volume.</param>
+    /// <returns>A <see cref="PARTITION_INFORMATION_EX"/> structure containing the partition information.</returns>
+    /// <exception cref="Win32Exception">Thrown when the partition descriptor cannot be opened or the information cannot be retrieved.</exception>
     public static PARTITION_INFORMATION_EX GetPartition(VolumePath volumePath)
     {
         if (volumePath == Guid.Empty)

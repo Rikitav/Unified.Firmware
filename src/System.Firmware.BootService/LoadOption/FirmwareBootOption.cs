@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
+using System.Firmware.BootService.Protocols;
 
 namespace System.Firmware.BootService.LoadOption;
 

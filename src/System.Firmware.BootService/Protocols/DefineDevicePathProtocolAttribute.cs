@@ -14,40 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-namespace System.Firmware.BootService.DevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
-/// Type of device path protocol
+/// Attribute describing the wrapper class for the DevicePath protocol
 /// </summary>
-public enum DeviceProtocolType : byte
+/// <param name="type"></param>
+/// <param name="subType"></param>
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+public class DefineDevicePathProtocolAttribute(DeviceProtocolType type, byte subType) : Attribute
 {
     /// <summary>
-    /// Hardware Device Path
+    /// Type of protocol to be wrapped
     /// </summary>
-    Hardware = 0x01,
+    public DeviceProtocolType Type { get; private set; } = type;
 
     /// <summary>
-    /// ACPI Device Path
+    /// SubType of protocol to be wrapped
     /// </summary>
-    ACPI = 0x02,
-
-    /// <summary>
-    /// Messaging Device Path
-    /// </summary>
-    Message = 0x03,
-
-    /// <summary>
-    /// Media Device Path
-    /// </summary>
-    Media = 0x04,
-
-    /// <summary>
-    /// BIOS Boot Specification Device Path
-    /// </summary>
-    BIOS = 0x05,
-
-    /// <summary>
-    /// End of Hardware Device Path
-    /// </summary>
-    End = 0x7F
+    public byte SubType { get; private set; } = subType;
 }

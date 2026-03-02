@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.BootService.LoadOption;
 using System.Firmware.BootService.UefiNative;
 using System.Firmware.Win32Native;
@@ -22,14 +21,23 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Firmware.BootService.Protocols;
 
 namespace System.Firmware.BootService.Win32Native;
 
-public static partial class MarshalExtensions
+/// <summary>
+/// Provides extension methods for marshalling UEFI boot service structures.
+/// </summary>
+public static class MarshalExtensions
 {
-    private static readonly int DevicePathProtocolHeaderLength = sizeof(byte) + sizeof(byte) + sizeof(ushort); // Type + SubType + DataLength
-    private static readonly int LoadOptionBaseHeaderLength = sizeof(LoadOptionAttributes) + sizeof(ushort); // Attributes + FilePathListLength
+    private const int DevicePathProtocolHeaderLength = sizeof(byte) + sizeof(byte) + sizeof(ushort); // Type + SubType + DataLength
+    private const int LoadOptionBaseHeaderLength = sizeof(LoadOptionAttributes) + sizeof(ushort); // Attributes + FilePathListLength
     
+    /// <summary>
+    /// Reads an EFI load option from the binary reader without processing device path protocols into specific types.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The raw EFI load option.</returns>
     public static EFI_LOAD_OPTION ReadRawLoadOption(this BinaryReader reader)
     {
         // Starting manual marshalling strcture to managed
@@ -50,6 +58,11 @@ public static partial class MarshalExtensions
         return loadOption;
     }
 
+    /// <summary>
+    /// Reads a raw EFI device path protocol from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The raw EFI device path protocol.</returns>
     public static EFI_DEVICE_PATH_PROTOCOL ReadRawDevicePathProtocol(this BinaryReader reader)
     {
         // Starting manual marshalling strcture to managed
@@ -65,11 +78,22 @@ public static partial class MarshalExtensions
         return protocol;
     }
 
+    /// <summary>
+    /// Reads a firmware boot option from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The firmware boot option.</returns>
     public static FirmwareBootOption ReadLoadOption(this BinaryReader reader)
     {
         return (FirmwareBootOption)reader.ReadLoadOption(typeof(FirmwareBootOption));
     }
 
+    /// <summary>
+    /// Reads a load option of the specified type from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <param name="loadOptionType">The type of the load option to read.</param>
+    /// <returns>The read load option.</returns>
     public static LoadOptionBase ReadLoadOption(this BinaryReader reader, Type loadOptionType)
     {
         // Starting manual marshalling strcture to managed
@@ -91,6 +115,12 @@ public static partial class MarshalExtensions
         return loadOption;
     }
 
+    /// <summary>
+    /// Reads a device path protocol from the binary reader, automatically determining the specific protocol type.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The device path protocol.</returns>
+    /// <exception cref="InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
     public static DevicePathProtocolBase ReadDevicePathProtocol(this BinaryReader reader)
     {
         // Starting manual marshalling strcture to managed
@@ -121,6 +151,14 @@ public static partial class MarshalExtensions
         }
     }
 
+    /// <summary>
+    /// Reads a device path protocol of the specified type from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <param name="devicePathType">The type of the device path protocol.</param>
+    /// <returns>The device path protocol.</returns>
+    /// <exception cref="DeviceProtocolCastingException">Thrown when the protocol type or subtype does not match the expected type.</exception>
+    /// <exception cref="InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
     public static DevicePathProtocolBase ReadDevicePathProtocol(this BinaryReader reader, Type devicePathType)
     {
         // Starting manual marshalling strcture to managed
@@ -145,16 +183,34 @@ public static partial class MarshalExtensions
         return protocol;
     }
 
+    /// <summary>
+    /// Reads a load option of type T from the binary reader.
+    /// </summary>
+    /// <typeparam name="T">The type of the load option.</typeparam>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The read load option.</returns>
     public static T ReadLoadOption<T>(this BinaryReader reader) where T : LoadOptionBase, new()
     {
         return (T)reader.ReadLoadOption(typeof(T));
     }
 
+    /// <summary>
+    /// Reads a device path protocol of type T from the binary reader.
+    /// </summary>
+    /// <typeparam name="T">The type of the device path protocol.</typeparam>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The device path protocol.</returns>
     public static T ReadDevicePathProtocol<T>(this BinaryReader reader) where T : DevicePathProtocolBase, new()
     {
         return (T)reader.ReadDevicePathProtocol(typeof(T));
     }
 
+    /// <summary>
+    /// Writes a raw EFI load option to the binary writer.
+    /// </summary>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="loadOption">The load option to write.</param>
+    /// <returns>The binary writer.</returns>
     public static BinaryWriter WriteLoadOption(this BinaryWriter writer, EFI_LOAD_OPTION loadOption)
     {
         // Writing general data
@@ -176,6 +232,12 @@ public static partial class MarshalExtensions
         return writer;
     }
 
+    /// <summary>
+    /// Writes a raw EFI device path protocol to the binary writer.
+    /// </summary>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="protocol">The protocol to write.</param>
+    /// <returns>The binary writer.</returns>
     public static BinaryWriter WriteDevicePathProtocol(this BinaryWriter writer, EFI_DEVICE_PATH_PROTOCOL protocol)
     {
         // Writing general data
@@ -188,6 +250,13 @@ public static partial class MarshalExtensions
         return writer;
     }
 
+    /// <summary>
+    /// Writes a load option to the binary writer.
+    /// </summary>
+    /// <typeparam name="T">The type of the load option.</typeparam>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="loadOption">The load option to write.</param>
+    /// <returns>The binary writer.</returns>
     public static BinaryWriter WriteLoadOption<T>(this BinaryWriter writer, T loadOption) where T : LoadOptionBase
     {
         // Writing general data
@@ -209,6 +278,13 @@ public static partial class MarshalExtensions
         return writer;
     }
 
+    /// <summary>
+    /// Writes a device path protocol to the binary writer.
+    /// </summary>
+    /// <typeparam name="T">The type of the device path protocol.</typeparam>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="protocol">The protocol to write.</param>
+    /// <returns>The binary writer.</returns>
     public static BinaryWriter WriteDevicePathProtocol<T>(this BinaryWriter writer, T protocol) where T : DevicePathProtocolBase
     {
         // Writing general data
@@ -223,6 +299,11 @@ public static partial class MarshalExtensions
         return writer;
     }
 
+    /// <summary>
+    /// Calculates the total structure length of the load option in bytes.
+    /// </summary>
+    /// <param name="loadOption">The load option.</param>
+    /// <returns>The length in bytes.</returns>
     public static int GetStrcutureLength(this LoadOptionBase loadOption)
     {
         int structLength = LoadOptionBaseHeaderLength + loadOption.Description.GetCstyleWideStringLength();
@@ -233,6 +314,11 @@ public static partial class MarshalExtensions
         return structLength;
     }
 
+    /// <summary>
+    /// Calculates the total structure length of the device path protocol in bytes.
+    /// </summary>
+    /// <param name="devicePathProtocol">The device path protocol.</param>
+    /// <returns>The length in bytes.</returns>
     public static int GetStrctureLength(this DevicePathProtocolBase devicePathProtocol)
     {
         return DevicePathProtocolHeaderLength + devicePathProtocol.GetSerializationDataLength();

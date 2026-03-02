@@ -14,18 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.Win32Native;
 using System.IO;
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// File Path Media Device Path
 /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
 /// </summary>
 [DefineDevicePathProtocol(DeviceProtocolType.Media, 4)]
-public sealed class FilePathMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 4)
+public sealed class FilePathProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 4)
 {
     /// <summary>
     /// A NULL-terminated Path string including directory and file name.
@@ -33,9 +32,9 @@ public sealed class FilePathMediaDevicePath() : DevicePathProtocolBase(DevicePro
     public string PathName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Create new <see cref="FilePathMediaDevicePath"/> protocol instance from file path
+    /// Create new <see cref="FilePathProtocol"/> protocol instance from file path
     /// </summary>
-    public FilePathMediaDevicePath(string pathName) : this()
+    public FilePathProtocol(string pathName) : this()
         => PathName = pathName;
 
     /// <inheritdoc/>

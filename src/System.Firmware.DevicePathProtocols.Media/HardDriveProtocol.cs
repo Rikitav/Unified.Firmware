@@ -14,12 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.Win32Native;
-using System;
 using System.IO;
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// Partition format
@@ -63,7 +61,7 @@ public enum SignatureType : byte
 /// <see href="https://uefi.org/specs/UEFI/2.9_A/10_Protocols_Device_Path_Protocol.html#hard-drive-media-device-path"/>
 /// </summary>
 [DefineDevicePathProtocol(DeviceProtocolType.Media, 1)]
-public class HardDriveMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 1)
+public class HardDriveProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 1)
 {
     /// <summary>
     /// Describes the entry in a partition table, starting with entry 1. Partition number zero represents the entire device. Valid partition numbers for a MBR partition are [1, 4]. Valid partition numbers for a GPT partition are [1, NumberOfPar titionEntries].
@@ -96,11 +94,11 @@ public class HardDriveMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolT
     public SignatureType SignatureType { get; set; }
 
     /// <summary>
-    /// Create new <see cref="HardDriveMediaDevicePath"/> protocol instance from <see cref="PARTITION_INFORMATION_EX"/> structure
+    /// Create new <see cref="HardDriveProtocol"/> protocol instance from <see cref="PARTITION_INFORMATION_EX"/> structure
     /// </summary>
     /// <param name="partition"></param>
     /// <exception cref="InvalidDataException"></exception>
-    public HardDriveMediaDevicePath(PARTITION_INFORMATION_EX partition) : this()
+    public HardDriveProtocol(PARTITION_INFORMATION_EX partition) : this()
     {
         if (partition.PartitionStyle != PartitionStyle.GuidPartitionTable)
             throw new InvalidDataException("Partition information describe MBR pr RAW based partition");
@@ -113,7 +111,7 @@ public class HardDriveMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolT
     /// </summary>
     /// <param name="partitionIdentificator"></param>
     /// <exception cref="ArgumentException"></exception>
-    public HardDriveMediaDevicePath(Guid partitionIdentificator) : this()
+    public HardDriveProtocol(Guid partitionIdentificator) : this()
     {
         if (partitionIdentificator == Guid.Empty)
             throw new ArgumentException("Partition identificator has empty value");

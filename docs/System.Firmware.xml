@@ -793,6 +793,77 @@
             </summary>
             <param name="DriveIndex"></param>
         </member>
+        <member name="T:System.Firmware.Win32Native.IoctlVolumeInformation">
+            <summary>
+            Provides methods for retrieving volume information using IOCTL commands.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.Win32Native.IoctlVolumeInformation.GetPartition(System.Firmware.VolumePath)">
+            <summary>
+            Retrieves extended partition information for the specified volume.
+            </summary>
+            <param name="volumePath">The path to the volume.</param>
+            <returns>A <see cref="T:System.Firmware.Win32Native.PARTITION_INFORMATION_EX"/> structure containing the partition information.</returns>
+            <exception cref="T:System.ComponentModel.Win32Exception">Thrown when the partition descriptor cannot be opened or the information cannot be retrieved.</exception>
+        </member>
+        <member name="T:System.Firmware.Win32Native.MarshalExtensions">
+            <summary>
+            Provides extension methods for marshalling data.
+            </summary>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.PinnedMemoryToArray``1(System.IntPtr,System.Int32)">
+            <summary>
+            Converts a pointer to pinned memory into a managed array of type T.
+            </summary>
+            <typeparam name="T">The type of the struct.</typeparam>
+            <param name="memory">The pointer to the memory.</param>
+            <param name="length">The number of elements to read.</param>
+            <returns>An array containing the data from the memory.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.WriteCstyleWideString(System.IO.BinaryWriter,System.String)">
+            <summary>
+            Writes a C-style null-terminated wide string to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="value">The string to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.ReadCstyleWideString(System.IO.BinaryReader)">
+            <summary>
+            Reads a C-style null-terminated wide string from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The read string.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.GetCstyleWideStringLength(System.String)">
+            <summary>
+            Calculates the byte length of a C-style wide string, including the null terminator.
+            </summary>
+            <param name="value">The string value.</param>
+            <returns>The length in bytes.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.ReadRemainingBytes(System.IO.BinaryReader)">
+            <summary>
+            Reads all remaining bytes from the current stream position.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The remaining bytes.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.WriteGuid(System.IO.BinaryWriter,System.Guid)">
+            <summary>
+            Writes a GUID to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="guid">The GUID to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:System.Firmware.Win32Native.MarshalExtensions.ReadGuid(System.IO.BinaryReader)">
+            <summary>
+            Reads a GUID from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The read GUID.</returns>
+        </member>
         <member name="T:System.Firmware.Win32Native.EfiPartitionAttribute">
             <summary>
             The Extensible Firmware Interface (EFI) attributes of the partition.

@@ -14,29 +14,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.IO;
-
-namespace System.Firmware.BootService.DevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
-/// This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
+/// Type of device path protocol
 /// </summary>
-internal class DevicePathProtocolEnd() : DevicePathProtocolBase(DeviceProtocolType.End, 0xFF)
+public enum DeviceProtocolType : byte
 {
-    /// <inheritdoc/>
-    public override void Deserialize(BinaryReader reader, ushort length)
-    {
-        // No need to implement
-        _ = 0xBAD + 0xC0DE;
-    }
+    /// <summary>
+    /// Hardware Device Path
+    /// </summary>
+    Hardware = 0x01,
 
-    /// <inheritdoc/>
-    public override ushort GetSerializationDataLength() => 0;
+    /// <summary>
+    /// ACPI Device Path
+    /// </summary>
+    ACPI = 0x02,
 
-    /// <inheritdoc/>
-    public override void Serialize(BinaryWriter writer)
-    {
-        // No need to implement
-        _ = 0xBAD + 0xC0DE;
-    }
+    /// <summary>
+    /// Messaging Device Path
+    /// </summary>
+    Message = 0x03,
+
+    /// <summary>
+    /// Media Device Path
+    /// </summary>
+    Media = 0x04,
+
+    /// <summary>
+    /// BIOS Boot Specification Device Path
+    /// </summary>
+    BIOS = 0x05,
+
+    /// <summary>
+    /// End of Hardware Device Path
+    /// </summary>
+    End = 0x7F
 }

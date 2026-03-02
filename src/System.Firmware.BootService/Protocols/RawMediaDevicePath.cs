@@ -17,7 +17,7 @@
 using System.Firmware.Win32Native;
 using System.IO;
 
-namespace System.Firmware.BootService.DevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// The default instance for protocols, has no abstractions, but only raw data

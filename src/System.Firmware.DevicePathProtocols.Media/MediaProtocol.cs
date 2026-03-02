@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.Win32Native;
-using System;
 using System.IO;
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// The Media Protocol Device Path is used to denote the protocol that is being used in a device path at the location of the path specified. Many protocols are inherent to the style of device path.
 /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-protocol-device-path
 /// </summary>
 [DefineDevicePathProtocol(DeviceProtocolType.Media, 5)]
-public sealed class MediaProtocolMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 5)
+public sealed class MediaProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 5)
 {
     /// <summary>
     /// The ID of the protocol
@@ -34,9 +32,9 @@ public sealed class MediaProtocolMediaDevicePath() : DevicePathProtocolBase(Devi
     public Guid ProtocolGUID { get; set; }
 
     /// <summary>
-    /// Create new <see cref="MediaProtocolMediaDevicePath"/> protocol instance from protocol GUID identificator
+    /// Create new <see cref="MediaProtocol"/> protocol instance from protocol GUID identificator
     /// </summary>
-    public MediaProtocolMediaDevicePath(Guid protocolGUID) : this()
+    public MediaProtocol(Guid protocolGUID) : this()
         => ProtocolGUID = protocolGUID;
 
     /// <inheritdoc/>
@@ -52,5 +50,6 @@ public sealed class MediaProtocolMediaDevicePath() : DevicePathProtocolBase(Devi
         => writer.WriteGuid(ProtocolGUID);
 
     /// <inheritdoc/>
-    public override string ToString() => ProtocolGUID.ToString();
+    public override string ToString()
+        => ProtocolGUID.ToString();
 }

@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Firmware.BootService.DevicePathProtocols;
 using System.Firmware.Win32Native;
-using System;
 using System.IO;
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// Vendor-Defined Media Device Path
 /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-media-device-path
 /// </summary>
 [DefineDevicePathProtocol(DeviceProtocolType.Media, 3)]
-public class VendorDefinedMediaDevicePath() : DevicePathProtocolBase(DeviceProtocolType.Media, 3)
+public class VendorDefinedProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 3)
 {
     /// <summary>
     /// Vendor-assigned GUID that defines the data that follows
@@ -60,5 +58,6 @@ public class VendorDefinedMediaDevicePath() : DevicePathProtocolBase(DeviceProto
     }
 
     /// <inheritdoc/>
-    public override string ToString() => VendorGuid.ToString();
+    public override string ToString()
+        => VendorGuid.ToString();
 }

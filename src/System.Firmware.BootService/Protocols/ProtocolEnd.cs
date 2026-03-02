@@ -14,25 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.IO;
 
-namespace System.Firmware.BootService.DevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
-/// Attribute describing the wrapper class for the DevicePath protocol
+/// This protocol is the final protocol for any boot option; if it is not specified, the option will be considered invalid
 /// </summary>
-/// <param name="type"></param>
-/// <param name="subType"></param>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-public class DefineDevicePathProtocolAttribute(DeviceProtocolType type, byte subType) : Attribute
+internal class DevicePathProtocolEnd() : DevicePathProtocolBase(DeviceProtocolType.End, 0xFF)
 {
-    /// <summary>
-    /// Type of protocol to be wrapped
-    /// </summary>
-    public DeviceProtocolType Type { get; private set; } = type;
+    /// <inheritdoc/>
+    public override void Deserialize(BinaryReader reader, ushort length)
+    {
+        // No need to implement
+        _ = 0xBAD + 0xC0DE;
+    }
 
-    /// <summary>
-    /// SubType of protocol to be wrapped
-    /// </summary>
-    public byte SubType { get; private set; } = subType;
+    /// <inheritdoc/>
+    public override ushort GetSerializationDataLength() => 0;
+
+    /// <inheritdoc/>
+    public override void Serialize(BinaryWriter writer)
+    {
+        // No need to implement
+        _ = 0xBAD + 0xC0DE;
+    }
 }

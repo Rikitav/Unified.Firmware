@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-namespace System.Firmware.MediaDevicePathProtocols;
+namespace System.Firmware.BootService.Protocols;
 
 /// <summary>
 /// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#media-device-path
@@ -62,7 +62,7 @@ public enum MediaDeviceProtocolType : byte
     RelativeOffsetRange = 8,
 
     /// <summary>
-    /// 
+    /// This device path node specifies a range of offsets relative to the end of the device. The starting offset is the first byte of the range and the ending offset is the last byte of the range (not the last byte + 1).
     /// </summary>
     RamDisk = 9
 }
