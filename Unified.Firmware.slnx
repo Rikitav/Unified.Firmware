@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="src/Unified.Firmware/Unified.Firmware.csproj" />
+  <Project Path="src/Unified.Firmware.BootService/Unified.Firmware.BootService.csproj" />
+  <Project Path="src/Unified.Firmware.DevicePathProtocols.Hardware/Unified.Firmware.DevicePathProtocols.Hardware.csproj" />
+  <Project Path="src/Unified.Firmware.DevicePathProtocols.Media/Unified.Firmware.DevicePathProtocols.Media.csproj" />
+  <Project Path="dev/Unified.Firmware.Generators/Unified.Firmware.Generators.csproj" />
+  <Project Path="tests/Unified.Firmware.TestsApplication/Unified.Firmware.TestsApplication.csproj" />
+</Solution>

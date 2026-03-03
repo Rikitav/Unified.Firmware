@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unified.Firmware.DevicePathProtocols.Hardware</name>
+    </assembly>
+    <members>
+        <member name="T:Unified.Firmware.BootService.Protocols.ControllerProtocol">
+            <summary>
+            Controller Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#controller-device-path
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.#ctor">
+            <summary>
+            Controller Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#controller-device-path
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.ControllerProtocol.ControllerNumber">
+            <summary>
+            Controller Number.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.#ctor(System.UInt32)">
+            <summary>
+            Create new <see cref="T:Unified.Firmware.BootService.Protocols.ControllerProtocol"/> protocol instance from controller number
+            </summary>
+            <param name="controllerNumber"></param>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.ControllerProtocol.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol">
+            <summary>
+            Memory Mapped Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#memory-mapped-device-path
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.#ctor">
+            <summary>
+            Memory Mapped Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#memory-mapped-device-path
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.MemoryType">
+            <summary>
+            Memory Type.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.StartAddress">
+            <summary>
+            Starting Memory Address.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.EndAddress">
+            <summary>
+            Ending Memory Address.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.MemoryMappedProtocol.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unified.Firmware.BootService.Protocols.PciProtocol">
+            <summary>
+            PCI Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#pci-device-path
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.#ctor">
+            <summary>
+            PCI Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#pci-device-path
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.PciProtocol.Function">
+            <summary>
+            PCI Function Number.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.PciProtocol.Device">
+            <summary>
+            PCI Device Number.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.#ctor(System.Byte,System.Byte)">
+            <summary>
+            Create new <see cref="T:Unified.Firmware.BootService.Protocols.PciProtocol"/> protocol instance from PCI function and device numbers
+            </summary>
+            <param name="function"></param>
+            <param name="device"></param>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.PciProtocol.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unified.Firmware.BootService.Protocols.VendorProtocol">
+            <summary>
+            Vendor Defined Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-device-path
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.VendorProtocol.#ctor">
+            <summary>
+            Vendor Defined Device Path.
+            https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#vendor-defined-device-path
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.VendorProtocol.VendorGuid">
+            <summary>
+            Vendor GUID.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Protocols.VendorProtocol.VendorDefinedData">
+            <summary>
+            Vendor Defined Data.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.VendorProtocol.GetSerializationDataLength">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.VendorProtocol.Deserialize(System.IO.BinaryReader,System.UInt16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.VendorProtocol.Serialize(System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Protocols.VendorProtocol.ToString">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

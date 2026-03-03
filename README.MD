@@ -1,5 +1,5 @@
-# ExtensibleFirmware
-![Markdown](https://github.com/Rikitav/System.Firmware/blob/main/form/banner.png)
+# Unified.Firmware
+![Markdown](https://github.com/Rikitav/Unified.Firmware/blob/main/form/banner.png)
 
 ## Description
 ExtensibleFirmware is a .NET class library for working with UEFI firmware. It provides tools for editing the boot process, allowing developers to modify and configure boot parameters for enhanced flexibility.
@@ -12,17 +12,17 @@ ExtensibleFirmware is a .NET class library for working with UEFI firmware. It pr
 ## Installation
 ```bash
 # Install via NuGet Package manager
-Install-Package System.Firmware
+Install-Package Unified.Firmware
 
 # Install via dotnet CLI
-dotnet add package System.Firmware 
+dotnet add package Unified.Firmware 
 ```
 
 ## Usage Examples
 
 ### Example 1: Getting ESP
 ```csharp
-using System.Firmware.SystemPartition;
+using Unified.Firmware.SystemPartition;
 using System.IO;
 
 namespace Examples
@@ -46,9 +46,9 @@ namespace Examples
 
 ### Example 2: Reading boot option
 ```csharp
-using System.Firmware.BootService;
-using System.Firmware.BootService.DevicePathProtocols;
-using System.Firmware.BootService.LoadOption;
+using Unified.Firmware.BootService;
+using Unified.Firmware.BootService.DevicePathProtocols;
+using Unified.Firmware.BootService.LoadOption;
 using System;
 
 namespace Examples
@@ -74,11 +74,11 @@ namespace Examples
 
 ### Example 3: Enumearating boot options
 ```csharp
-using System.Firmware.BootService;
-using System.Firmware.BootService.DevicePathProtocols;
-using System.Firmware.BootService.LoadOption;
+using Unified.Firmware.BootService;
+using Unified.Firmware.BootService.DevicePathProtocols;
+using Unified.Firmware.BootService.LoadOption;
 
-namespace System.Firmware.TestsApplication
+namespace Unified.Firmware.TestsApplication
 {
     public static class BootManagerTests
     {
@@ -104,10 +104,10 @@ namespace System.Firmware.TestsApplication
 
 ### Example 4: Creating boot option
 ```csharp
-using System.Firmware.BootService;
-using System.Firmware.BootService.DevicePathProtocols;
-using System.Firmware.BootService.LoadOption;
-using System.Firmware.MediaDevicePathProtocols;
+using Unified.Firmware.BootService;
+using Unified.Firmware.BootService.DevicePathProtocols;
+using Unified.Firmware.BootService.LoadOption;
+using Unified.Firmware.MediaDevicePathProtocols;
 using System;
 
 namespace Examples
