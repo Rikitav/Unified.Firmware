@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -46,12 +47,12 @@ public static class IoctlVolumeInformation
     /// <param name="volumePath">The path to the volume.</param>
     /// <returns>A <see cref="PARTITION_INFORMATION_EX"/> structure containing the partition information.</returns>
     /// <exception cref="Win32Exception">Thrown when the partition descriptor cannot be opened or the information cannot be retrieved.</exception>
-    public static PARTITION_INFORMATION_EX GetPartition(VolumePath volumePath)
+    public static PARTITION_INFORMATION_EX GetPartition(Guid volumePath)
     {
         if (volumePath == Guid.Empty)
             return default;
 
-        IntPtr partHandle = NativeMethods.CreateFile(volumePath, 0, FileShare.Read, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
+        IntPtr partHandle = NativeMethods.CreateFile(string.Concat(@"\\?\Volume{", volumePath.ToString(), @"}\"), 0, FileShare.Read, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
 
         // Checking for INVALID_HANDLE_VALUE
         if (partHandle == new IntPtr(-1))

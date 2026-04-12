@@ -29,7 +29,7 @@ namespace Unified.Firmware;
 /// The firmware and an Operating System may exchange information through the OsIndicationsSupported and the OSIndications variables as follows
 /// </summary>
 [Flags]
-public enum OsIndications : long
+public enum OsIndications : ulong
 {
     /// <summary>
     /// Nothing

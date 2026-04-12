@@ -40,7 +40,7 @@ internal class Win32PlatformBackend : IFirmwareBackend
     }
 
     /// <inheritdoc/>
-    public Guid FindEfiSystemPartition()
+    public VolumePath FindEfiSystemPartition()
     {
         if (!FirmwareInterface.Available)
             throw new PlatformNotSupportedException("Executing on non UEFI System");
@@ -51,7 +51,7 @@ internal class Win32PlatformBackend : IFirmwareBackend
                 throw new DriveNotFoundException("Drive signature is not GPT (Guid Partition Table)");
 
             if (partition.Gpt.PartitionType == EfiPartition.TypeID)
-                return partition.Gpt.PartitionId;
+                return new VolumePath(partition.Gpt.PartitionId, string.Concat(@"\\?\Volume{", partition.Gpt.PartitionId.ToString(), @"}\"));
         }
 
         throw new DriveNotFoundException("Efi partition was not found");

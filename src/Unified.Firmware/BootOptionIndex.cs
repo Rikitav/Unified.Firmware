@@ -26,31 +26,31 @@ using System;
 namespace Unified.Firmware;
 
 /// <summary>
-/// Represents a boot option index, which is a 16-bit unsigned integer value used to identify a specific boot option in the system's firmware.
-/// The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+/// Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
+/// The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
 /// </summary>
-/// <param name="value"></param>
-public readonly struct BootOptionIndex(ushort value) : IEquatable<BootOptionIndex>, IEquatable<ushort>, IComparable<BootOptionIndex>, IComparable<ushort>
+/// <param name="index"></param>
+public readonly struct BootOptionIndex(ushort index) : IEquatable<BootOptionIndex>, IEquatable<ushort>, IComparable<BootOptionIndex>, IComparable<ushort>
 {
-    private readonly ushort _value = value;
+    private readonly ushort _index = index;
 
     /// <inheritdoc/>
-    public int CompareTo(BootOptionIndex other) => _value.CompareTo(other._value);
+    public int CompareTo(BootOptionIndex other) => _index.CompareTo(other._index);
 
     /// <inheritdoc/>
-    public int CompareTo(ushort other) => _value.CompareTo(other);
+    public int CompareTo(ushort other) => _index.CompareTo(other);
 
     /// <inheritdoc/>
-    public bool Equals(BootOptionIndex other) => _value.Equals(other._value);
+    public bool Equals(BootOptionIndex other) => _index.Equals(other._index);
 
     /// <inheritdoc/>
-    public bool Equals(ushort other) => _value.Equals(other);
+    public bool Equals(ushort other) => _index.Equals(other);
 
     /// <inheritdoc/>
     public override bool Equals(object? obj) => obj is BootOptionIndex other && Equals(other);
 
     /// <inheritdoc/>
-    public override int GetHashCode() => _value.GetHashCode();
+    public override int GetHashCode() => _index.GetHashCode();
 
     /// <summary>
     /// Determines whether two BootOptionIndex instances are equal.
@@ -69,21 +69,21 @@ public readonly struct BootOptionIndex(ushort value) : IEquatable<BootOptionInde
     public static bool operator !=(BootOptionIndex left, BootOptionIndex right) => !left.Equals(right);
 
     /// <summary>
-    /// Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+    /// Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
     /// </summary>
-    public override readonly string ToString() => $"Boot{_value:X4}";
+    public override readonly string ToString() => $"Boot{_index:X4}";
 
     /// <summary>
     /// Impictly converts <see cref="BootOptionIndex"/> structure to <see langword="ushort"/>
     /// </summary>
     /// <param name="index"></param>
-    public static implicit operator ushort(BootOptionIndex index) => index._value;
+    public static implicit operator ushort(BootOptionIndex index) => index._index;
 
     /// <summary>
-    /// Implicitly converts <see langword="ushort"/> value to <see cref="BootOptionIndex"/> structure.
+    /// Implicitly converts <see langword="ushort"/> index to <see cref="BootOptionIndex"/> structure.
     /// </summary>
-    /// <param name="value"></param>
-    public static implicit operator BootOptionIndex(ushort value) => new BootOptionIndex(value);
+    /// <param name="index"></param>
+    public static implicit operator BootOptionIndex(ushort index) => new BootOptionIndex(index);
 
     /// <summary>
     /// Converts a BootOptionIndex instance to its string representation.

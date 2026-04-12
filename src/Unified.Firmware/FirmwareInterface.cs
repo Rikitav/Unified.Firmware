@@ -35,7 +35,7 @@ public static class FirmwareInterface
         get => field ??= Environment.OSVersion.Platform switch
         {
             PlatformID.Win32NT => new Win32PlatformBackend(),
-            //PlatformID.Unix => new LinuxPlatfromBackend(),
+            PlatformID.Unix => new LinuxPlatfromBackend(),
             _ => throw new PlatformNotSupportedException()
         };
     }

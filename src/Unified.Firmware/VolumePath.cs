@@ -31,15 +31,19 @@ namespace Unified.Firmware;
 /// and conversion operations for working with volume paths in a type-safe manner.
 /// </summary>
 /// <remarks>
+/// FullPath format is depends on platform you using this record.
+/// For Windows it stores `\\?\Volume{GUID}\` path format, which coressponds to WinAPI standart and can be used to open handles to this volume.
+/// For Linux it stores absolute virtual path `/dev/{diskName}/boot` to directory, where ESP volume is mounted.
+/// 
 /// Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
 /// enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
 /// Instances are immutable and can be compared or used in collections that require equality or ordering.
 /// Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
 /// </remarks>
-/// <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
-public readonly struct VolumePath(Guid volumeIdentificator) : IEquatable<VolumePath>, IEquatable<Guid>, IComparable<VolumePath>, IComparable<Guid>
+public record struct VolumePath
 {
-    private readonly Guid _dentificator = volumeIdentificator;
+    private readonly Guid _dentificator;
+    private readonly string _fullPath;
 
     /// <summary>
     /// Gets the unique identifier associated with this instance.
@@ -47,11 +51,22 @@ public readonly struct VolumePath(Guid volumeIdentificator) : IEquatable<VolumeP
     public Guid Identificator => _dentificator;
 
     /// <summary>
+    /// Gets the absolute path to root of volume.
+    /// </summary>
+    public string FullPath => _fullPath;
+
+    /// <summary>
     /// Initializes a new instance of the VolumePath class using the specified string representation of a GUID.
     /// </summary>
-    /// <param name="guidStr">A string containing the GUID that identifies the volume path. Must be a valid GUID format.</param>
-    public VolumePath(string guidStr) : this(Guid.Parse(guidStr)) { }
+    /// <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
+    /// <param name="fullPath">Platform specific, full path to volume root</param>
+    public VolumePath(Guid volumeIdentificator, string fullPath)
+    {
+        _dentificator = volumeIdentificator;
+        _fullPath = fullPath;
+    }
 
+    /*
     /// <inheritdoc/>
     public int CompareTo(VolumePath other) => _dentificator.CompareTo(other._dentificator);
 
@@ -63,6 +78,7 @@ public readonly struct VolumePath(Guid volumeIdentificator) : IEquatable<VolumeP
 
     /// <inheritdoc/>
     public bool Equals(Guid other) => _dentificator.Equals(other);
+    */
 
     /// <summary>
     /// Returns the string representation of the volume in the Windows device path format.
@@ -75,7 +91,7 @@ public readonly struct VolumePath(Guid volumeIdentificator) : IEquatable<VolumeP
     /// A string containing the volume path in the format "\\?\Volume{GUID}\",
     /// where GUID is the value of the <c>Identificator</c> property.
     /// </returns>
-    public override readonly string ToString() => string.Concat(@"\\?\Volume{", Identificator.ToString(), @"}\");
+    public override string ToString() => _fullPath; //string.Concat(@"\\?\Volume{", Identificator.ToString(), @"}\");
 
     /// <summary>
     /// Converts a <see cref="VolumePath"/> instance to its associated <see cref="Guid"/> identifier.
@@ -84,26 +100,28 @@ public readonly struct VolumePath(Guid volumeIdentificator) : IEquatable<VolumeP
     public static implicit operator Guid(VolumePath path) => path.Identificator;
 
     /// <summary>
+    /// Converts a <see cref="VolumePath"/> instance to its string representation.
+    /// </summary>
+    /// <param name="path">The <see cref="VolumePath"/> instance to convert.</param>
+    public static implicit operator string(VolumePath path) => path.FullPath;
+
+    /*
+    /// <summary>
     /// Defines an implicit conversion from a <see cref="System.Guid"/> to a <c>VolumePath</c> instance.
     /// </summary>
     /// <param name="guid">The <see cref="System.Guid"/> value representing the unique identifier of the volume path to convert.</param>
     public static implicit operator VolumePath(Guid guid) => new VolumePath(guid);
 
     /// <summary>
-    /// Converts a <see cref="VolumePath"/> instance to its string representation.
-    /// </summary>
-    /// <param name="path">The <see cref="VolumePath"/> instance to convert.</param>
-    public static implicit operator string(VolumePath path) => path.ToString();
-
-    /// <summary>
     /// Converts a string containing a volume GUID path to a <see cref="VolumePath"/> instance.
     /// </summary>
     /// <param name="guidStr">A string representing the volume GUID path to convert. Must not be null or empty.</param>
     public static implicit operator VolumePath(string guidStr) => new VolumePath(guidStr);
+    */
 
     /// <summary>
     /// Converts a <see cref="VolumePath"/> instance to a <see cref="DirectoryInfo"/> representing the same file system path.
     /// </summary>
     /// <param name="path">The <see cref="VolumePath"/> to convert to a <see cref="DirectoryInfo"/>.</param>
-    public static implicit operator DirectoryInfo(VolumePath path) => new DirectoryInfo(path.ToString());
+    public static implicit operator DirectoryInfo(VolumePath path) => new DirectoryInfo(path.FullPath);
 }

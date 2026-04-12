@@ -30,10 +30,8 @@ namespace Unified.Firmware.SystemPartition;
 /// </summary>
 public static class EfiPartition
 {
-    private static readonly Guid _partitionInfo = FirmwareInterface.CurrentBackend.FindEfiSystemPartition();
+    private static readonly VolumePath _partitionInfo = FirmwareInterface.CurrentBackend.FindEfiSystemPartition();
     private static readonly Guid _partitionInfoTypeId = Guid.Parse("c12a7328-f81f-11d2-ba4b-00a0c93ec93b");
-
-    private static VolumePath? _rawFullPath = null;
 
     /// <summary>
     /// GUID identifier of the system EFI partition.
@@ -42,7 +40,7 @@ public static class EfiPartition
     /// It is not related to the partition type, and is not a constant value.
     /// It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
     /// </summary>
-    public static Guid Identificator => _partitionInfo;
+    public static Guid Identificator => _partitionInfo.Identificator;
 
     /// <summary>
     /// GUID identifier of the system EFI partition type.
@@ -57,5 +55,5 @@ public static class EfiPartition
     /// Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
     /// </summary>
     /// <returns></returns>
-    public static VolumePath VolumePath => _rawFullPath ??= new VolumePath(Identificator);
+    public static VolumePath VolumePath => _partitionInfo;
 }

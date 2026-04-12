@@ -40,7 +40,7 @@ public interface IFirmwareBackend
     /// It is not related to the partition type, and is not a constant value.
     /// It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
     /// </summary>
-    Guid FindEfiSystemPartition();
+    VolumePath FindEfiSystemPartition();
 
     /// <summary>
     /// Gets the value of an environment variable with the specified name and attributes from the specified environment.

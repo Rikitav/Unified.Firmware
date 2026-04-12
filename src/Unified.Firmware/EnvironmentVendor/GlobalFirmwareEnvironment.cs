@@ -26,10 +26,10 @@ using System;
 namespace Unified.Firmware.EnvironmentVendor;
 
 /// <summary>
-/// GLobally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
+/// Globally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
 /// </summary>
 /// <param name="backend"></param>
-public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvironment(backend, new Guid("8BE4DF61-93CA-11D2-AA0D-00E098032B8C"))
+public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvironment(backend, FirmwareVendors.GlobalVariable)
 {
     /// <summary>
     /// Whether the system is operating in Audit Mode (1) or not (0). All other values are reserved. Should be treated as read-only except when DeployedMode is 0. Always becomes read-only after ExitBootServices() is called.
@@ -37,7 +37,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public bool AuditMode
     {
-        get => ReadVariable<bool>(nameof(AuditMode), out _);
+        get => ReadVariable<byte>(nameof(AuditMode), out _) == 1;
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public bool DeployedMode
     {
-        get => ReadVariable<bool>(nameof(DeployedMode), out _);
+        get => ReadVariable<byte>(nameof(DeployedMode), out _) == 1;
     }
 
     /// <summary>
@@ -204,8 +204,8 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public OsIndications OsIndications
     {
-        get => (OsIndications)ReadVariable<long>(nameof(OsIndications), out _);
-        set => WriteVariable(nameof(OsIndications), (long)value, VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS);
+        get => (OsIndications)ReadVariable<ulong>(nameof(OsIndications), out _);
+        set => WriteVariable(nameof(OsIndications), (ulong)value, VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public OsIndications OsIndicationsSupported
     {
-        get => (OsIndications)ReadVariable<long>(nameof(OsIndicationsSupported), out _);
+        get => (OsIndications)ReadVariable<ulong>(nameof(OsIndicationsSupported), out _);
     }
 
     /// <summary>
@@ -253,7 +253,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public Guid[] SignatureSupport
     {
-        get => ReadArrayVariable<Guid>(nameof(PlatformLang), out _);
+        get => ReadArrayVariable<Guid>(nameof(SignatureSupport), out _);
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public bool SecureBoot
     {
-        get => ReadVariable<bool>(nameof(SecureBoot), out _);
+        get => ReadVariable<byte>(nameof(SecureBoot), out _) == 1;
     }
 
     /// <summary>
@@ -271,7 +271,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public bool SetupMode
     {
-        get => ReadVariable<bool>(nameof(SetupMode), out _);
+        get => ReadVariable<byte>(nameof(SetupMode), out _) == 1;
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ public class GlobalFirmwareEnvironment(IFirmwareBackend backend) : FirmwareEnvir
     /// </summary>
     public bool VendorKeys
     {
-        get => ReadVariable<bool>(nameof(VendorKeys), out _);
+        get => ReadVariable<byte>(nameof(VendorKeys), out _) == 1;
     }
 
     /*

@@ -6,17 +6,17 @@
     <members>
         <member name="T:Unified.Firmware.BootOptionIndex">
             <summary>
-            Represents a boot option index, which is a 16-bit unsigned integer value used to identify a specific boot option in the system's firmware.
-            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
             </summary>
-            <param name="value"></param>
+            <param name="index"></param>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.#ctor(System.UInt16)">
             <summary>
-            Represents a boot option index, which is a 16-bit unsigned integer value used to identify a specific boot option in the system's firmware.
-            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
             </summary>
-            <param name="value"></param>
+            <param name="index"></param>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.CompareTo(Unified.Firmware.BootOptionIndex)">
             <inheritdoc/>
@@ -54,7 +54,7 @@
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.ToString">
             <summary>
-            Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index value.
+            Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
             </summary>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.op_Implicit(Unified.Firmware.BootOptionIndex)~System.UInt16">
@@ -65,9 +65,9 @@
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.op_Implicit(System.UInt16)~Unified.Firmware.BootOptionIndex">
             <summary>
-            Implicitly converts <see langword="ushort"/> value to <see cref="T:Unified.Firmware.BootOptionIndex"/> structure.
+            Implicitly converts <see langword="ushort"/> index to <see cref="T:Unified.Firmware.BootOptionIndex"/> structure.
             </summary>
-            <param name="value"></param>
+            <param name="index"></param>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.op_Implicit(Unified.Firmware.BootOptionIndex)~System.String">
             <summary>
@@ -75,15 +75,79 @@
             </summary>
             <param name="index"></param>
         </member>
+        <member name="T:Unified.Firmware.EnvironmentVendor.FirmwareVendors">
+            <summary>
+            Contains known GUIDs of UEFI variable namespaces.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.GlobalVariable">
+            <summary>
+            Global UEFI namespace (EFI_GLOBAL_VARIABLE).
+            Stores base variables: BootOrder, BootNext, Lang, Timeout, SetupMode, SecureBoot, etc.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.ImageSecurityDatabase">
+            <summary>
+            Image security database namespace (EFI_IMAGE_SECURITY_DATABASE_GUID).
+            Stores Secure Boot keys: db (allowed certificates), dbx (revoked certificates), dbt (timestamping).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.HardwareErrorVariable">
+            <summary>
+            Hardware error namespace (EFI_HARDWARE_ERROR_VARIABLE).
+            Used by the WHEA (Windows Hardware Error Architecture) mechanism to record fatal hardware errors in NVRAM (HwErrRec).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.CapsuleReport">
+            <summary>
+            Capsule update result reports (EFI_CAPSULE_REPORT_GUID).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.MicrosoftVendor">
+            <summary>
+            Microsoft namespace.
+            Often used for variables related to BitLocker, kernel signatures, and early boot telemetry (e.g., CurrentPolicy).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.LenovoVendor">
+            <summary>
+            Lenovo (ThinkPad) specific variables.
+            Used to manage BIOS settings directly from the OS (e.g., WMI-to-UEFI).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.DellVendor">
+            <summary>
+            Dell specific variables.
+            Often used to control keyboard backlighting, power profiles, and component inventory (CBOM).
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.HpVendor">
+            <summary>
+            HP (Hewlett-Packard) specific variables.
+            Used for BIOS SureStart, security settings, and hardware tokens.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.AsusVendor">
+            <summary>
+            ASUS specific variables.
+            Often found on ROG/Prime motherboards to control memory timings, LED lighting (Aura), and overclocking profiles.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.EnvironmentVendor.FirmwareVendors.AppleVendor">
+            <summary>
+            Apple (Mac EFI) specific variables.
+            Store parameters like StartupMute, Bluetooth pairings for peripherals prior to OS boot, and the selected boot volume (efi-boot-device).
+            </summary>
+        </member>
         <member name="T:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment">
             <summary>
-            GLobally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
+            Globally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
             </summary>
             <param name="backend"></param>
         </member>
         <member name="M:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.#ctor(Unified.Firmware.IFirmwareBackend)">
             <summary>
-            GLobally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
+            Globally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
             </summary>
             <param name="backend"></param>
         </member>
@@ -475,7 +539,7 @@
             Provides methods for retrieving volume information using IOCTL commands.
             </summary>
         </member>
-        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation.GetPartition(Unified.Firmware.VolumePath)">
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation.GetPartition(System.Guid)">
             <summary>
             Retrieves extended partition information for the specified volume.
             </summary>
@@ -748,48 +812,32 @@
             and conversion operations for working with volume paths in a type-safe manner.
             </summary>
             <remarks>
+            FullPath format is depends on platform you using this record.
+            For Windows it stores `\\?\Volume{GUID}\` path format, which coressponds to WinAPI standart and can be used to open handles to this volume.
+            For Linux it stores absolute virtual path `/dev/{diskName}/boot` to directory, where ESP volume is mounted.
+            
             Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
             enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
             Instances are immutable and can be compared or used in collections that require equality or ordering.
             Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
             </remarks>
-            <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.#ctor(System.Guid)">
-            <summary>
-            Represents a strongly-typed volume path based on a unique volume identifier (GUID). Provides comparison, equality,
-            and conversion operations for working with volume paths in a type-safe manner.
-            </summary>
-            <remarks>
-            Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
-            enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
-            Instances are immutable and can be compared or used in collections that require equality or ordering.
-            Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
-            </remarks>
-            <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
         </member>
         <member name="P:Unified.Firmware.VolumePath.Identificator">
             <summary>
             Gets the unique identifier associated with this instance.
             </summary>
         </member>
-        <member name="M:Unified.Firmware.VolumePath.#ctor(System.String)">
+        <member name="P:Unified.Firmware.VolumePath.FullPath">
+            <summary>
+            Gets the absolute path to root of volume.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.VolumePath.#ctor(System.Guid,System.String)">
             <summary>
             Initializes a new instance of the VolumePath class using the specified string representation of a GUID.
             </summary>
-            <param name="guidStr">A string containing the GUID that identifies the volume path. Must be a valid GUID format.</param>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.CompareTo(Unified.Firmware.VolumePath)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.CompareTo(System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.Equals(Unified.Firmware.VolumePath)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.Equals(System.Guid)">
-            <inheritdoc/>
+            <param name="volumeIdentificator">The unique identifier (GUID) that specifies the volume path associated with this instance.</param>
+            <param name="fullPath">Platform specific, full path to volume root</param>
         </member>
         <member name="M:Unified.Firmware.VolumePath.ToString">
             <summary>
@@ -810,23 +858,11 @@
             </summary>
             <param name="path">The <see cref="T:Unified.Firmware.VolumePath"/> object to convert to a <see cref="T:System.Guid"/>.</param>
         </member>
-        <member name="M:Unified.Firmware.VolumePath.op_Implicit(System.Guid)~Unified.Firmware.VolumePath">
-            <summary>
-            Defines an implicit conversion from a <see cref="T:System.Guid"/> to a <c>VolumePath</c> instance.
-            </summary>
-            <param name="guid">The <see cref="T:System.Guid"/> value representing the unique identifier of the volume path to convert.</param>
-        </member>
         <member name="M:Unified.Firmware.VolumePath.op_Implicit(Unified.Firmware.VolumePath)~System.String">
             <summary>
             Converts a <see cref="T:Unified.Firmware.VolumePath"/> instance to its string representation.
             </summary>
             <param name="path">The <see cref="T:Unified.Firmware.VolumePath"/> instance to convert.</param>
-        </member>
-        <member name="M:Unified.Firmware.VolumePath.op_Implicit(System.String)~Unified.Firmware.VolumePath">
-            <summary>
-            Converts a string containing a volume GUID path to a <see cref="T:Unified.Firmware.VolumePath"/> instance.
-            </summary>
-            <param name="guidStr">A string representing the volume GUID path to convert. Must not be null or empty.</param>
         </member>
         <member name="M:Unified.Firmware.VolumePath.op_Implicit(Unified.Firmware.VolumePath)~System.IO.DirectoryInfo">
             <summary>
