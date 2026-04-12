@@ -245,6 +245,203 @@
             The remaining bytes in the load option descriptor are a binary data buffer that is passed to the loaded image. If the field is zero bytes long, a NULL pointer is passed to the loaded image. The number of bytes in OptionalData can be computed by subtracting the starting offset of OptionalData from total size in bytes of the EFI_LOAD_OPTION
             </summary>
         </member>
+        <member name="T:Unified.Firmware.BootService.Marshalling.DevicePathProtocolWrapperSelector">
+            <summary>
+            An assistant class that tells the marshaler what type to use to represent the native <see cref="T:Unified.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL"/> structure
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.BootService.Marshalling.DevicePathProtocolWrapperSelector.DisallowCastingUnknownWrappersToRawProtocol">
+            <summary>
+            Tells if the marshaler should throw an exception when it encounters a protocol for which no wrapper is registered, instead of just returning a <see cref="T:Unified.Firmware.BootService.Protocols.RawMediaDevicePath"/> instance.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.DevicePathProtocolWrapperSelector.GetRegisteredType(Unified.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
+            <summary>
+            Retrieves the registered protocol wrapper type associated with the specified protocol type and subtype.
+            </summary>
+            <remarks>
+            This method returns only types that have been previously registered using RegisterWrapperLibrary.
+            If no matching type is found, the method returns null.
+            </remarks>
+            <param name="type">The protocol type for which to retrieve the registered wrapper type.</param>
+            <param name="subType">The protocol subtype used to further identify the wrapper type. Typically represents a protocol variant or
+            extension.</param>
+            <returns>The registered wrapper type corresponding to the specified protocol type and subtype, or null if no matching type is registered.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.DevicePathProtocolWrapperSelector.RegisterType``1">
+            <summary>
+            Registers a protocol wrapper type for later use in marshaling boot options
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.DevicePathProtocolWrapperSelector.RegisterType(System.Type)">
+            <summary>
+            Registers a protocol wrapper type for later use in marshaling boot options
+            </summary>
+            <param name="wrapperType"></param>
+            <exception cref="T:Unified.Firmware.BootService.InvalidInheritedClassException"></exception>
+            <exception cref="T:Unified.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException"></exception>
+        </member>
+        <member name="T:Unified.Firmware.BootService.Marshalling.MarshalExtensions">
+            <summary>
+            Provides extension methods for marshalling UEFI boot service structures.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteCstyleWideString(System.IO.BinaryWriter,System.String)">
+            <summary>
+            Writes a C-style null-terminated wide string to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="value">The string to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadCstyleWideString(System.IO.BinaryReader)">
+            <summary>
+            Reads a C-style null-terminated wide string from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The read string.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.GetCstyleWideStringLength(System.String)">
+            <summary>
+            Calculates the byte length of a C-style wide string, including the null terminator.
+            </summary>
+            <param name="value">The string value.</param>
+            <returns>The length in bytes.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadRemainingBytes(System.IO.BinaryReader)">
+            <summary>
+            Reads all remaining bytes from the current stream position.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The remaining bytes.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteGuid(System.IO.BinaryWriter,System.Guid)">
+            <summary>
+            Writes a GUID to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="guid">The GUID to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadGuid(System.IO.BinaryReader)">
+            <summary>
+            Reads a GUID from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The read GUID.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadRawLoadOption(System.IO.BinaryReader)">
+            <summary>
+            Reads an EFI load option from the binary reader without processing device path protocols into specific types.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The raw EFI load option.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadRawDevicePathProtocol(System.IO.BinaryReader)">
+            <summary>
+            Reads a raw EFI device path protocol from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The raw EFI device path protocol.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader)">
+            <summary>
+            Reads a firmware boot option from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The firmware boot option.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader,System.Type)">
+            <summary>
+            Reads a load option of the specified type from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <param name="loadOptionType">The type of the load option to read.</param>
+            <returns>The read load option.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader)">
+            <summary>
+            Reads a device path protocol from the binary reader, automatically determining the specific protocol type.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <returns>The device path protocol.</returns>
+            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader,System.Type)">
+            <summary>
+            Reads a device path protocol of the specified type from the binary reader.
+            </summary>
+            <param name="reader">The binary reader.</param>
+            <param name="devicePathType">The type of the device path protocol.</param>
+            <returns>The device path protocol.</returns>
+            <exception cref="T:Unified.Firmware.BootService.DeviceProtocolCastingException">Thrown when the protocol type or subtype does not match the expected type.</exception>
+            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadLoadOption``1(System.IO.BinaryReader)">
+            <summary>
+            Reads a load option of type T from the binary reader.
+            </summary>
+            <typeparam name="T">The type of the load option.</typeparam>
+            <param name="reader">The binary reader.</param>
+            <returns>The read load option.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.ReadDevicePathProtocol``1(System.IO.BinaryReader)">
+            <summary>
+            Reads a device path protocol of type T from the binary reader.
+            </summary>
+            <typeparam name="T">The type of the device path protocol.</typeparam>
+            <param name="reader">The binary reader.</param>
+            <returns>The device path protocol.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteLoadOption(System.IO.BinaryWriter,Unified.Firmware.BootService.UefiNative.EFI_LOAD_OPTION)">
+            <summary>
+            Writes a raw EFI load option to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="loadOption">The load option to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteDevicePathProtocol(System.IO.BinaryWriter,Unified.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL)">
+            <summary>
+            Writes a raw EFI device path protocol to the binary writer.
+            </summary>
+            <param name="writer">The binary writer.</param>
+            <param name="protocol">The protocol to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteLoadOption``1(System.IO.BinaryWriter,``0)">
+            <summary>
+            Writes a load option to the binary writer.
+            </summary>
+            <typeparam name="T">The type of the load option.</typeparam>
+            <param name="writer">The binary writer.</param>
+            <param name="loadOption">The load option to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.WriteDevicePathProtocol``1(System.IO.BinaryWriter,``0)">
+            <summary>
+            Writes a device path protocol to the binary writer.
+            </summary>
+            <typeparam name="T">The type of the device path protocol.</typeparam>
+            <param name="writer">The binary writer.</param>
+            <param name="protocol">The protocol to write.</param>
+            <returns>The binary writer.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.GetStructureLength(Unified.Firmware.BootService.LoadOption.LoadOptionBase)">
+            <summary>
+            Calculates the total structure length of the load option in bytes.
+            </summary>
+            <param name="loadOption">The load option.</param>
+            <returns>The length in bytes.</returns>
+        </member>
+        <member name="M:Unified.Firmware.BootService.Marshalling.MarshalExtensions.GetStrctureLength(Unified.Firmware.BootService.Protocols.DevicePathProtocolBase)">
+            <summary>
+            Calculates the total structure length of the device path protocol in bytes.
+            </summary>
+            <param name="devicePathProtocol">The device path protocol.</param>
+            <returns>The length in bytes.</returns>
+        </member>
         <member name="T:Unified.Firmware.BootService.Protocols.DefineDevicePathProtocolAttribute">
             <summary>
             Attribute describing the wrapper class for the DevicePath protocol
@@ -410,159 +607,6 @@
         </member>
         <member name="M:Unified.Firmware.BootService.Protocols.RawMediaDevicePath.Serialize(System.IO.BinaryWriter)">
             <inheritdoc/>
-        </member>
-        <member name="T:Unified.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector">
-            <summary>
-            An assistant class that tells the marshaler what type to use to represent the native <see cref="T:Unified.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL"/> structure
-            </summary>
-        </member>
-        <member name="P:Unified.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.DisallowCastingUnknownWrappersToRawProtocol">
-            <summary>
-            Tells if the marshaler should throw an exception when it encounters a protocol for which no wrapper is registered, instead of just returning a <see cref="T:Unified.Firmware.BootService.Protocols.RawMediaDevicePath"/> instance.
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.GetRegisteredType(Unified.Firmware.BootService.Protocols.DeviceProtocolType,System.Byte)">
-            <summary>
-            Retrieves the registered protocol wrapper type associated with the specified protocol type and subtype.
-            </summary>
-            <remarks>
-            This method returns only types that have been previously registered using RegisterWrapperLibrary.
-            If no matching type is found, the method returns null.
-            </remarks>
-            <param name="type">The protocol type for which to retrieve the registered wrapper type.</param>
-            <param name="subType">The protocol subtype used to further identify the wrapper type. Typically represents a protocol variant or
-            extension.</param>
-            <returns>The registered wrapper type corresponding to the specified protocol type and subtype, or null if no matching type is registered.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.RegisterType``1">
-            <summary>
-            Registers a protocol wrapper type for later use in marshaling boot options
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.DevicePathProtocolWrapperSelector.RegisterType(System.Type)">
-            <summary>
-            Registers a protocol wrapper type for later use in marshaling boot options
-            </summary>
-            <param name="wrapperType"></param>
-            <exception cref="T:Unified.Firmware.BootService.InvalidInheritedClassException"></exception>
-            <exception cref="T:Unified.Firmware.BootService.MissingDevicePathProtocolWrapperAttributeException"></exception>
-        </member>
-        <member name="T:Unified.Firmware.BootService.Win32Native.MarshalExtensions">
-            <summary>
-            Provides extension methods for marshalling UEFI boot service structures.
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadRawLoadOption(System.IO.BinaryReader)">
-            <summary>
-            Reads an EFI load option from the binary reader without processing device path protocols into specific types.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The raw EFI load option.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadRawDevicePathProtocol(System.IO.BinaryReader)">
-            <summary>
-            Reads a raw EFI device path protocol from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The raw EFI device path protocol.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader)">
-            <summary>
-            Reads a firmware boot option from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The firmware boot option.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption(System.IO.BinaryReader,System.Type)">
-            <summary>
-            Reads a load option of the specified type from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <param name="loadOptionType">The type of the load option to read.</param>
-            <returns>The read load option.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader)">
-            <summary>
-            Reads a device path protocol from the binary reader, automatically determining the specific protocol type.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The device path protocol.</returns>
-            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol(System.IO.BinaryReader,System.Type)">
-            <summary>
-            Reads a device path protocol of the specified type from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <param name="devicePathType">The type of the device path protocol.</param>
-            <returns>The device path protocol.</returns>
-            <exception cref="T:Unified.Firmware.BootService.DeviceProtocolCastingException">Thrown when the protocol type or subtype does not match the expected type.</exception>
-            <exception cref="T:System.IO.InvalidDataException">Thrown when the protocol data length does not match the expected length.</exception>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadLoadOption``1(System.IO.BinaryReader)">
-            <summary>
-            Reads a load option of type T from the binary reader.
-            </summary>
-            <typeparam name="T">The type of the load option.</typeparam>
-            <param name="reader">The binary reader.</param>
-            <returns>The read load option.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.ReadDevicePathProtocol``1(System.IO.BinaryReader)">
-            <summary>
-            Reads a device path protocol of type T from the binary reader.
-            </summary>
-            <typeparam name="T">The type of the device path protocol.</typeparam>
-            <param name="reader">The binary reader.</param>
-            <returns>The device path protocol.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.WriteLoadOption(System.IO.BinaryWriter,Unified.Firmware.BootService.UefiNative.EFI_LOAD_OPTION)">
-            <summary>
-            Writes a raw EFI load option to the binary writer.
-            </summary>
-            <param name="writer">The binary writer.</param>
-            <param name="loadOption">The load option to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.WriteDevicePathProtocol(System.IO.BinaryWriter,Unified.Firmware.BootService.UefiNative.EFI_DEVICE_PATH_PROTOCOL)">
-            <summary>
-            Writes a raw EFI device path protocol to the binary writer.
-            </summary>
-            <param name="writer">The binary writer.</param>
-            <param name="protocol">The protocol to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.WriteLoadOption``1(System.IO.BinaryWriter,``0)">
-            <summary>
-            Writes a load option to the binary writer.
-            </summary>
-            <typeparam name="T">The type of the load option.</typeparam>
-            <param name="writer">The binary writer.</param>
-            <param name="loadOption">The load option to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.WriteDevicePathProtocol``1(System.IO.BinaryWriter,``0)">
-            <summary>
-            Writes a device path protocol to the binary writer.
-            </summary>
-            <typeparam name="T">The type of the device path protocol.</typeparam>
-            <param name="writer">The binary writer.</param>
-            <param name="protocol">The protocol to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.GetStrcutureLength(Unified.Firmware.BootService.LoadOption.LoadOptionBase)">
-            <summary>
-            Calculates the total structure length of the load option in bytes.
-            </summary>
-            <param name="loadOption">The load option.</param>
-            <returns>The length in bytes.</returns>
-        </member>
-        <member name="M:Unified.Firmware.BootService.Win32Native.MarshalExtensions.GetStrctureLength(Unified.Firmware.BootService.Protocols.DevicePathProtocolBase)">
-            <summary>
-            Calculates the total structure length of the device path protocol in bytes.
-            </summary>
-            <param name="devicePathProtocol">The device path protocol.</param>
-            <returns>The length in bytes.</returns>
         </member>
     </members>
 </doc>

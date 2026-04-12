@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 namespace Unified.Firmware.SystemPartition;
+#pragma warning disable RCS1154 // Sort enum members
 
 /// <summary>
 /// Enumeration of supported processor architectures for firmware applications
@@ -37,7 +38,7 @@ public enum FirmwareApplicationArchitecture : ushort
     /// 32-bit
     /// </summary>
     Ia32 = 0x14c,
-    
+
     /// <summary>
     /// AMD64
     /// </summary>

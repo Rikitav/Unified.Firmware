@@ -21,9 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Unified.Firmware.Win32Native;
 using System;
-using System.IO;
 
 namespace Unified.Firmware.SystemPartition;
 
@@ -32,9 +30,9 @@ namespace Unified.Firmware.SystemPartition;
 /// </summary>
 public static class EfiPartition
 {
-    private static readonly PARTITION_INFORMATION_EX _partitionInfo = FindEfiPartitionInfo();
+    private static readonly Guid _partitionInfo = FirmwareInterface.CurrentBackend.FindEfiSystemPartition();
     private static readonly Guid _partitionInfoTypeId = Guid.Parse("c12a7328-f81f-11d2-ba4b-00a0c93ec93b");
-    
+
     private static VolumePath? _rawFullPath = null;
 
     /// <summary>
@@ -44,20 +42,14 @@ public static class EfiPartition
     /// It is not related to the partition type, and is not a constant value.
     /// It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
     /// </summary>
-    public static Guid Identificator
-    {
-        get => _partitionInfo.Gpt.PartitionId;
-    }
+    public static Guid Identificator => _partitionInfo;
 
     /// <summary>
     /// GUID identifier of the system EFI partition type.
     /// This is a constant value defined by the UEFI specification for EFI System Partitions,
     /// and is used to identify partitions that are intended to be used as EFI System Partitions.
     /// </summary>
-    public static Guid TypeID
-    {
-        get => _partitionInfoTypeId;
-    }
+    public static Guid TypeID => _partitionInfoTypeId;
 
     /// <summary>
     /// Full path to the system EFI partition, in the form of "\\?\Volume{GUID}\".
@@ -65,35 +57,5 @@ public static class EfiPartition
     /// Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
     /// </summary>
     /// <returns></returns>
-    public static VolumePath VolumePath
-    {
-        get => _rawFullPath ??= new VolumePath(Identificator);
-    }
-
-    /// <summary>
-    /// Get volume information for system EFI partition.
-    /// Avoid using this propert, unless you need to access the partition's low-level properties that are not provided by <see cref="VolumePath"/>, like partition length or starting offset.
-    /// </summary>
-    /// <returns></returns>
-    public static PARTITION_INFORMATION_EX PartitionInfo
-    {
-        get => _partitionInfo;
-    }
-
-    private static PARTITION_INFORMATION_EX FindEfiPartitionInfo()
-    {
-        if (!FirmwareInterface.Available)
-            throw new PlatformNotSupportedException("Executing on non UEFI System");
-
-        foreach (PARTITION_INFORMATION_EX partition in new IoctlVolumeEnumerable(0))
-        {
-            if (partition.PartitionStyle != PartitionStyle.GuidPartitionTable)
-                throw new DriveNotFoundException("Drive signature is not GPT (Guid Partition Table)");
-
-            if (partition.Gpt.PartitionType == TypeID)
-                return partition;
-        }
-
-        throw new DriveNotFoundException("Efi partition was not found");
-    }
+    public static VolumePath VolumePath => _rawFullPath ??= new VolumePath(Identificator);
 }

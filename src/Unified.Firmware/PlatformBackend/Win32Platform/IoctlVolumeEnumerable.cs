@@ -28,12 +28,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Unified.Firmware.Win32Native;
+namespace Unified.Firmware.PlatformBackend.Win32Platform;
 
 /// <summary>
 /// Enumerable collection of volumes by physical hard drive index
 /// </summary>
-public class IoctlVolumeEnumerable : IEnumerable<PARTITION_INFORMATION_EX>
+internal class IoctlVolumeEnumerable : IEnumerable<PARTITION_INFORMATION_EX>
 {
     private readonly int _driveIndex = 0;
 

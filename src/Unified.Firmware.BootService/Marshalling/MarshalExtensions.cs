@@ -21,16 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Unified.Firmware.BootService.LoadOption;
-using Unified.Firmware.BootService.UefiNative;
-using Unified.Firmware.Win32Native;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using Unified.Firmware.BootService.LoadOption;
 using Unified.Firmware.BootService.Protocols;
+using Unified.Firmware.BootService.UefiNative;
 
-namespace Unified.Firmware.BootService.Win32Native;
+namespace Unified.Firmware.BootService.Marshalling;
 
 /// <summary>
 /// Provides extension methods for marshalling UEFI boot service structures.
@@ -39,7 +39,90 @@ public static class MarshalExtensions
 {
     private const int DevicePathProtocolHeaderLength = sizeof(byte) + sizeof(byte) + sizeof(ushort); // Type + SubType + DataLength
     private const int LoadOptionBaseHeaderLength = sizeof(LoadOptionAttributes) + sizeof(ushort); // Attributes + FilePathListLength
-    
+
+    /// <summary>
+    /// Writes a C-style null-terminated wide string to the binary writer.
+    /// </summary>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="value">The string to write.</param>
+    /// <returns>The binary writer.</returns>
+    public static BinaryWriter WriteCstyleWideString(this BinaryWriter writer, string value)
+    {
+        if (value == null)
+            return writer;
+
+        writer.Write([.. Encoding.Unicode.GetBytes(value), .. Encoding.Unicode.GetBytes("\0")]);
+        return writer;
+    }
+
+    /// <summary>
+    /// Reads a C-style null-terminated wide string from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The read string.</returns>
+    public static string ReadCstyleWideString(this BinaryReader reader)
+    {
+        StringBuilder builder = new StringBuilder();
+        try
+        {
+            for (ushort chr = reader.ReadUInt16(); chr != 0; chr = reader.ReadUInt16())
+                builder.Append((char)chr);
+        }
+        catch (EndOfStreamException)
+        {
+            return builder.ToString();
+        }
+
+        return builder.ToString();
+    }
+
+    /// <summary>
+    /// Calculates the byte length of a C-style wide string, including the null terminator.
+    /// </summary>
+    /// <param name="value">The string value.</param>
+    /// <returns>The length in bytes.</returns>
+    public static ushort GetCstyleWideStringLength(this string value)
+    {
+        if (value == null)
+            return 0;
+
+        return (ushort)((value.Length + 1) * sizeof(ushort));
+    }
+
+    /// <summary>
+    /// Reads all remaining bytes from the current stream position.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The remaining bytes.</returns>
+    public static byte[] ReadRemainingBytes(this BinaryReader reader)
+    {
+        int remainingBytesLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
+        return reader.ReadBytes(remainingBytesLength);
+    }
+
+    /// <summary>
+    /// Writes a GUID to the binary writer.
+    /// </summary>
+    /// <param name="writer">The binary writer.</param>
+    /// <param name="guid">The GUID to write.</param>
+    /// <returns>The binary writer.</returns>
+    public static BinaryWriter WriteGuid(this BinaryWriter writer, Guid guid)
+    {
+        writer.Write(guid.ToByteArray());
+        return writer;
+    }
+
+    /// <summary>
+    /// Reads a GUID from the binary reader.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    /// <returns>The read GUID.</returns>
+    public static Guid ReadGuid(this BinaryReader reader)
+    {
+        byte[] guidBytes = reader.ReadBytes(16);
+        return new Guid(guidBytes);
+    }
+
     /// <summary>
     /// Reads an EFI load option from the binary reader without processing device path protocols into specific types.
     /// </summary>
@@ -311,7 +394,7 @@ public static class MarshalExtensions
     /// </summary>
     /// <param name="loadOption">The load option.</param>
     /// <returns>The length in bytes.</returns>
-    public static int GetStrcutureLength(this LoadOptionBase loadOption)
+    public static int GetStructureLength(this LoadOptionBase loadOption)
     {
         int structLength = LoadOptionBaseHeaderLength + loadOption.Description.GetCstyleWideStringLength();
         foreach (DevicePathProtocolBase devicePathProtocol in loadOption.Protocols)

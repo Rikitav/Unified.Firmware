@@ -26,10 +26,10 @@ using System.Collections.Generic;
 using System.Data;
 using Unified.Firmware.BootService.LoadOption;
 using Unified.Firmware.BootService.UefiNative;
-using Unified.Firmware.BootService.Win32Native;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unified.Firmware.BootService.Marshalling;
 
 namespace Unified.Firmware.BootService;
 
@@ -43,7 +43,7 @@ public static class FirmwareBootService
     /// </summary>
     public static BootOptionIndex CurrentLoadOptionIndex
     {
-        get => FirmwareGlobalEnvironment.BootCurrent;
+        get => FirmwareEnvironment.Global.BootCurrent;
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public static class FirmwareBootService
     /// </summary>
     public static BootOptionIndex NextLoadOptionIndex
     {
-        set => FirmwareGlobalEnvironment.BootNext = value;
+        set => FirmwareEnvironment.Global.BootNext = value;
     }
 
     /// <summary>
@@ -59,21 +59,25 @@ public static class FirmwareBootService
     /// </summary>
     public static BootOptionIndex[] LoadOrder
     {
-        get => [.. FirmwareGlobalEnvironment.BootOrder];
-        set => FirmwareGlobalEnvironment.BootOrder = [.. value.Select(x => x)];
+        get => [.. FirmwareEnvironment.Global.BootOrder];
+        set => FirmwareEnvironment.Global.BootOrder = [.. value.Select(x => x)];
     }
 
     /// <summary>
     /// Resets the Boot#### variable at the specified index and removes it from the boot order
     /// </summary>
     /// <param name="bootOptionIndex"></param>
-    public static void DeleteLoadOption(BootOptionIndex bootOptionIndex)
+    public static void DeleteLoadOption(BootOptionIndex loadOptionIndex)
     {
         // Writing null variable to firmware
-        FirmwareUtilities.SetGlobalEnvironmentVariable(bootOptionIndex, IntPtr.Zero, 0);
+        FirmwareInterface.CurrentBackend.WriteEnvironmentVariable(
+            loadOptionIndex.ToString(), // Boot####
+            FirmwareEnvironment.Global.VendorGuid,
+            VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS,
+            IntPtr.Zero, 0);
 
         // Removing index from boot order
-        LoadOrder = [.. LoadOrder.Where(x => x != bootOptionIndex)];
+        LoadOrder = [.. LoadOrder.Where(x => x != loadOptionIndex)];
     }
 
     /// <summary>
@@ -134,9 +138,9 @@ public static class FirmwareBootService
         WriteFirmwareLoadOption(loadOption, newLoadOptionIndex);
 
         // Setting new boot order
-        FirmwareGlobalEnvironment.BootOrder = AddFirst
-            ? [newLoadOptionIndex, ..FirmwareGlobalEnvironment.BootOrder]
-            : [..FirmwareGlobalEnvironment.BootOrder, newLoadOptionIndex];
+        FirmwareEnvironment.Global.BootOrder = AddFirst
+            ? [newLoadOptionIndex, ..FirmwareEnvironment.Global.BootOrder]
+            : [..FirmwareEnvironment.Global.BootOrder, newLoadOptionIndex];
 
         return newLoadOptionIndex;
     }
@@ -189,14 +193,18 @@ public static class FirmwareBootService
     private static BinaryReader ReadFirmwareLoadOption(BootOptionIndex loadOptionIndex)
     {
         // Getting variable data
-        IntPtr pointer = FirmwareUtilities.GetGlobalEnvironmentVariable(loadOptionIndex, out int DataLength, 1024);
-        return new BinaryReader(new MemoryPointerStream(pointer, DataLength, false));
+        IntPtr pointer = FirmwareInterface.CurrentBackend.ReadEnvironmentVariable(
+            loadOptionIndex.ToString(), // Boot####
+            FirmwareEnvironment.Global.VendorGuid,
+            out _, 1024, out uint dataLength);
+
+        return new BinaryReader(new MemoryPointerStream(pointer, (int)dataLength, false));
     }
 
-    private static void WriteFirmwareLoadOption(LoadOptionBase loadOption, BootOptionIndex bootOptionIndex)
+    private static void WriteFirmwareLoadOption(LoadOptionBase loadOption, BootOptionIndex loadOptionIndex)
     {
         // Marshalling structure to unmanaged memory pointer
-        int structureLength = loadOption.GetStrcutureLength();
+        int structureLength = loadOption.GetStructureLength();
         using MemoryPointerStream pointer = new MemoryPointerStream(structureLength);
 
         // Serializing structure to memory
@@ -204,12 +212,17 @@ public static class FirmwareBootService
             writer.WriteLoadOption(loadOption);
 
         // Writing variable to firmware
-        FirmwareUtilities.SetGlobalEnvironmentVariable(bootOptionIndex, pointer.Buffer, structureLength);
+        FirmwareInterface.CurrentBackend.WriteEnvironmentVariable(
+            loadOptionIndex.ToString(), // Boot####
+            FirmwareEnvironment.Global.VendorGuid,
+            VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS,
+            pointer.Buffer,
+            structureLength);
     }
 
     private static BootOptionIndex? GetFirstFreeLoadOptionName()
     {
-        for (ushort i = 0; i < 256; i++)
+        for (ushort i = 0; i < ushort.MaxValue; i++)
         {
             if (!LoadOrder.Contains(i))
                 return i;

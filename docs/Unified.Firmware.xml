@@ -75,186 +75,248 @@
             </summary>
             <param name="index"></param>
         </member>
-        <member name="T:Unified.Firmware.EfiOsIindications">
+        <member name="T:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment">
             <summary>
-            The firmware and an Operating System may exchange information through the OsIndicationsSupported and the OSIndications variables as follows
+            GLobally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
             </summary>
+            <param name="backend"></param>
         </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.BOOT_TO_FW_UI">
+        <member name="M:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.#ctor(Unified.Firmware.IFirmwareBackend)">
             <summary>
-            Once the firmware consumes this bit in the OsIndications variable and stops at the firmware user interface
+            GLobally defined UEFI environment variables. Documentation : https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
             </summary>
+            <param name="backend"></param>
         </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.TIMESTAMP_REVOCATION">
-            <summary>
-            If the firmware supports timestamp based revocation and the � dbt � uthorized timestamp database variable.
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.FILE_CAPSULE_DELIVERY_SUPPORTED">
-            <summary>
-            When submitting capsule via the Mass Storage Device method of Delivery of Capsules via file on Mass Storage Device, the bit EFI_OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED in OsIndications variable must be set by submitter to trigger processing of submitted capsule on next reboot
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.FMP_CAPSULE_SUPPORTED">
-            <summary>
-            If platform supports processing of Firmware Management Protocol update capsule as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/23_Firmware_Update_and_Reporting.html#dependency-expression-instruction-set">Dependency Expression Instruction Set</see>
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.CAPSULE_RESULT_VAR_SUPPORTED">
-            <summary>
-            If platform supports reporting of deferred capsule processing by creation of result variable as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#uefi-variable-reporting-on-the-success-or-any-errors-encountered-in-processing-of-capsules-after-restart">UEFI variable reporting on the Success or any Errors encountered in processing of capsules after restart</see>
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.START_OS_RECOVERY">
-            <summary>
-            Indicate that OS-defined recovery should commence upon reboot
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.START_PLATFORM_RECOVERY">
-            <summary>
-            Indicate that Platform-defined recovery should commence upon reboot
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.EfiOsIindications.JSON_CONFIG_DATA_REFRESH">
-            <summary>
-            Bit is set in the OsIndications variable by submitter to trigger collecting current configuration and reporting the refreshed data to EFI System Configuration Table on next boot
-            </summary>
-        </member>
-        <member name="T:Unified.Firmware.FirmwareGlobalEnvironment">
-            <summary>
-            Interface for reading and editing UEFI environment variables
-            </summary>
-        </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.AuditMode">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.AuditMode">
             <summary>
             Whether the system is operating in Audit Mode (1) or not (0). All other values are reserved. Should be treated as read-only except when DeployedMode is 0. Always becomes read-only after ExitBootServices() is called.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.BootCurrent">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.BootCurrent">
             <summary>
             The boot option that was selected for the current boot.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.BootNext">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.BootNext">
             <summary>
             The boot option for the next boot only.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.BootOrder">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.BootOrder">
             <summary>
             The ordered boot option load list.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.BootOptionSupport">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.BootOptionSupport">
             <summary>
             The types of boot options supported by the boot manager. Should be treated as read-only.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.DeployedMode">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.DeployedMode">
             <summary>
             Whether the system is operating in Deployed Mode (1) or not (0). All other values are reserved. Should be treated as read-only when its value is 1. Always becomes read-only after ExitBootServices() is called.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.devAuthBoot">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.DevAuthBoot">
             <summary>
             Whether the platform firmware is operating in device authentication boot mode (1) or not (0). All other values are reserved. Should be treated as read-only.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.DriverOrder">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.DriverOrder">
             <summary>
             The ordered driver load option list.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.HwErrRecSupport">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.HwErrRecSupport">
             <summary>
             Identifies the level of hardware error record persistence support implemented by the platform. This variable is only modified by firmware and is read-only to the OS.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.Lang">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.Lang">
             <summary>
             The language code that the system is configured for. This value is deprecated.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.LangCodes">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.LangCodes">
             <summary>
             The language codes that the firmware supports. This value is deprecated.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.OsIndications">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.OsIndications">
             <summary>
             Allows the OS to request the firmware to enable certain features and to take certain actions.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.OsIndicationsSupported">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.OsIndicationsSupported">
             <summary>
             Allows the firmware to indicate supported features and actions to the OS.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.OsRecoveryOrder">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.OsRecoveryOrder">
             <summary>
             OS-specified recovery options.
             Variable attributes : BS, RT, NV, AT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.PlatformLangCodes">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.PlatformLangCodes">
             <summary>
             The language codes that the firmware supports.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.PlatformLang">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.PlatformLang">
             <summary>
             The language code that the system is configured for.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.SignatureSupport">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.SignatureSupport">
             <summary>
             Array of GUIDs representing the type of signatures supported by the platform firmware. Should be treated as read-only.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.SecureBoot">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.SecureBoot">
             <summary>
             Whether the platform firmware is operating in Secure boot mode (1) or not (0). All other values are reserved. Should be treated as read-only.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.SetupMode">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.SetupMode">
             <summary>
             Whether the system should require authentication on SetVariable() requests to Secure Boot policy variables (0) or not (1). Should be treated as read-only. The system is in "Setup Mode" when SetupMode==1, AuditMode==0, and DeployedMode==0.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.Timeout">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.Timeout">
             <summary>
             The firmware's boot managers timeout, in seconds, before initiating the default boot selection.
             Variable attributes : NV, BS, RT
             </summary>
         </member>
-        <member name="P:Unified.Firmware.FirmwareGlobalEnvironment.VendorKeys">
+        <member name="P:Unified.Firmware.EnvironmentVendor.GlobalFirmwareEnvironment.VendorKeys">
             <summary>
             Whether the system is configured to use only vendor-provided keys or not. Should be treated as read-only.
             Variable attributes : BS, RT
             </summary>
         </member>
-        <member name="T:Unified.Firmware.FirmwareInterface">
+        <member name="M:Unified.Firmware.FirmwareEnvironment.ReadStringVariable(System.String,Unified.Firmware.VariableAttributes@)">
             <summary>
-            
+            Retrieves the value of a environment variable as a string.
             </summary>
+            <remarks>
+            The returned value is read from the environment. If the specified variable is not found, the method returns null.
+            This method allocates and frees unmanaged memory internally, callers do not need to manage memory for the returned string.
+            </remarks>
+            <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
+            <param name="attributes"></param>
+            <returns>A string containing the value of the specified environment variable, or null if the variable does not exist.</returns>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.WriteStringVariable(System.String,System.String,Unified.Firmware.VariableAttributes)">
+            <summary>
+            Sets a environment variable with the specified name to the provided string value.
+            </summary>
+            <remarks>
+            The variable is set globally and may affect other processes or components that read environment variables.
+            The value is stored as a Unicode string. Ensure that the variable name and value conform to any platform-specific restrictions.
+            </remarks>
+            <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The string value to assign to the environment variable. Cannot be null.</param>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.ReadVariable``1(System.String,Unified.Firmware.VariableAttributes@)">
+            <summary>
+            Retrieves the value of a environment variable and returns it as a value type.
+            </summary>
+            <remarks>
+            This method reads the variable from the environment and marshals it to the specified value type.
+            The caller must ensure that the variable exists and is compatible with the requested type.
+            If the variable does not exist or cannot be marshaled to type T, the result may be undefined.
+            </remarks>
+            <typeparam name="T">The value type to which the environment variable will be marshaled. Must be a struct.</typeparam>
+            <param name="varName">The name of the environment variable to read. Cannot be null or empty.</param>
+            <returns>The value of the specified environment variable, marshaled to type T.</returns>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.WriteVariable``1(System.String,``0,Unified.Firmware.VariableAttributes)">
+            <summary>
+            Writes a value of a specified struct type to a environment variable identified by name.
+            </summary>
+            <remarks>
+            This method stores the value as a binary representation using unmanaged memory.
+            The caller should ensure that the variable name is unique and valid within the environment.
+            Only value types (structs) are supported.</remarks>
+            <typeparam name="T">The struct type of the value to write to the environment variable.</typeparam>
+            <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The value to assign to the environment variable.</param>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.ReadArrayVariable``1(System.String,Unified.Firmware.VariableAttributes@)">
+            <summary>
+            Retrieves the value of a environment variable as an array of value type elements.
+            </summary>
+            <remarks>
+            The method reads the raw memory of the environment variable and interprets it as an array of the specified value type.
+            Use this method only when the variable is known to contain binary data compatible with the type T.
+            The caller is responsible for ensuring the variable's format matches the expected type.
+            </remarks>
+            <typeparam name="T">The value type of the elements to read from the environment variable.</typeparam>
+            <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
+            <param name="attributes"></param>
+            <returns>An array of elements of type T containing the values stored in the specified environment variable. The array
+            will be empty if the variable contains no data.</returns>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.WriteArrayVariable``1(System.String,``0[],Unified.Firmware.VariableAttributes)">
+            <summary>
+            Writes a environment variable as an array of value type elements.
+            </summary>
+            <remarks>
+            This method pins the array in memory and writes its contents to the specified environment variable.
+            The variable is set as a contiguous block of memory representing the array.
+            Use caution when passing large arrays, as this operation involves unmanaged memory handling.
+            </remarks>
+            <typeparam name="T">The value type of the elements in the array to be written.</typeparam>
+            <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
+            <param name="Value">The array of value type elements to write. Cannot be null and must contain at least one element.</param>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.PinnedMemoryToArray``1(System.IntPtr,System.Int32)">
+            <summary>
+            Converts a pointer to pinned memory into a managed array of type T.
+            </summary>
+            <typeparam name="T">The type of the struct.</typeparam>
+            <param name="memory">The pointer to the memory.</param>
+            <param name="length">The number of elements to read.</param>
+            <returns>An array containing the data from the memory.</returns>
+        </member>
+        <member name="T:Unified.Firmware.FirmwareEnvironmentException">
+            <summary>
+            Represents an error that occurred while working with UEFI
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor(System.String,System.Exception)">
+            <summary>
+            Represents an error that occurred while working with UEFI
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor(System.String)">
+            <inheritdoc/>
         </member>
         <member name="P:Unified.Firmware.FirmwareInterface.Available">
             <summary>
@@ -273,162 +335,35 @@
             Boot into the UEFI user interface after rebooting the computer. Does NOT reboot the computer, but sets the boot condition
             </summary>
         </member>
-        <member name="T:Unified.Firmware.FirmwareUtilities">
+        <member name="M:Unified.Firmware.IFirmwareBackend.CheckFirmwareAvailablity">
             <summary>
-            Features for interacting with UEFI
+            Checks whether the UEFI platform is available on this system
+            </summary>
+            <returns>If available, return <see langword="true"/>, else <see langword="false"/></returns>
+        </member>
+        <member name="M:Unified.Firmware.IFirmwareBackend.FindEfiSystemPartition">
+            <summary>
+            Seraches fro GUID identifier of the system EFI partition.
+            This is a unique identifier assigned to the partition when it is created,
+            and can be used to identify the partition among other partitions on the same disk.
+            It is not related to the partition type, and is not a constant value.
+            It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
             </summary>
         </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.CheckFirmwareAvailablity">
+        <member name="M:Unified.Firmware.IFirmwareBackend.ReadEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes@,System.Int32,System.UInt32@)">
             <summary>
-            Determines whether firmware environment variable functionality is available on the current system.
+            Gets the value of an environment variable with the specified name and attributes from the specified environment.
             </summary>
-            <remarks>
-            Firmware environment variables are typically used for advanced system configuration and are
-            only supported on certain platforms, such as Windows running on UEFI firmware. This method can be used to check
-            for support before attempting operations that require firmware environment variables.
-            </remarks>
-            <returns>true if firmware environment variable support is available; otherwise, false.</returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.ReadStringVariable(System.String)">
-            <summary>
-            Retrieves the value of a global environment variable as a string.
-            </summary>
-            <remarks>
-            The returned value is read from the global environment. If the specified variable is not found, the method returns null.
-            This method allocates and frees unmanaged memory internally, callers do not need to manage memory for the returned string.
-            </remarks>
-            <param name="VarName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
-            <returns>A string containing the value of the specified environment variable, or null if the variable does not exist.</returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.WriteStringVariable(System.String,System.String)">
-            <summary>
-            Sets a global environment variable with the specified name to the provided string value.
-            </summary>
-            <remarks>
-            The variable is set globally and may affect other processes or components that read environment variables.
-            The value is stored as a Unicode string. Ensure that the variable name and value conform to any platform-specific restrictions.
-            </remarks>
-            <param name="VarName">The name of the environment variable to set. Cannot be null or empty.</param>
-            <param name="Value">The string value to assign to the environment variable. Cannot be null.</param>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.ReadVariable``1(System.String)">
-            <summary>
-            Retrieves the value of a global environment variable and returns it as a value type.
-            </summary>
-            <remarks>
-            This method reads the variable from the global environment and marshals it to the specified value type.
-            The caller must ensure that the variable exists and is compatible with the requested type.
-            If the variable does not exist or cannot be marshaled to type T, the result may be undefined.
-            </remarks>
-            <typeparam name="T">The value type to which the environment variable will be marshaled. Must be a struct.</typeparam>
-            <param name="VarName">The name of the global environment variable to read. Cannot be null or empty.</param>
-            <returns>The value of the specified environment variable, marshaled to type T.</returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.WriteVariable``1(System.String,``0)">
-            <summary>
-            Writes a value of a specified struct type to a global environment variable identified by name.
-            </summary>
-            <remarks>
-            This method stores the value as a binary representation using unmanaged memory.
-            The caller should ensure that the variable name is unique and valid within the global environment.
-            Only value types (structs) are supported.</remarks>
-            <typeparam name="T">The struct type of the value to write to the environment variable.</typeparam>
-            <param name="VarName">The name of the global environment variable to set. Cannot be null or empty.</param>
-            <param name="Value">The value to assign to the environment variable.</param>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.ReadArrayVariable``1(System.String)">
-            <summary>
-            Retrieves the value of a global environment variable as an array of value type elements.
-            </summary>
-            <remarks>
-            The method reads the raw memory of the environment variable and interprets it as an array of the specified value type.
-            Use this method only when the variable is known to contain binary data compatible with the type T.
-            The caller is responsible for ensuring the variable's format matches the expected type.
-            </remarks>
-            <typeparam name="T">The value type of the elements to read from the environment variable.</typeparam>
-            <param name="VarName">The name of the global environment variable to retrieve. Cannot be null or empty.</param>
-            <returns>An array of elements of type T containing the values stored in the specified environment variable. The array
-            will be empty if the variable contains no data.</returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.WriteArrayVariable``1(System.String,``0[])">
-            <summary>
-            Writes a global environment variable as an array of value type elements.
-            </summary>
-            <remarks>
-            This method pins the array in memory and writes its contents to the specified global environment variable.
-            The variable is set as a contiguous block of memory representing the array.
-            Use caution when passing large arrays, as this operation involves unmanaged memory handling.
-            </remarks>
-            <typeparam name="T">The value type of the elements in the array to be written.</typeparam>
-            <param name="VarName">The name of the global environment variable to set. Cannot be null or empty.</param>
-            <param name="Value">The array of value type elements to write. Cannot be null and must contain at least one element.</param>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.SetGlobalEnvironmentVariable(System.String,System.IntPtr,System.Int32)">
-            <summary>
-            Sets a global environment variable with the specified name and value pointer.
-            </summary>
-            <remarks>
-            This method sets a global environment variable using a native identifier. Use this method
-            when you need to update environment variables that are shared across the firmware or system context. The caller
-            is responsible for ensuring that the pointer and size are valid and that the memory referenced remains
-            accessible for the duration required by the environment.
-            </remarks>
-            <param name="VarName">The name of the environment variable to set. Cannot be null or empty.</param>
-            <param name="Value">A pointer to the value to assign to the environment variable.</param>
-            <param name="PtrSize">The size, in bytes, of the value pointed. Must be greater than zero.</param>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.GetGlobalEnvironmentVariable(System.String,System.Int32@,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="VarName"></param>
-            <param name="DataLength"></param>
-            <param name="VarSize"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.SetGlobalEnvironmentVariableEx(System.String,Unified.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="VarName"></param>
+            <param name="varName"></param>
+            <param name="environmentIdentificator"></param>
             <param name="attributes"></param>
-            <param name="Value"></param>
-            <param name="PtrSize"></param>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.GetGlobalEnvironmentVariableEx(System.String,Unified.Firmware.VariableAttributes@,System.Int32@,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="VarName"></param>
-            <param name="attributes"></param>
-            <param name="DataLength"></param>
-            <param name="VarSize"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.SetEnvironmentVariable(System.String,System.Guid,System.IntPtr,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="VarName"></param>
-            <param name="EnvironmentIdentificator"></param>
-            <param name="Value"></param>
-            <param name="PtrSize"></param>
-            <exception cref="T:System.PlatformNotSupportedException"></exception>
-            <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.GetEnvironmentVariable(System.String,System.Guid,System.Int32@,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="VarName"></param>
-            <param name="EnvironmentIdentificator"></param>
-            <param name="DataLength"></param>
-            <param name="VarSize"></param>
+            <param name="bufferSize"></param>
+            <param name="dataSize"></param>
             <returns></returns>
             <exception cref="T:System.PlatformNotSupportedException"></exception>
             <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
         </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.SetEnvironmentVariableEx(System.String,System.Guid,Unified.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
+        <member name="M:Unified.Firmware.IFirmwareBackend.WriteEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
             <summary>
             Sets the value of an environment variable with the specified name and attributes in the specified environment.
             The variable is stored in non-volatile memory and will persist across system reboots.
@@ -436,47 +371,177 @@
             The attributes parameter specifies the attributes of the variable, such as whether it is read-only or can be accessed from user mode.
             The value parameter is a pointer to a buffer that contains the data to be stored in the variable, and ptrSize specifies the size of the buffer in bytes.
             </summary>
-            <param name="VarName"></param>
-            <param name="EnvironmentIdentificator"></param>
+            <param name="varName"></param>
+            <param name="environmentIdentificator"></param>
             <param name="attributes"></param>
-            <param name="Value"></param>
-            <param name="PtrSize"></param>
+            <param name="valueBuffer"></param>
+            <param name="bufferSize"></param>
             <exception cref="T:System.PlatformNotSupportedException"></exception>
             <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
         </member>
-        <member name="M:Unified.Firmware.FirmwareUtilities.GetEnvironmentVariableEx(System.String,System.Guid,Unified.Firmware.VariableAttributes@,System.Int32@,System.Int32)">
+        <member name="T:Unified.Firmware.OsIndications">
             <summary>
-            Gets the value of an environment variable with the specified name and attributes from the specified environment.
+            The firmware and an Operating System may exchange information through the OsIndicationsSupported and the OSIndications variables as follows
             </summary>
-            <param name="VarName"></param>
-            <param name="EnvironmentIdentificator"></param>
-            <param name="attributes"></param>
-            <param name="DataLength"></param>
-            <param name="VarSize"></param>
-            <returns></returns>
-            <exception cref="T:System.PlatformNotSupportedException"></exception>
-            <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
         </member>
-        <member name="T:Unified.Firmware.FirmwareUtilities.SystemEnvironmentPriviledge">
+        <member name="F:Unified.Firmware.OsIndications.None">
             <summary>
-            Manages the temporary elevation of the current process to enable the system environment privilege.
+            Nothing
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.BOOT_TO_FW_UI">
+            <summary>
+            Once the firmware consumes this bit in the OsIndications variable and stops at the firmware user interface
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.TIMESTAMP_REVOCATION">
+            <summary>
+            If the firmware supports timestamp based revocation and the � dbt � uthorized timestamp database variable.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.FILE_CAPSULE_DELIVERY_SUPPORTED">
+            <summary>
+            When submitting capsule via the Mass Storage Device method of Delivery of Capsules via file on Mass Storage Device, the bit EFI_OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED in OsIndications variable must be set by submitter to trigger processing of submitted capsule on next reboot
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.FMP_CAPSULE_SUPPORTED">
+            <summary>
+            If platform supports processing of Firmware Management Protocol update capsule as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/23_Firmware_Update_and_Reporting.html#dependency-expression-instruction-set">Dependency Expression Instruction Set</see>
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.CAPSULE_RESULT_VAR_SUPPORTED">
+            <summary>
+            If platform supports reporting of deferred capsule processing by creation of result variable as defined in <see href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#uefi-variable-reporting-on-the-success-or-any-errors-encountered-in-processing-of-capsules-after-restart">UEFI variable reporting on the Success or any Errors encountered in processing of capsules after restart</see>
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.START_OS_RECOVERY">
+            <summary>
+            Indicate that OS-defined recovery should commence upon reboot
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.START_PLATFORM_RECOVERY">
+            <summary>
+            Indicate that Platform-defined recovery should commence upon reboot
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.OsIndications.JSON_CONFIG_DATA_REFRESH">
+            <summary>
+            Bit is set in the OsIndications variable by submitter to trigger collecting current configuration and reporting the refreshed data to EFI System Configuration Table on next boot
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.LinuxPlatfromBackend.CheckFirmwareAvailablity">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.LinuxPlatfromBackend.FindEfiSystemPartition">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.LinuxPlatfromBackend.ReadEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes@,System.Int32,System.UInt32@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.LinuxPlatfromBackend.WriteEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32PlatformBackend.CheckFirmwareAvailablity">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32PlatformBackend.FindEfiSystemPartition">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32PlatformBackend.ReadEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes@,System.Int32,System.UInt32@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32PlatformBackend.WriteEnvironmentVariable(System.String,System.Guid,Unified.Firmware.VariableAttributes,System.IntPtr,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable">
+            <summary>
+            Enumerable collection of volumes by physical hard drive index
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable.GetEnumerator">
+            <summary>
+            Create new instance of <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable"/>'s enumerator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable.#ctor(System.Int32)">
+            <summary>
+            Create new instance of <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable"/>
+            </summary>
+            <param name="DriveIndex"></param>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation">
+            <summary>
+            Provides methods for retrieving volume information using IOCTL commands.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation.GetPartition(Unified.Firmware.VolumePath)">
+            <summary>
+            Retrieves extended partition information for the specified volume.
+            </summary>
+            <param name="volumePath">The path to the volume.</param>
+            <returns>A <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.PARTITION_INFORMATION_EX"/> structure containing the partition information.</returns>
+            <exception cref="T:System.ComponentModel.Win32Exception">Thrown when the partition descriptor cannot be opened or the information cannot be retrieved.</exception>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute">
+            <summary>
+            The Extensible Firmware Interface (EFI) attributes of the partition.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute.PlatformRequired">
+            <summary>
+            If this attribute is set, the partition is required by a computer to function properly. 
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute.NoDriveLetter">
+            <summary>
+            If this attribute is set, the partition does not receive a drive letter by default when the disk is moved to another computer or when the disk is seen for the first time by a computer. 
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute.Hidden">
+            <summary>
+            If this attribute is set, the partition is not detected by the Mount Manager. 
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute.ShadowCopy">
+            <summary>
+            If this attribute is set, the partition is a shadow copy of another partition.
+            </summary>
+        </member>
+        <member name="F:Unified.Firmware.PlatformBackend.Win32Platform.EfiPartitionAttribute.ReadOnly">
+            <summary>
+            If this attribute is set, the partition is read-only. 
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.PartitionStyle">
+            <summary>
+            Specifies the partition style used on a disk, such as Master Boot Record (MBR), GUID Partition Table (GPT), or raw (uninitialized).
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.DRIVE_LAYOUT_INFORMATION_EX">
+            <summary>
+            Contains extended information about a drive's partitions.
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.PARTITION_INFORMATION_GPT">
+            <summary>
+            Contains GUID partition table (GPT) partition information.
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.PARTITION_INFORMATION_EX">
+            <summary>
+            Contains information about a disk partition.
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.SystemEnvironmentPrivilege">
+            <summary>
+            Manages the temporary elevation of the current thread to enable the system environment privilege.
             </summary>
             <remarks>
-            This class acquires the system environment privilege for the lifetime of the instance and reverts the privilege when disposed.
-            It is intended for use with a using statement to ensure proper privilege management and resource cleanup.
-            This class is not thread-safe.
+            This class acquires the system environment privilege for the lifetime of the instance on the CURRENT THREAD ONLY 
+            and reverts the privilege when disposed. It supports nested calls on the same thread via a reference counter.
+            WARNING: Because this relies on OS thread tokens, DO NOT use this across `await` points in async methods.
             </remarks>
-        </member>
-        <member name="T:Unified.Firmware.FirmwareEnvironmentException">
-            <summary>
-            Represents an error that occurred while working with UEFI
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor(System.String,System.Exception)">
-            <inheritdoc/>
         </member>
         <member name="T:Unified.Firmware.SystemPartition.EfiExecutableInfo">
             <summary>
@@ -579,13 +644,6 @@
             Full path to the system EFI partition, in the form of "\\?\Volume{GUID}\".
             This path can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
             Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Unified.Firmware.SystemPartition.EfiPartition.PartitionInfo">
-            <summary>
-            Get volume information for system EFI partition.
-            Avoid using this propert, unless you need to access the partition's low-level properties that are not provided by <see cref="P:Unified.Firmware.SystemPartition.EfiPartition.VolumePath"/>, like partition length or starting offset.
             </summary>
             <returns></returns>
         </member>
@@ -775,144 +833,6 @@
             Converts a <see cref="T:Unified.Firmware.VolumePath"/> instance to a <see cref="T:System.IO.DirectoryInfo"/> representing the same file system path.
             </summary>
             <param name="path">The <see cref="T:Unified.Firmware.VolumePath"/> to convert to a <see cref="T:System.IO.DirectoryInfo"/>.</param>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.IoctlVolumeEnumerable">
-            <summary>
-            Enumerable collection of volumes by physical hard drive index
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.IoctlVolumeEnumerable.GetEnumerator">
-            <summary>
-            Create new instance of <see cref="T:Unified.Firmware.Win32Native.IoctlVolumeEnumerable"/>'s enumerator
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.IoctlVolumeEnumerable.#ctor(System.Int32)">
-            <summary>
-            Create new instance of <see cref="T:Unified.Firmware.Win32Native.IoctlVolumeEnumerable"/>
-            </summary>
-            <param name="DriveIndex"></param>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.IoctlVolumeInformation">
-            <summary>
-            Provides methods for retrieving volume information using IOCTL commands.
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.IoctlVolumeInformation.GetPartition(Unified.Firmware.VolumePath)">
-            <summary>
-            Retrieves extended partition information for the specified volume.
-            </summary>
-            <param name="volumePath">The path to the volume.</param>
-            <returns>A <see cref="T:Unified.Firmware.Win32Native.PARTITION_INFORMATION_EX"/> structure containing the partition information.</returns>
-            <exception cref="T:System.ComponentModel.Win32Exception">Thrown when the partition descriptor cannot be opened or the information cannot be retrieved.</exception>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.MarshalExtensions">
-            <summary>
-            Provides extension methods for marshalling data.
-            </summary>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.PinnedMemoryToArray``1(System.IntPtr,System.Int32)">
-            <summary>
-            Converts a pointer to pinned memory into a managed array of type T.
-            </summary>
-            <typeparam name="T">The type of the struct.</typeparam>
-            <param name="memory">The pointer to the memory.</param>
-            <param name="length">The number of elements to read.</param>
-            <returns>An array containing the data from the memory.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.WriteCstyleWideString(System.IO.BinaryWriter,System.String)">
-            <summary>
-            Writes a C-style null-terminated wide string to the binary writer.
-            </summary>
-            <param name="writer">The binary writer.</param>
-            <param name="value">The string to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.ReadCstyleWideString(System.IO.BinaryReader)">
-            <summary>
-            Reads a C-style null-terminated wide string from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The read string.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.GetCstyleWideStringLength(System.String)">
-            <summary>
-            Calculates the byte length of a C-style wide string, including the null terminator.
-            </summary>
-            <param name="value">The string value.</param>
-            <returns>The length in bytes.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.ReadRemainingBytes(System.IO.BinaryReader)">
-            <summary>
-            Reads all remaining bytes from the current stream position.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The remaining bytes.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.WriteGuid(System.IO.BinaryWriter,System.Guid)">
-            <summary>
-            Writes a GUID to the binary writer.
-            </summary>
-            <param name="writer">The binary writer.</param>
-            <param name="guid">The GUID to write.</param>
-            <returns>The binary writer.</returns>
-        </member>
-        <member name="M:Unified.Firmware.Win32Native.MarshalExtensions.ReadGuid(System.IO.BinaryReader)">
-            <summary>
-            Reads a GUID from the binary reader.
-            </summary>
-            <param name="reader">The binary reader.</param>
-            <returns>The read GUID.</returns>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.EfiPartitionAttribute">
-            <summary>
-            The Extensible Firmware Interface (EFI) attributes of the partition.
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.Win32Native.EfiPartitionAttribute.GPT_ATTRIBUTE_PLATFORM_REQUIRED">
-            <summary>
-            If this attribute is set, the partition is required by a computer to function properly. 
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_NO_DRIVE_LETTER">
-            <summary>
-            If this attribute is set, the partition does not receive a drive letter by default when the disk is moved to another computer or when the disk is seen for the first time by a computer. 
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_HIDDEN">
-            <summary>
-            If this attribute is set, the partition is not detected by the Mount Manager. 
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_SHADOW_COPY">
-            <summary>
-            If this attribute is set, the partition is a shadow copy of another partition.
-            </summary>
-        </member>
-        <member name="F:Unified.Firmware.Win32Native.EfiPartitionAttribute.GPT_BASIC_DATA_ATTRIBUTE_READ_ONLY">
-            <summary>
-            If this attribute is set, the partition is read-only. 
-            </summary>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.PartitionStyle">
-            <summary>
-            Specifies the partition style used on a disk, such as Master Boot Record (MBR), GUID Partition Table (GPT), or raw (uninitialized).
-            </summary>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.DRIVE_LAYOUT_INFORMATION_EX">
-            <summary>
-            Contains extended information about a drive's partitions.
-            </summary>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.PARTITION_INFORMATION_GPT">
-            <summary>
-            Contains GUID partition table (GPT) partition information.
-            </summary>
-        </member>
-        <member name="T:Unified.Firmware.Win32Native.PARTITION_INFORMATION_EX">
-            <summary>
-            Contains information about a disk partition.
-            </summary>
         </member>
     </members>
 </doc>

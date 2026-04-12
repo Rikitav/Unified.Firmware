@@ -159,9 +159,9 @@
             Type of Disk Signature: (Unused values reserved) 0x00 - No Disk Signature. 0x01 - 32-bit signature from address 0x1b8 of the type 0x01 MBR. 0x02 - GUID signature.
             </summary>
         </member>
-        <member name="M:Unified.Firmware.BootService.Protocols.HardDriveProtocol.#ctor(Unified.Firmware.Win32Native.PARTITION_INFORMATION_EX)">
+        <member name="M:Unified.Firmware.BootService.Protocols.HardDriveProtocol.#ctor(Unified.Firmware.PlatformBackend.Win32Platform.PARTITION_INFORMATION_EX)">
             <summary>
-            Create new <see cref="T:Unified.Firmware.BootService.Protocols.HardDriveProtocol"/> protocol instance from <see cref="T:Unified.Firmware.Win32Native.PARTITION_INFORMATION_EX"/> structure
+            Create new <see cref="T:Unified.Firmware.BootService.Protocols.HardDriveProtocol"/> protocol instance from <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.PARTITION_INFORMATION_EX"/> structure
             </summary>
             <param name="partition"></param>
             <exception cref="T:System.IO.InvalidDataException"></exception>

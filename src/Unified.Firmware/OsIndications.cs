@@ -29,8 +29,13 @@ namespace Unified.Firmware;
 /// The firmware and an Operating System may exchange information through the OsIndicationsSupported and the OSIndications variables as follows
 /// </summary>
 [Flags]
-public enum EfiOsIindications : long
+public enum OsIndications : long
 {
+    /// <summary>
+    /// Nothing
+    /// </summary>
+    None = 0,
+
     /// <summary>
     /// Once the firmware consumes this bit in the OsIndications variable and stops at the firmware user interface
     /// </summary>

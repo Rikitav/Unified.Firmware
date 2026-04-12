@@ -21,9 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Unified.Firmware.Win32Native;
-using System.IO;
 using System;
+using System.IO;
+using Unified.Firmware.BootService.Marshalling;
 
 namespace Unified.Firmware.BootService.Protocols;
 

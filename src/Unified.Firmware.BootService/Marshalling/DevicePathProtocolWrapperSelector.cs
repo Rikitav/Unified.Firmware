@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Unified.Firmware.BootService.Protocols;
 
-namespace Unified.Firmware.BootService.Win32Native;
+namespace Unified.Firmware.BootService.Marshalling;
 
 /// <summary>
 /// An assistant class that tells the marshaler what type to use to represent the native <see cref="EFI_DEVICE_PATH_PROTOCOL"/> structure

@@ -24,21 +24,29 @@
 using Unified.Firmware.SystemPartition;
 using System;
 using System.IO;
+using Unified.Firmware.PlatformBackend;
 
 namespace Unified.Firmware;
 
-/// <summary>
-/// 
-/// </summary>
 public static class FirmwareInterface
 {
+    public static IFirmwareBackend CurrentBackend
+    {
+        get => field ??= Environment.OSVersion.Platform switch
+        {
+            PlatformID.Win32NT => new Win32PlatformBackend(),
+            //PlatformID.Unix => new LinuxPlatfromBackend(),
+            _ => throw new PlatformNotSupportedException()
+        };
+    }
+
     /// <summary>
     /// Checks whether the UEFI platform is available on this system
     /// </summary>
     /// <returns>If available, return <see langword="true"/>, else <see langword="false"/></returns>
     public static bool Available
     {
-        get => FirmwareUtilities.CheckFirmwareAvailablity();
+        get => CurrentBackend.CheckFirmwareAvailablity();
     }
 
     /// <summary>
@@ -64,9 +72,9 @@ public static class FirmwareInterface
         if (!Available)
             throw new PlatformNotSupportedException("This system does not support UEFI, or is loaded in LEGACY mode");
 
-        if (!FirmwareGlobalEnvironment.OsIndicationsSupported.HasFlag(EfiOsIindications.BOOT_TO_FW_UI))
+        if (!FirmwareEnvironment.Global.OsIndicationsSupported.HasFlag(OsIndications.BOOT_TO_FW_UI))
             throw new PlatformNotSupportedException("Current UEFI platform does not support force reboot in Firmware UI");
 
-        FirmwareGlobalEnvironment.OsIndications |= EfiOsIindications.BOOT_TO_FW_UI;
+        FirmwareEnvironment.Global.OsIndications |= OsIndications.BOOT_TO_FW_UI;
     }
 }

@@ -1,4 +1,4 @@
-// The MIT License (MIT)
+﻿// The MIT License (MIT)
 // 
 // Unified.Firmware
 // Copyright 2026 © Rikitav Tim4ik
@@ -21,42 +21,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.IO;
-using Unified.Firmware.BootService.Marshalling;
+using System;
 
-namespace Unified.Firmware.BootService.Protocols;
+namespace Unified.Firmware.PlatformBackend;
 
-/// <summary>
-/// File Path Media Device Path
-/// https://uefi.org/specs/UEFI/2.10/10_Protocols_Device_Path_Protocol.html#file-path-media-device-path
-/// </summary>
-[DefineDevicePathProtocol(DeviceProtocolType.Media, 4)]
-public sealed class FilePathProtocol() : DevicePathProtocolBase(DeviceProtocolType.Media, 4)
+internal class LinuxPlatfromBackend : IFirmwareBackend
 {
-    /// <summary>
-    /// A NULL-terminated Path string including directory and file name.
-    /// </summary>
-    public string PathName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Create new <see cref="FilePathProtocol"/> protocol instance from file path
-    /// </summary>
-    public FilePathProtocol(string pathName) : this()
-        => PathName = pathName;
+    /// <inheritdoc/>
+    public bool CheckFirmwareAvailablity() => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public override ushort GetSerializationDataLength()
-        => PathName.GetCstyleWideStringLength();
+    public Guid FindEfiSystemPartition() => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public override void Deserialize(BinaryReader reader, ushort length)
-        => PathName = reader.ReadCstyleWideString();
+    public IntPtr ReadEnvironmentVariable(string varName, Guid environmentIdentificator, out VariableAttributes attributes, int bufferSize, out uint dataSize) => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public override void Serialize(BinaryWriter writer)
-        => writer.WriteCstyleWideString(PathName);
-
-    /// <inheritdoc/>
-    public override string ToString()
-        => PathName;
+    public void WriteEnvironmentVariable(string varName, Guid environmentIdentificator, VariableAttributes attributes, IntPtr valueBuffer, int bufferSize) => throw new NotImplementedException();
 }

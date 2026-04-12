@@ -25,7 +25,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Unified.Firmware.BootService.Win32Native;
+namespace Unified.Firmware.BootService.Marshalling;
 
 internal class MemoryPointerStream : Stream, IDisposable
 {
@@ -85,6 +85,9 @@ internal class MemoryPointerStream : Stream, IDisposable
 
     public override int Read(byte[] buffer, int offset, int count)
     {
+        if (_CurPos == Length)
+            throw new EndOfStreamException();
+
         if (_CurPos + count > Length)
             throw new ArgumentOutOfRangeException();
 
