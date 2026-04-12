@@ -1,18 +1,25 @@
+// The MIT License (MIT)
+// 
 // Unified.Firmware
-// Copyright (C) 2024 Rikitav
+// Copyright 2026 © Rikitav Tim4ik
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the “Software”), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 // 
-// You should have received a copy of the GNU General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
+// THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 using Unified.Firmware.Win32Native;
 using System;
@@ -181,7 +188,7 @@ public static class FirmwareUtilities
     /// <param name="Value">A pointer to the value to assign to the environment variable.</param>
     /// <param name="PtrSize">The size, in bytes, of the value pointed. Must be greater than zero.</param>
     public static void SetGlobalEnvironmentVariable(string VarName, IntPtr Value, int PtrSize)
-        => SetEnvironmentVariable(VarName, NativeMethods._FirmwareGlobalEnvironmentIdentificator, Value, PtrSize);
+        => SetEnvironmentVariable(VarName, NativeMethods.FirmwareGlobalEnvironmentIdentifier, Value, PtrSize);
 
     /// <summary>
     /// 
@@ -191,7 +198,7 @@ public static class FirmwareUtilities
     /// <param name="VarSize"></param>
     /// <returns></returns>
     public static IntPtr GetGlobalEnvironmentVariable(string VarName, out int DataLength, int VarSize = 4)
-        => GetEnvironmentVariable(VarName, NativeMethods._FirmwareGlobalEnvironmentIdentificator, out DataLength, VarSize);
+        => GetEnvironmentVariable(VarName, NativeMethods.FirmwareGlobalEnvironmentIdentifier, out DataLength, VarSize);
 
     /// <summary>
     /// 
@@ -201,7 +208,7 @@ public static class FirmwareUtilities
     /// <param name="Value"></param>
     /// <param name="PtrSize"></param>
     public static void SetGlobalEnvironmentVariableEx(string VarName, VariableAttributes attributes, IntPtr Value, int PtrSize)
-        => SetEnvironmentVariableEx(VarName, NativeMethods._FirmwareGlobalEnvironmentIdentificator, attributes, Value, PtrSize);
+        => SetEnvironmentVariableEx(VarName, NativeMethods.FirmwareGlobalEnvironmentIdentifier, attributes, Value, PtrSize);
 
     /// <summary>
     /// 
@@ -212,7 +219,7 @@ public static class FirmwareUtilities
     /// <param name="VarSize"></param>
     /// <returns></returns>
     public static IntPtr GetGlobalEnvironmentVariableEx(string VarName, out VariableAttributes attributes, out int DataLength, int VarSize = 4)
-        => GetEnvironmentVariableEx(VarName, NativeMethods._FirmwareGlobalEnvironmentIdentificator, out attributes, out DataLength, VarSize);
+        => GetEnvironmentVariableEx(VarName, NativeMethods.FirmwareGlobalEnvironmentIdentifier, out attributes, out DataLength, VarSize);
 
     /// <summary>
     /// 
@@ -231,7 +238,7 @@ public static class FirmwareUtilities
         try
         {
             // Execution and error check
-            using (new SystemEnvironmentPriviledge())
+            using (new SystemEnvironmentPrivilege())
             {
                 if (!NativeMethods.SetFirmwareEnvironmentVariableW(VarName, "{" + EnvironmentIdentificator.ToString() + "}", Value, PtrSize))
                 {
@@ -272,7 +279,7 @@ public static class FirmwareUtilities
             pointer = Marshal.AllocHGlobal(VarSize);
 
             // Reading variable
-            using (new SystemEnvironmentPriviledge())
+            using (new SystemEnvironmentPrivilege())
             {
                 DataLength = (int)NativeMethods.GetFirmwareEnvironmentVariableW(VarName, "{" + EnvironmentIdentificator.ToString() + "}", pointer, VarSize);
             }
@@ -317,7 +324,7 @@ public static class FirmwareUtilities
         try
         {
             // Execution and error check
-            using (new SystemEnvironmentPriviledge())
+            using (new SystemEnvironmentPrivilege())
             {
                 if (!NativeMethods.SetFirmwareEnvironmentVariableExW(VarName, "{" + EnvironmentIdentificator.ToString() + "}", Value, PtrSize, attributes))
                 {
@@ -359,7 +366,7 @@ public static class FirmwareUtilities
             pointer = Marshal.AllocHGlobal(VarSize);
 
             // Reading variable
-            using (new SystemEnvironmentPriviledge())
+            using (new SystemEnvironmentPrivilege())
                 DataLength = (int)NativeMethods.GetFirmwareEnvironmentVariableExW(VarName, "{" + EnvironmentIdentificator.ToString() + "}", pointer, VarSize, out attributes);
 
             // Error check
@@ -381,110 +388,211 @@ public static class FirmwareUtilities
     }
 
     /// <summary>
-    /// Manages the temporary elevation of the current process to enable the system environment privilege.
+    /// Manages the temporary elevation of the current thread to enable the system environment privilege.
     /// </summary>
     /// <remarks>
-    /// This class acquires the system environment privilege for the lifetime of the instance and reverts the privilege when disposed.
-    /// It is intended for use with a using statement to ensure proper privilege management and resource cleanup.
-    /// This class is not thread-safe.
+    /// This class acquires the system environment privilege for the lifetime of the instance on the CURRENT THREAD ONLY 
+    /// and reverts the privilege when disposed. It supports nested calls on the same thread via a reference counter.
+    /// WARNING: Because this relies on OS thread tokens, DO NOT use this across `await` points in async methods.
     /// </remarks>
-    private class SystemEnvironmentPriviledge : IDisposable
+    private sealed class SystemEnvironmentPrivilege : IDisposable
     {
-        private readonly IntPtr hToken = IntPtr.Zero;
-        private NativeMethods.TokenPrivelege tp = new NativeMethods.TokenPrivelege()
+        // ����������������� (������������� ��� ������� ������) ���������� ���������
+        [ThreadStatic]
+        private static int _referenceCount;
+
+        [ThreadStatic]
+        private static bool _impersonatedByUs;
+
+        [ThreadStatic]
+        private static NativeMethods.TokenPrivilege _previousState;
+
+        private bool _disposed;
+
+        public SystemEnvironmentPrivilege()
         {
-            Count = 1,
-            Luid = 0,
-            Attr = NativeMethods.SE_PRIVILEGE_ENABLED
-        };
+            if (_referenceCount == 0)
+            {
+                EnablePrivilege();
+            }
+            _referenceCount++;
+        }
 
-        public SystemEnvironmentPriviledge()
+        private void EnablePrivilege()
         {
-            // Getting process token
-            if (!NativeMethods.OpenProcessToken(NativeMethods.GetCurrentProcess(), NativeMethods.TOKEN_ADJUST_PRIVILEGES | NativeMethods.TOKEN_QUERY, ref hToken))
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to open process token");
+            IntPtr hToken = IntPtr.Zero;
+            _impersonatedByUs = false;
 
-            // Getting priviledge info
-            if (!NativeMethods.LookupPrivilegeValue(IntPtr.Zero, NativeMethods.SE_SYSTEM_ENVIRONMENT_NAME, ref tp.Luid))
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to lookup process privelage value");
+            // �������� �������� ����� �������� ������
+            if (!NativeMethods.OpenThreadToken(NativeMethods.GetCurrentThread(), NativeMethods.TOKEN_ADJUST_PRIVILEGES | NativeMethods.TOKEN_QUERY, true, out hToken))
+            {
+                int err = Marshal.GetLastWin32Error();
+                if (err == NativeMethods.ERROR_NO_TOKEN)
+                {
+                    // � ������ ��� ������ (�� ���������� ����� ��������). 
+                    // ������� ����� ������������� (impersonation token) ��� �������� ������.
+                    if (!NativeMethods.ImpersonateSelf(NativeMethods.SecurityImpersonationLevel.SecurityImpersonation))
+                        throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to impersonate self");
 
-            // Promoting process
-            if (!NativeMethods.AdjustTokenPrivileges(hToken, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero))
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to adjust process token");
+                    _impersonatedByUs = true;
+
+                    // ����� �������� �������� ����� ������
+                    if (!NativeMethods.OpenThreadToken(NativeMethods.GetCurrentThread(), NativeMethods.TOKEN_ADJUST_PRIVILEGES | NativeMethods.TOKEN_QUERY, true, out hToken))
+                        throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to open thread token after impersonation");
+                }
+                else
+                {
+                    throw new Win32Exception(err, "Failed to open thread token");
+                }
+            }
+
+            try
+            {
+                NativeMethods.TokenPrivilege tp = new NativeMethods.TokenPrivilege
+                {
+                    Count = 1,
+                    Attr = NativeMethods.SE_PRIVILEGE_ENABLED
+                };
+
+                // �������� LUID ��� ����������
+                if (!NativeMethods.LookupPrivilegeValue(null, NativeMethods.SE_SYSTEM_ENVIRONMENT_NAME, ref tp.Luid))
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to lookup privilege value");
+
+                _previousState = new NativeMethods.TokenPrivilege();
+
+                // �������� ���������� ��� ������ ������, �������� ���������� ���������
+                if (!NativeMethods.AdjustTokenPrivileges(hToken, false, ref tp, Marshal.SizeOf<NativeMethods.TokenPrivilege>(), ref _previousState, out _))
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to adjust thread token privileges");
+
+                // AdjustTokenPrivileges ����� ������� true, �� �� ��������� ����������, ���� � ����� � � �������� ���
+                if (Marshal.GetLastWin32Error() == NativeMethods.ERROR_NOT_ALL_ASSIGNED)
+                    throw new Win32Exception(NativeMethods.ERROR_NOT_ALL_ASSIGNED, "The caller does not hold the SeSystemEnvironmentPrivilege");
+            }
+            finally
+            {
+                NativeMethods.CloseHandle(hToken);
+            }
         }
 
         public void Dispose()
         {
-            // Changing privilege state
-            tp.Attr = 0;
+            if (_disposed)
+                return;
 
-            // Degrade process
-            if (!NativeMethods.AdjustTokenPrivileges(hToken, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero))
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Failed to adjust process token");
+            if (_referenceCount > 0)
+            {
+                _referenceCount--;
 
-            // Freeing process handle
-            NativeMethods.CloseHandle(hToken);
+                if (_referenceCount == 0)
+                {
+                    RevertPrivilege();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        private void RevertPrivilege()
+        {
+            if (_impersonatedByUs)
+            {
+                // ���� �� ���� ��������� ����� ��� ������, ������ ���������� ��� � ������������ � ������ ��������
+                NativeMethods.RevertToSelf();
+            }
+            else
+            {
+                // ���� � ������ ��� ��� ����� �� ���, ���������� ��� ����������� ��������� �������
+                if (NativeMethods.OpenThreadToken(NativeMethods.GetCurrentThread(), NativeMethods.TOKEN_ADJUST_PRIVILEGES, true, out IntPtr hToken))
+                {
+                    try
+                    {
+                        NativeMethods.AdjustTokenPrivileges(hToken, false, ref _previousState, 0, IntPtr.Zero, out _);
+                    }
+                    finally
+                    {
+                        NativeMethods.CloseHandle(hToken);
+                    }
+                }
+            }
         }
     }
 
     private static class NativeMethods
     {
-        public static readonly Guid _FirmwareGlobalEnvironmentIdentificator = new Guid("8BE4DF61-93CA-11D2-AA0D-00E098032B8C");
+        public static readonly Guid FirmwareGlobalEnvironmentIdentifier = new Guid("8BE4DF61-93CA-11D2-AA0D-00E098032B8C");
         public const string SE_SYSTEM_ENVIRONMENT_NAME = "SeSystemEnvironmentPrivilege";
         public const int TOKEN_ADJUST_PRIVILEGES = 0x00000020;
         public const int TOKEN_QUERY = 0x00000008;
         public const int SE_PRIVILEGE_ENABLED = 0x00000002;
         public const int ERROR_INVALID_FUNCTION = 1;
+        public const int ERROR_NO_TOKEN = 1008;
+        public const int ERROR_NOT_ALL_ASSIGNED = 1300;
 
-        public static bool Promoted = false;
+        public enum SecurityImpersonationLevel
+        {
+            SecurityAnonymous,
+            SecurityIdentification,
+            SecurityImpersonation,
+            SecurityDelegation
+        }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
-        public static extern IntPtr GetCurrentProcess();
+        public static extern IntPtr GetCurrentThread();
 
-        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool OpenThreadToken(IntPtr ThreadHandle, int DesiredAccess, bool OpenAsSelf, out IntPtr TokenHandle);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool ImpersonateSelf(SecurityImpersonationLevel ImpersonationLevel);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool RevertToSelf();
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool CloseHandle(IntPtr hObject);
 
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool LookupPrivilegeValue(string host, string name, ref long pluid);
+
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool LookupPrivilegeValue(IntPtr host, string name, ref long pluid);
+        public static extern bool AdjustTokenPrivileges(IntPtr TokenHandle, bool DisableAllPrivileges, ref TokenPrivilege NewState, int BufferLength, ref TokenPrivilege PreviousState, out int ReturnLength);
 
-        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall, ref TokenPrivelege newst, int len, IntPtr prev, IntPtr prevlen);
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool AdjustTokenPrivileges(IntPtr TokenHandle, bool DisableAllPrivileges, ref TokenPrivilege NewState, int BufferLength, IntPtr PreviousState, out int ReturnLength);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        // ������ CallingConvention.Cdecl - WinAPI �� ��������� ���������� StdCall
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern uint GetFirmwareEnvironmentVariableExW(
-            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpGuid,
+            string lpName,
+            string lpGuid,
             IntPtr pBuffer,
             int nSize,
             out VariableAttributes Attributes);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool SetFirmwareEnvironmentVariableExW(
-            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpGuid,
+            string lpName,
+            string lpGuid,
             IntPtr pValue,
             int nSize,
             VariableAttributes Attributes);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern uint GetFirmwareEnvironmentVariableW(
-            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpGuid,
+            string lpName,
+            string lpGuid,
             IntPtr pBuffer,
             int nSize);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool SetFirmwareEnvironmentVariableW(
-            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpGuid,
+            string lpName,
+            string lpGuid,
             IntPtr pValue,
             int nSize);
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct TokenPrivelege
+        public struct TokenPrivilege
         {
             public int Count;
             public long Luid;
@@ -496,13 +604,13 @@ public static class FirmwareUtilities
 /// <summary>
 /// Represents an error that occurred while working with UEFI
 /// </summary>
-public class FirmwareEnvironmentException : Exception
+public class FirmwareEnvironmentException(string message, Exception? innerException = null) : Exception(message, innerException)
 {
     /// <inheritdoc/>
-    public FirmwareEnvironmentException(string Message)
-        : base(Message) { }
+    public FirmwareEnvironmentException()
+        : this(string.Empty, null) { }
 
     /// <inheritdoc/>
-    public FirmwareEnvironmentException(string Message, Exception inner)
-        : base(Message, inner) { }
+    public FirmwareEnvironmentException(string message)
+        : this(message, null) { }
 }
