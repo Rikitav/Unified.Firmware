@@ -54,6 +54,5 @@ public static class EfiPartition
     /// This path can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
     /// Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
     /// </summary>
-    /// <returns></returns>
     public static VolumePath VolumePath => _partitionInfo;
 }

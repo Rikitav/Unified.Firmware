@@ -73,7 +73,11 @@ internal class Win32PlatformBackend : IFirmwareBackend
             // Reading variable
             using (new SystemEnvironmentPrivilege())
             {
-                dataSize = NativeMethods.GetFirmwareEnvironmentVariableExW(varName, "{" + environmentIdentificator.ToString() + "}", varDataBuffer, bufferSize, out attributes);
+                dataSize = NativeMethods.GetFirmwareEnvironmentVariableExW(varName,
+                    "{" + environmentIdentificator.ToString() + "}",
+                    varDataBuffer,
+                    bufferSize,
+                    out attributes);
             }
 
             // Error check
@@ -81,6 +85,12 @@ internal class Win32PlatformBackend : IFirmwareBackend
             {
                 Marshal.FreeHGlobal(varDataBuffer);
                 int errorCode = Marshal.GetLastWin32Error();
+
+                /*
+                if (errorCode == NativeMethods.ERROR_ENVVAR_NOT_FOUND)
+                    return IntPtr.Zero;
+                */
+
                 throw new Win32Exception(errorCode);
             }
 
@@ -122,6 +132,7 @@ internal class Win32PlatformBackend : IFirmwareBackend
     private static class NativeMethods
     {
         public const int ERROR_INVALID_FUNCTION = 1;
+        public const int ERROR_ENVVAR_NOT_FOUND = 203;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool CloseHandle(IntPtr hObject);

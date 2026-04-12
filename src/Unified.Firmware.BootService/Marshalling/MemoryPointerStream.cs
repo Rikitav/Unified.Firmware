@@ -89,7 +89,7 @@ internal class MemoryPointerStream : Stream, IDisposable
             throw new EndOfStreamException();
 
         if (_CurPos + count > Length)
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException("Trying to read beyond the end of a chunk");
 
         for (int i = offset; i < count; i++)
             buffer[i] = Marshal.ReadByte(_Buffer, (int)_CurPos++);
@@ -100,7 +100,7 @@ internal class MemoryPointerStream : Stream, IDisposable
     public override void Write(byte[] buffer, int offset, int count)
     {
         if (_CurPos + count > Length)
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException("Trying to write beyond the end of a chunk");
 
         for (int i = offset; i < count; i++)
             Marshal.WriteByte(_Buffer, (int)_CurPos++, buffer[i]);
@@ -112,8 +112,11 @@ internal class MemoryPointerStream : Stream, IDisposable
         {
             case SeekOrigin.Begin:
                 {
+                    if (offset < 0)
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the start of a chunk");
+
                     if (offset > Length)
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the end of a chunk");
 
                     _CurPos = offset;
                     break;
@@ -121,8 +124,11 @@ internal class MemoryPointerStream : Stream, IDisposable
 
             case SeekOrigin.Current:
                 {
+                    if (offset < 0 && _CurPos + offset < 0)
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the start of a chunk");
+
                     if (_CurPos + offset > Length)
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the end of a chunk");
 
                     _CurPos += offset;
                     break;
@@ -130,8 +136,11 @@ internal class MemoryPointerStream : Stream, IDisposable
 
             case SeekOrigin.End:
                 {
+                    if (offset > 0)
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the end of a chunk");
+
                     if (offset > Length)
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("Trying to seek beyond the start of a chunk");
 
                     _CurPos = Length - offset;
                     break;

@@ -24,12 +24,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Unified.Firmware.BootService.LoadOption;
-using Unified.Firmware.BootService.UefiNative;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unified.Firmware.BootService.LoadOption;
 using Unified.Firmware.BootService.Marshalling;
+using Unified.Firmware.BootService.UefiNative;
+using Unified.Firmware.EnvironmentVendor;
 
 namespace Unified.Firmware.BootService;
 
@@ -72,7 +73,7 @@ public static class FirmwareBootService
         // Writing null variable to firmware
         FirmwareInterface.CurrentBackend.WriteEnvironmentVariable(
             loadOptionIndex.ToString(), // Boot####
-            FirmwareEnvironment.Global.VendorGuid,
+            FirmwareVendors.GlobalVariable,
             VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS,
             IntPtr.Zero, 0);
 
@@ -195,7 +196,7 @@ public static class FirmwareBootService
         // Getting variable data
         IntPtr pointer = FirmwareInterface.CurrentBackend.ReadEnvironmentVariable(
             loadOptionIndex.ToString(), // Boot####
-            FirmwareEnvironment.Global.VendorGuid,
+            FirmwareVendors.GlobalVariable,
             out _, 1024, out uint dataLength);
 
         return new BinaryReader(new MemoryPointerStream(pointer, (int)dataLength, false));
@@ -214,7 +215,7 @@ public static class FirmwareBootService
         // Writing variable to firmware
         FirmwareInterface.CurrentBackend.WriteEnvironmentVariable(
             loadOptionIndex.ToString(), // Boot####
-            FirmwareEnvironment.Global.VendorGuid,
+            FirmwareVendors.GlobalVariable,
             VariableAttributes.NON_VOLATILE | VariableAttributes.BOOTSERVICE_ACCESS | VariableAttributes.RUNTIME_ACCESS,
             pointer.Buffer,
             structureLength);
