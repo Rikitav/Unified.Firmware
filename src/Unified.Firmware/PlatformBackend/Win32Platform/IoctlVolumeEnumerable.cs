@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ internal class IoctlVolumeEnumerable : IEnumerable<PARTITION_INFORMATION_EX>
 internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
 {
     // Unmanaged resources
-    private IntPtr _physicalDriveHandle = IntPtr.Zero;
+    private SafeFileHandle? _physicalDriveHandle = null;
     private IntPtr _driveLayoutStructPtr = IntPtr.Zero;
 
     // Managed resources
@@ -81,17 +82,17 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
     public IoctlVolumeEnumerator(int DriveIndex = 0)
     {
         // Enumerate all partitions by WinApi FindVolume function
-        _physicalDriveHandle = NativeMethods.CreateFile(
+        _physicalDriveHandle = new SafeFileHandle(NativeMethods.CreateFile(
             "\\\\.\\PhysicalDrive" + DriveIndex,
             NativeMethods.GENERIC_READWRITE,
             NativeMethods.FILE_SHARE_READWRITE,
             IntPtr.Zero,
             NativeMethods.OPEN_EXISTING,
             NativeMethods.FILE_ATTRIBUTE_READONLY,
-            IntPtr.Zero);
+            IntPtr.Zero), true);
 
         // Checking handle value
-        if (_physicalDriveHandle == NativeMethods.INVALID_HANDLE_VALUE)
+        if (_physicalDriveHandle.IsInvalid)
         {
             int lastError = Marshal.GetLastWin32Error();
             if (lastError == NativeMethods.ERROR_FILE_NOT_FOUND)
@@ -137,6 +138,9 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
 
     public void Reset()
     {
+        if (_physicalDriveHandle == null)
+            throw new NullReferenceException("The physical drive handle was null");
+
         // Allocating memory for drive layout info structure
         int PtrSize = 512;
         _driveLayoutStructPtr = Marshal.AllocHGlobal(PtrSize);
@@ -147,7 +151,7 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
             for (int Attempt = 0; Attempt < 5; Attempt++)
             {
                 // Calling DeviceIoControl
-                if (!NativeMethods.DeviceIoControl(_physicalDriveHandle, NativeMethods.IOCTL_DISK_GET_DRIVE_LAYOUT_EX, IntPtr.Zero, 0, _driveLayoutStructPtr, PtrSize, out _, IntPtr.Zero))
+                if (!NativeMethods.DeviceIoControl(_physicalDriveHandle.DangerousGetHandle(), NativeMethods.IOCTL_DISK_GET_DRIVE_LAYOUT_EX, IntPtr.Zero, 0, _driveLayoutStructPtr, PtrSize, out _, IntPtr.Zero))
                 {
                     // Error check
                     int lastError = Marshal.GetLastWin32Error();
@@ -184,11 +188,11 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
             return;
 
         // Freeing unmanaged resource
-        Marshal.FreeHGlobal(_physicalDriveHandle);
+        _physicalDriveHandle?.Dispose();
         Marshal.FreeHGlobal(_driveLayoutStructPtr);
 
         // Nullify unmanaged resources
-        _physicalDriveHandle = IntPtr.Zero;
+        _physicalDriveHandle = null;
         _driveLayoutStructPtr = IntPtr.Zero;
 
         // Nullify managed resources
