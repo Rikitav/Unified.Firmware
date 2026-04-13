@@ -27,11 +27,24 @@ using Unified.Firmware.EnvironmentVendor;
 
 namespace Unified.Firmware;
 
+/// <summary>
+/// Provides read and write access to UEFI firmware environment variables in a vendor-specific namespace.
+/// </summary>
 public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
 {
+    /// <summary>
+    /// Gets the firmware backend used to access environment variables.
+    /// </summary>
     public IFirmwareBackend Backend => backend;
+
+    /// <summary>
+    /// Gets the vendor GUID that identifies the variable namespace for this environment.
+    /// </summary>
     public Guid VendorGuid => vendorGuid;
 
+    /// <summary>
+    /// Gets the shared global firmware environment, backed by <see cref="FirmwareInterface.CurrentBackend"/>.
+    /// </summary>
     public static GlobalFirmwareEnvironment Global => field ??= new GlobalFirmwareEnvironment(FirmwareInterface.CurrentBackend);
 
     /// <summary>
@@ -42,11 +55,11 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// This method allocates and frees unmanaged memory internally, callers do not need to manage memory for the returned string.
     /// </remarks>
     /// <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">When this method returns, contains the attributes of the variable.</param>
     /// <returns>A string containing the value of the specified environment variable, or null if the variable does not exist.</returns>
     public string ReadStringVariable(string varName, out VariableAttributes attributes)
     {
-        IntPtr pointer = Backend.ReadEnvironmentVariable(varName, VendorGuid, out attributes, 2 * 1024, out uint dataSize);
+        IntPtr pointer = Backend.ReadEnvironmentVariable(varName, VendorGuid, out attributes, 2 * 1024, out _);
         string varVal = Marshal.PtrToStringUni(pointer);
 
         Marshal.FreeHGlobal(pointer);
@@ -62,7 +75,7 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// </remarks>
     /// <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
     /// <param name="Value">The string value to assign to the environment variable. Cannot be null.</param>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
     public void WriteStringVariable(string varName, string Value, VariableAttributes attributes)
     {
         IntPtr pointer = Marshal.StringToHGlobalUni(Value);
@@ -81,7 +94,7 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// <typeparam name="T">The value type to which the environment variable will be marshaled. Must be a struct.</typeparam>
     /// <param name="varName">The name of the environment variable to read. Cannot be null or empty.</param>
     /// <returns>The value of the specified environment variable, marshaled to type T.</returns>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">When this method returns, contains the attributes of the variable.</param>
     public T ReadVariable<T>(string varName, out VariableAttributes attributes) where T : struct
     {
         // Getting variable data
@@ -103,7 +116,7 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// <typeparam name="T">The struct type of the value to write to the environment variable.</typeparam>
     /// <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
     /// <param name="Value">The value to assign to the environment variable.</param>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
     public void WriteVariable<T>(string varName, T Value, VariableAttributes attributes) where T : struct
     {
         // Getting variable data
@@ -128,7 +141,7 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// </remarks>
     /// <typeparam name="T">The value type of the elements to read from the environment variable.</typeparam>
     /// <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">When this method returns, contains the attributes of the variable.</param>
     /// <returns>An array of elements of type T containing the values stored in the specified environment variable. The array
     /// will be empty if the variable contains no data.</returns>
     public T[] ReadArrayVariable<T>(string varName, out VariableAttributes attributes) where T : struct
@@ -157,7 +170,7 @@ public class FirmwareEnvironment(IFirmwareBackend backend, Guid vendorGuid)
     /// <typeparam name="T">The value type of the elements in the array to be written.</typeparam>
     /// <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
     /// <param name="Value">The array of value type elements to write. Cannot be null and must contain at least one element.</param>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
     public void WriteArrayVariable<T>(string varName, T[] Value, VariableAttributes attributes) where T : struct
     {
         // Formating new value

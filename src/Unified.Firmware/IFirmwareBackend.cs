@@ -25,6 +25,9 @@ using System;
 
 namespace Unified.Firmware;
 
+/// <summary>
+/// Abstraction over platform-specific access to UEFI firmware: availability, EFI system partition resolution, and firmware environment variables.
+/// </summary>
 public interface IFirmwareBackend
 {
     /// <summary>
@@ -45,12 +48,12 @@ public interface IFirmwareBackend
     /// <summary>
     /// Gets the value of an environment variable with the specified name and attributes from the specified environment.
     /// </summary>
-    /// <param name="varName"></param>
-    /// <param name="environmentIdentificator"></param>
-    /// <param name="attributes"></param>
-    /// <param name="bufferSize"></param>
-    /// <param name="dataSize"></param>
-    /// <returns></returns>
+    /// <param name="varName">The name of the firmware environment variable.</param>
+    /// <param name="environmentIdentificator">The GUID that identifies the variable namespace (vendor or global).</param>
+    /// <param name="attributes">When this method returns, contains the attributes of the variable.</param>
+    /// <param name="bufferSize">The maximum number of bytes to read into the allocated buffer.</param>
+    /// <param name="dataSize">When this method returns, contains the actual size in bytes of the variable data.</param>
+    /// <returns>A pointer to heap-allocated memory containing the variable data. The caller must release it (for example, with <see cref="System.Runtime.InteropServices.Marshal.FreeHGlobal(System.IntPtr)"/>).</returns>
     /// <exception cref="PlatformNotSupportedException"></exception>
     /// <exception cref="FirmwareEnvironmentException"></exception>
     IntPtr ReadEnvironmentVariable(string varName, Guid environmentIdentificator, out VariableAttributes attributes, int bufferSize, out uint dataSize);
@@ -62,11 +65,11 @@ public interface IFirmwareBackend
     /// The attributes parameter specifies the attributes of the variable, such as whether it is read-only or can be accessed from user mode.
     /// The value parameter is a pointer to a buffer that contains the data to be stored in the variable, and ptrSize specifies the size of the buffer in bytes.
     /// </summary>
-    /// <param name="varName"></param>
-    /// <param name="environmentIdentificator"></param>
-    /// <param name="attributes"></param>
-    /// <param name="valueBuffer"></param>
-    /// <param name="bufferSize"></param>
+    /// <param name="varName">The name of the firmware environment variable.</param>
+    /// <param name="environmentIdentificator">The GUID that identifies the variable namespace (vendor or global).</param>
+    /// <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
+    /// <param name="valueBuffer">A pointer to the buffer containing the value bytes.</param>
+    /// <param name="bufferSize">The size of the value buffer in bytes.</param>
     /// <exception cref="PlatformNotSupportedException"></exception>
     /// <exception cref="FirmwareEnvironmentException"></exception>
     void WriteEnvironmentVariable(string varName, Guid environmentIdentificator, VariableAttributes attributes, IntPtr valueBuffer, int bufferSize);

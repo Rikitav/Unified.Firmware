@@ -67,7 +67,7 @@ public static class FirmwareBootService
     /// <summary>
     /// Resets the Boot#### variable at the specified index and removes it from the boot order
     /// </summary>
-    /// <param name="bootOptionIndex"></param>
+    /// <param name="loadOptionIndex">The boot entry index (<c>Boot####</c>) to delete.</param>
     public static void DeleteLoadOption(BootOptionIndex loadOptionIndex)
     {
         // Writing null variable to firmware
@@ -84,7 +84,7 @@ public static class FirmwareBootService
     /// <summary>
     /// Lists all load options in boot order
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A sequence of boot options in the current boot order.</returns>
     public static IEnumerable<FirmwareBootOption> EnumerateBootOptions()
     {
         return LoadOrder.Select(ReadLoadOption);
@@ -93,7 +93,8 @@ public static class FirmwareBootService
     /// <summary>
     /// Lists all load options in boot order
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The concrete <see cref="LoadOptionBase"/> type to deserialize each entry as.</typeparam>
+    /// <returns>A sequence of boot options in the current boot order, deserialized as <typeparamref name="T"/>.</returns>
     public static IEnumerable<T> EnumrateBootOptions<T>() where T : LoadOptionBase, new()
     {
         return LoadOrder.Select(ReadLoadOption<T>);
@@ -102,7 +103,7 @@ public static class FirmwareBootService
     /// <summary>
     /// Lists all load options in boot order
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A sequence of raw EFI load option structures in the current boot order.</returns>
     public static IEnumerable<EFI_LOAD_OPTION> EnumrateRawBootOptions()
     {
         return LoadOrder.Select(ReadRawLoadOption);
@@ -111,8 +112,8 @@ public static class FirmwareBootService
     /// <summary>
     /// Reads the boot option from NVRAM, issues it to the delegate for processing and updates the variable at the specified index
     /// </summary>
-    /// <param name="bootOptionIndex"></param>
-    /// <param name="UpdateOptionAction"></param>
+    /// <param name="bootOptionIndex">The boot entry index (<c>Boot####</c>) to read and write.</param>
+    /// <param name="UpdateOptionAction">A callback that receives the deserialized option and mutates it before it is written back.</param>
     public static void EditLoadOption(BootOptionIndex bootOptionIndex, Action<FirmwareBootOption> UpdateOptionAction)
     {
         FirmwareBootOption bootOption = ReadLoadOption(bootOptionIndex);
@@ -123,9 +124,9 @@ public static class FirmwareBootService
     /// <summary>
     /// Creates a new load option at the first free index, writes into it a serialized copy of the <see cref="LoadOptionBase"/> instance passed to the function, and returns the index of the new entry. Specify the <paramref name="AddFirst"/> parameter as <see langword="true"/> to add the option as the first boot option
     /// </summary>
-    /// <param name="loadOption"></param>
-    /// <param name="AddFirst"></param>
-    /// <returns></returns>
+    /// <param name="loadOption">The load option to serialize and store in NVRAM.</param>
+    /// <param name="AddFirst">If <see langword="true"/>, inserts the new entry at the start of the boot order; otherwise appends it.</param>
+    /// <returns>The <see cref="BootOptionIndex"/> assigned to the new <c>Boot####</c> variable.</returns>
     /// <exception cref="FreeLoadOptionIndexNotFound"></exception>
     public static BootOptionIndex CreateLoadOption(LoadOptionBase loadOption, bool AddFirst)
     {
@@ -149,8 +150,8 @@ public static class FirmwareBootService
     /// <summary>
     /// Writes serialized copy of the <see cref="LoadOptionBase"/> instance passed to the function into existing load option variable at the specified index
     /// </summary>
-    /// <param name="loadOption"></param>
-    /// <param name="bootOptionIndex"></param>
+    /// <param name="loadOption">The load option to serialize and write.</param>
+    /// <param name="bootOptionIndex">The boot entry index (<c>Boot####</c>) to update.</param>
     public static void UpdateLoadOption(LoadOptionBase loadOption, BootOptionIndex bootOptionIndex)
     {
         // Updating variable
@@ -160,8 +161,8 @@ public static class FirmwareBootService
     /// <summary>
     /// Reads the native representation of the boot option from NVRAM
     /// </summary>
-    /// <param name="bootOptionIndex"></param>
-    /// <returns></returns>
+    /// <param name="bootOptionIndex">The boot entry index (<c>Boot####</c>) to read.</param>
+    /// <returns>The raw EFI load option structure for that entry.</returns>
     public static EFI_LOAD_OPTION ReadRawLoadOption(BootOptionIndex bootOptionIndex)
     {
         using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);
@@ -171,8 +172,8 @@ public static class FirmwareBootService
     /// <summary>
     /// Reads boot option from NVRAM
     /// </summary>
-    /// <param name="bootOptionIndex"></param>
-    /// <returns></returns>
+    /// <param name="bootOptionIndex">The boot entry index (<c>Boot####</c>) to read.</param>
+    /// <returns>A deserialized <see cref="FirmwareBootOption"/> for that entry.</returns>
     public static FirmwareBootOption ReadLoadOption(BootOptionIndex bootOptionIndex)
     {
         using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);
@@ -182,9 +183,9 @@ public static class FirmwareBootService
     /// <summary>
     /// Reads a boot option from NVRAM and converts it to the specified type <typeparamref name="T"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="bootOptionIndex"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The concrete <see cref="LoadOptionBase"/> type to deserialize.</typeparam>
+    /// <param name="bootOptionIndex">The boot entry index (<c>Boot####</c>) to read.</param>
+    /// <returns>A deserialized instance of <typeparamref name="T"/> for that entry.</returns>
     public static T ReadLoadOption<T>(BootOptionIndex bootOptionIndex) where T : LoadOptionBase, new()
     {
         using BinaryReader reader = ReadFirmwareLoadOption(bootOptionIndex);

@@ -82,10 +82,8 @@ internal sealed class SystemEnvironmentPrivilege : IDisposable
 
     private void EnablePrivilege()
     {
-        IntPtr hToken = IntPtr.Zero;
         _impersonatedByUs = false;
-
-        if (!NativeMethods.OpenThreadToken(NativeMethods.GetCurrentThread(), NativeMethods.TOKEN_ADJUST_PRIVILEGES | NativeMethods.TOKEN_QUERY, true, out hToken))
+        if (!NativeMethods.OpenThreadToken(NativeMethods.GetCurrentThread(), NativeMethods.TOKEN_ADJUST_PRIVILEGES | NativeMethods.TOKEN_QUERY, true, out IntPtr hToken))
         {
             int err = Marshal.GetLastWin32Error();
             if (err == NativeMethods.ERROR_NO_TOKEN)

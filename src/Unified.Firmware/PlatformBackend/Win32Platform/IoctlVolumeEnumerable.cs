@@ -34,13 +34,15 @@ namespace Unified.Firmware.PlatformBackend.Win32Platform;
 /// <summary>
 /// Enumerable collection of volumes by physical hard drive index
 /// </summary>
-internal class IoctlVolumeEnumerable : IEnumerable<PARTITION_INFORMATION_EX>
+/// <remarks>
+/// Create new instance of <see cref="IoctlVolumeEnumerable"/>
+/// </remarks>
+/// <param name="DriveIndex"></param>
+internal class IoctlVolumeEnumerable(int DriveIndex = 0) : IEnumerable<PARTITION_INFORMATION_EX>
 {
-    private readonly int _driveIndex = 0;
-
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return new IoctlVolumeEnumerator(_driveIndex);
+        return new IoctlVolumeEnumerator(DriveIndex);
     }
 
     /// <summary>
@@ -49,16 +51,7 @@ internal class IoctlVolumeEnumerable : IEnumerable<PARTITION_INFORMATION_EX>
     /// <returns></returns>
     public IEnumerator<PARTITION_INFORMATION_EX> GetEnumerator()
     {
-        return new IoctlVolumeEnumerator(_driveIndex);
-    }
-
-    /// <summary>
-    /// Create new instance of <see cref="IoctlVolumeEnumerable"/>
-    /// </summary>
-    /// <param name="DriveIndex"></param>
-    public IoctlVolumeEnumerable(int DriveIndex = 0)
-    {
-        _driveIndex = DriveIndex;
+        return new IoctlVolumeEnumerator(DriveIndex);
     }
 }
 
@@ -121,11 +114,10 @@ internal class IoctlVolumeEnumerator : IEnumerator<PARTITION_INFORMATION_EX>
         try
         {
             // Finding the offset of the desired structure and marshalling current indexed structure
-            IntPtr partitionEntryPtr = new IntPtr(_partitionEntryAddress + _currentPartitionEntryIndex * Marshal.SizeOf<PARTITION_INFORMATION_EX>());
-            PARTITION_INFORMATION_EX partitionEntryInfo = Marshal.PtrToStructure<PARTITION_INFORMATION_EX>(partitionEntryPtr);
+            IntPtr partitionEntryPtr = new IntPtr(_partitionEntryAddress + (_currentPartitionEntryIndex * Marshal.SizeOf<PARTITION_INFORMATION_EX>()));
+            Current = Marshal.PtrToStructure<PARTITION_INFORMATION_EX>(partitionEntryPtr);
 
             // Success
-            Current = partitionEntryInfo;
             _currentPartitionEntryIndex++;
             return true;
         }

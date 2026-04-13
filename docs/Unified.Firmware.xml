@@ -7,14 +7,14 @@
         <member name="T:Unified.Firmware.BootOptionIndex">
             <summary>
             Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
-            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index.
             </summary>
             <param name="index"></param>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.#ctor(System.UInt16)">
             <summary>
             Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
-            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
+            The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index.
             </summary>
             <param name="index"></param>
         </member>
@@ -54,7 +54,7 @@
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.ToString">
             <summary>
-            Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
+            Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index.
             </summary>
         </member>
         <member name="M:Unified.Firmware.BootOptionIndex.op_Implicit(Unified.Firmware.BootOptionIndex)~System.UInt16">
@@ -277,6 +277,31 @@
             Variable attributes : BS, RT
             </summary>
         </member>
+        <member name="T:Unified.Firmware.FirmwareEnvironment">
+            <summary>
+            Provides read and write access to UEFI firmware environment variables in a vendor-specific namespace.
+            </summary>
+        </member>
+        <member name="M:Unified.Firmware.FirmwareEnvironment.#ctor(Unified.Firmware.IFirmwareBackend,System.Guid)">
+            <summary>
+            Provides read and write access to UEFI firmware environment variables in a vendor-specific namespace.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.FirmwareEnvironment.Backend">
+            <summary>
+            Gets the firmware backend used to access environment variables.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.FirmwareEnvironment.VendorGuid">
+            <summary>
+            Gets the vendor GUID that identifies the variable namespace for this environment.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.FirmwareEnvironment.Global">
+            <summary>
+            Gets the shared global firmware environment, backed by <see cref="P:Unified.Firmware.FirmwareInterface.CurrentBackend"/>.
+            </summary>
+        </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.ReadStringVariable(System.String,Unified.Firmware.VariableAttributes@)">
             <summary>
             Retrieves the value of a environment variable as a string.
@@ -286,7 +311,7 @@
             This method allocates and frees unmanaged memory internally, callers do not need to manage memory for the returned string.
             </remarks>
             <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
-            <param name="attributes"></param>
+            <param name="attributes">When this method returns, contains the attributes of the variable.</param>
             <returns>A string containing the value of the specified environment variable, or null if the variable does not exist.</returns>
         </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.WriteStringVariable(System.String,System.String,Unified.Firmware.VariableAttributes)">
@@ -299,7 +324,7 @@
             </remarks>
             <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
             <param name="Value">The string value to assign to the environment variable. Cannot be null.</param>
-            <param name="attributes"></param>
+            <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
         </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.ReadVariable``1(System.String,Unified.Firmware.VariableAttributes@)">
             <summary>
@@ -313,7 +338,7 @@
             <typeparam name="T">The value type to which the environment variable will be marshaled. Must be a struct.</typeparam>
             <param name="varName">The name of the environment variable to read. Cannot be null or empty.</param>
             <returns>The value of the specified environment variable, marshaled to type T.</returns>
-            <param name="attributes"></param>
+            <param name="attributes">When this method returns, contains the attributes of the variable.</param>
         </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.WriteVariable``1(System.String,``0,Unified.Firmware.VariableAttributes)">
             <summary>
@@ -326,7 +351,7 @@
             <typeparam name="T">The struct type of the value to write to the environment variable.</typeparam>
             <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
             <param name="Value">The value to assign to the environment variable.</param>
-            <param name="attributes"></param>
+            <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
         </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.ReadArrayVariable``1(System.String,Unified.Firmware.VariableAttributes@)">
             <summary>
@@ -339,7 +364,7 @@
             </remarks>
             <typeparam name="T">The value type of the elements to read from the environment variable.</typeparam>
             <param name="varName">The name of the environment variable to retrieve. Cannot be null or empty.</param>
-            <param name="attributes"></param>
+            <param name="attributes">When this method returns, contains the attributes of the variable.</param>
             <returns>An array of elements of type T containing the values stored in the specified environment variable. The array
             will be empty if the variable contains no data.</returns>
         </member>
@@ -355,7 +380,7 @@
             <typeparam name="T">The value type of the elements in the array to be written.</typeparam>
             <param name="varName">The name of the environment variable to set. Cannot be null or empty.</param>
             <param name="Value">The array of value type elements to write. Cannot be null and must contain at least one element.</param>
-            <param name="attributes"></param>
+            <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
         </member>
         <member name="M:Unified.Firmware.FirmwareEnvironment.PinnedMemoryToArray``1(System.IntPtr,System.Int32)">
             <summary>
@@ -382,6 +407,16 @@
         <member name="M:Unified.Firmware.FirmwareEnvironmentException.#ctor(System.String)">
             <inheritdoc/>
         </member>
+        <member name="T:Unified.Firmware.FirmwareInterface">
+            <summary>
+            Entry point for firmware capabilities: platform backend selection, availability, EFI system partition path, and boot-to-firmware UI.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.FirmwareInterface.CurrentBackend">
+            <summary>
+            Gets the firmware backend for the current operating system (for example, Windows or Linux).
+            </summary>
+        </member>
         <member name="P:Unified.Firmware.FirmwareInterface.Available">
             <summary>
             Checks whether the UEFI platform is available on this system
@@ -397,6 +432,11 @@
         <member name="M:Unified.Firmware.FirmwareInterface.BootToUserInterface">
             <summary>
             Boot into the UEFI user interface after rebooting the computer. Does NOT reboot the computer, but sets the boot condition
+            </summary>
+        </member>
+        <member name="T:Unified.Firmware.IFirmwareBackend">
+            <summary>
+            Abstraction over platform-specific access to UEFI firmware: availability, EFI system partition resolution, and firmware environment variables.
             </summary>
         </member>
         <member name="M:Unified.Firmware.IFirmwareBackend.CheckFirmwareAvailablity">
@@ -418,12 +458,12 @@
             <summary>
             Gets the value of an environment variable with the specified name and attributes from the specified environment.
             </summary>
-            <param name="varName"></param>
-            <param name="environmentIdentificator"></param>
-            <param name="attributes"></param>
-            <param name="bufferSize"></param>
-            <param name="dataSize"></param>
-            <returns></returns>
+            <param name="varName">The name of the firmware environment variable.</param>
+            <param name="environmentIdentificator">The GUID that identifies the variable namespace (vendor or global).</param>
+            <param name="attributes">When this method returns, contains the attributes of the variable.</param>
+            <param name="bufferSize">The maximum number of bytes to read into the allocated buffer.</param>
+            <param name="dataSize">When this method returns, contains the actual size in bytes of the variable data.</param>
+            <returns>A pointer to heap-allocated memory containing the variable data. The caller must release it (for example, with <see cref="M:System.Runtime.InteropServices.Marshal.FreeHGlobal(System.IntPtr)"/>).</returns>
             <exception cref="T:System.PlatformNotSupportedException"></exception>
             <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
         </member>
@@ -435,11 +475,11 @@
             The attributes parameter specifies the attributes of the variable, such as whether it is read-only or can be accessed from user mode.
             The value parameter is a pointer to a buffer that contains the data to be stored in the variable, and ptrSize specifies the size of the buffer in bytes.
             </summary>
-            <param name="varName"></param>
-            <param name="environmentIdentificator"></param>
-            <param name="attributes"></param>
-            <param name="valueBuffer"></param>
-            <param name="bufferSize"></param>
+            <param name="varName">The name of the firmware environment variable.</param>
+            <param name="environmentIdentificator">The GUID that identifies the variable namespace (vendor or global).</param>
+            <param name="attributes">The attributes to store with the variable (for example, non-volatile, runtime access).</param>
+            <param name="valueBuffer">A pointer to the buffer containing the value bytes.</param>
+            <param name="bufferSize">The size of the value buffer in bytes.</param>
             <exception cref="T:System.PlatformNotSupportedException"></exception>
             <exception cref="T:Unified.Firmware.FirmwareEnvironmentException"></exception>
         </member>
@@ -521,6 +561,19 @@
             <summary>
             Enumerable collection of volumes by physical hard drive index
             </summary>
+            <remarks>
+            Create new instance of <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable"/>
+            </remarks>
+            <param name="DriveIndex"></param>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable.#ctor(System.Int32)">
+            <summary>
+            Enumerable collection of volumes by physical hard drive index
+            </summary>
+            <remarks>
+            Create new instance of <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable"/>
+            </remarks>
+            <param name="DriveIndex"></param>
         </member>
         <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable.GetEnumerator">
             <summary>
@@ -528,16 +581,16 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable.#ctor(System.Int32)">
-            <summary>
-            Create new instance of <see cref="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeEnumerable"/>
-            </summary>
-            <param name="DriveIndex"></param>
-        </member>
         <member name="T:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation">
             <summary>
             Provides methods for retrieving volume information using IOCTL commands.
             </summary>
+        </member>
+        <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation.EnumeratePartitions">
+            <summary>
+            Enumerates all partition on first disk
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Unified.Firmware.PlatformBackend.Win32Platform.IoctlVolumeInformation.GetPartition(System.Guid)">
             <summary>
@@ -687,15 +740,6 @@
             System partition containing boot files of operating systems
             </summary>
         </member>
-        <member name="P:Unified.Firmware.SystemPartition.EfiPartition.Identificator">
-            <summary>
-            GUID identifier of the system EFI partition.
-            This is a unique identifier assigned to the partition when it is created,
-            and can be used to identify the partition among other partitions on the same disk.
-            It is not related to the partition type, and is not a constant value.
-            It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
-            </summary>
-        </member>
         <member name="P:Unified.Firmware.SystemPartition.EfiPartition.TypeID">
             <summary>
             GUID identifier of the system EFI partition type.
@@ -708,6 +752,15 @@
             Full path to the system EFI partition, in the form of "\\?\Volume{GUID}\".
             This path can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
             Note that this path is not a drive letter and cannot be used with functions that expect a drive letter.
+            </summary>
+        </member>
+        <member name="P:Unified.Firmware.SystemPartition.EfiPartition.Identificator">
+            <summary>
+            GUID identifier of the system EFI partition.
+            This is a unique identifier assigned to the partition when it is created,
+            and can be used to identify the partition among other partitions on the same disk.
+            It is not related to the partition type, and is not a constant value.
+            It can be used to access the partition's files and directories or passed to Win32 API functions that require a volume path.
             </summary>
         </member>
         <member name="T:Unified.Firmware.SystemPartition.FirmwareApplicationArchitecture">
@@ -765,6 +818,11 @@
             Attributes bitmask to set for the variable
             </summary>
         </member>
+        <member name="F:Unified.Firmware.VariableAttributes.None">
+            <summary>
+            No attributes
+            </summary>
+        </member>
         <member name="F:Unified.Firmware.VariableAttributes.NON_VOLATILE">
             <summary>
             The variable is accessible from a non volatile environment
@@ -810,15 +868,20 @@
             Represents a strongly-typed volume path based on a unique volume identifier (GUID). Provides comparison, equality,
             and conversion operations for working with volume paths in a type-safe manner.
             </summary>
+            
             <remarks>
+            <para>
             FullPath format is depends on platform you using this record.
             For Windows it stores `\\?\Volume{GUID}\` path format, which coressponds to WinAPI standart and can be used to open handles to this volume.
             For Linux it stores absolute virtual path `/dev/{diskName}/boot` to directory, where ESP volume is mounted.
+            </para>
             
+            <para>
             Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
             enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
             Instances are immutable and can be compared or used in collections that require equality or ordering.
             Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
+            </para>
             </remarks>
         </member>
         <member name="P:Unified.Firmware.VolumePath.Identificator">

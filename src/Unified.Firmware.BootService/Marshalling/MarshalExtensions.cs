@@ -22,7 +22,6 @@
 // THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -358,7 +357,7 @@ public static class MarshalExtensions
         foreach (DevicePathProtocolBase edpp in loadOption.Protocols)
             writer.WriteDevicePathProtocol(edpp);
 
-        if (loadOption.Protocols.Last() is not DevicePathProtocolEnd)
+        if (loadOption.Protocols[^1] is not DevicePathProtocolEnd)
             writer.WriteDevicePathProtocol(new DevicePathProtocolEnd());
 
         // Writing optional data
@@ -397,9 +396,7 @@ public static class MarshalExtensions
     public static int GetStructureLength(this LoadOptionBase loadOption)
     {
         int structLength = LoadOptionBaseHeaderLength + loadOption.Description.GetCstyleWideStringLength();
-        foreach (DevicePathProtocolBase devicePathProtocol in loadOption.Protocols)
-            structLength += devicePathProtocol.GetStrctureLength();
-
+        structLength += loadOption.Protocols.Sum(x => x.GetStrctureLength());
         structLength += loadOption.OptionalData.Length;
         return structLength;
     }
@@ -416,26 +413,20 @@ public static class MarshalExtensions
 
     private static EFI_DEVICE_PATH_PROTOCOL[] ReadUntilRawEndProtocol(this BinaryReader reader)
     {
-        List<EFI_DEVICE_PATH_PROTOCOL> filePathListBuilder = new List<EFI_DEVICE_PATH_PROTOCOL>();
-        while (!filePathListBuilder.LastOrDefault().IsEndProtocol())
-            filePathListBuilder.Add(reader.ReadRawDevicePathProtocol());
-
-        return filePathListBuilder.ToArray();
+        return Enumerable
+            .Range(0, int.MaxValue)
+            .Select(_ => reader.ReadRawDevicePathProtocol())
+            .TakeWhile(x => !x.IsEndProtocol())
+            .ToArray();
     }
 
     private static DevicePathProtocolBase[] ReadUntilEndProtocol(this BinaryReader reader)
     {
-        List<DevicePathProtocolBase> filePathListBuilder = new List<DevicePathProtocolBase>();
-        while (true)
-        {
-            DevicePathProtocolBase protocol = reader.ReadDevicePathProtocol();
-            if (protocol.IsEndProtocol())
-                break;
-
-            filePathListBuilder.Add(protocol);
-        }
-
-        return filePathListBuilder.ToArray();
+        return Enumerable
+            .Range(0, int.MaxValue)
+            .Select(_ => reader.ReadDevicePathProtocol())
+            .TakeWhile(x => !x.IsEndProtocol())
+            .ToArray();
     }
 
     private static bool IsEndProtocol(this EFI_DEVICE_PATH_PROTOCOL protocol)

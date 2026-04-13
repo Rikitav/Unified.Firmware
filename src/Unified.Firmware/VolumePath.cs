@@ -30,30 +30,32 @@ namespace Unified.Firmware;
 /// Represents a strongly-typed volume path based on a unique volume identifier (GUID). Provides comparison, equality,
 /// and conversion operations for working with volume paths in a type-safe manner.
 /// </summary>
+/// 
 /// <remarks>
+/// <para>
 /// FullPath format is depends on platform you using this record.
 /// For Windows it stores `\\?\Volume{GUID}\` path format, which coressponds to WinAPI standart and can be used to open handles to this volume.
 /// For Linux it stores absolute virtual path `/dev/{diskName}/boot` to directory, where ESP volume is mounted.
+/// </para>
 /// 
+/// <para>
 /// Use this struct to encapsulate and manipulate volume paths identified by GUIDs,
 /// enabling type-safe operations and conversions to and from related types such as Guid, string, and DirectoryInfo.
 /// Instances are immutable and can be compared or used in collections that require equality or ordering.
 /// Implicit conversions simplify interoperability with APIs that accept Guid or string representations of volume paths.
+/// </para>
 /// </remarks>
-public record struct VolumePath
+public readonly record struct VolumePath
 {
-    private readonly Guid _dentificator;
-    private readonly string _fullPath;
-
     /// <summary>
     /// Gets the unique identifier associated with this instance.
     /// </summary>
-    public Guid Identificator => _dentificator;
+    public readonly Guid Identificator { get; }
 
     /// <summary>
     /// Gets the absolute path to root of volume.
     /// </summary>
-    public string FullPath => _fullPath;
+    public readonly string FullPath { get; }
 
     /// <summary>
     /// Initializes a new instance of the VolumePath class using the specified string representation of a GUID.
@@ -62,8 +64,8 @@ public record struct VolumePath
     /// <param name="fullPath">Platform specific, full path to volume root</param>
     public VolumePath(Guid volumeIdentificator, string fullPath)
     {
-        _dentificator = volumeIdentificator;
-        _fullPath = fullPath;
+        Identificator = volumeIdentificator;
+        FullPath = fullPath;
     }
 
     /*
@@ -91,7 +93,7 @@ public record struct VolumePath
     /// A string containing the volume path in the format "\\?\Volume{GUID}\",
     /// where GUID is the value of the <c>Identificator</c> property.
     /// </returns>
-    public override string ToString() => _fullPath; //string.Concat(@"\\?\Volume{", Identificator.ToString(), @"}\");
+    public override string ToString() => FullPath; //string.Concat(@"\\?\Volume{", Identificator.ToString(), @"}\");
 
     /// <summary>
     /// Converts a <see cref="VolumePath"/> instance to its associated <see cref="Guid"/> identifier.

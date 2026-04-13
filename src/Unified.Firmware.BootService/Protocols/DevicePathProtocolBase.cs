@@ -33,42 +33,16 @@ namespace Unified.Firmware.BootService.Protocols;
 /// </remarks>
 public abstract class DevicePathProtocolBase(DeviceProtocolType type, byte subType)
 {
-    private readonly DeviceProtocolType _Type = type;
-    private readonly byte _SubType = subType;
 
     /// <summary>
     /// Protocol type
     /// </summary>
-    public DeviceProtocolType Type => _Type;
+    public DeviceProtocolType Type { get; } = type;
 
     /// <summary>
     /// Protocol Sub-Type - Varies by Type
     /// </summary>
-    public byte SubType => _SubType;
-
-    // TODO: move from base class to a helper class
-    /*
-    /// <summary>
-    /// Create protocol wrapper of Type and deserailize structure
-    /// </summary>
-    /// <param name="protocolType"></param>
-    /// <param name="protocol"></param>
-    /// <returns></returns>
-    internal static DevicePathProtocolBase CreateProtocol(Type protocolType, EFI_DEVICE_PATH_PROTOCOL protocol)
-    {
-        DevicePathProtocolBase? protocolWrapper = (DevicePathProtocolBase?)Activator.CreateInstance(protocolType);
-        if (protocolWrapper == null)
-            throw new DeviceProtocolCastingException("Failed to cast DevicePathProtocol of type {0} and subType {1} to managed object");
-
-        protocolWrapper.Deserialize(protocol.Data);
-        return protocolWrapper;
-    }
-
-    internal byte[] GetSerializingData()
-    {
-        return Serialize();
-    }
-    */
+    public byte SubType { get; } = subType;
 
     /// <summary>
     /// Returns the length, in bytes, of the data required to serialize the current object.

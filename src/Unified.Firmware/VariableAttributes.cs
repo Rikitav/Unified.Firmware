@@ -32,6 +32,11 @@ namespace Unified.Firmware;
 public enum VariableAttributes : uint
 {
     /// <summary>
+    /// No attributes
+    /// </summary>
+    None = 0,
+
+    /// <summary>
     /// The variable is accessible from a non volatile environment
     /// </summary>
     NON_VOLATILE = 0x00000001,

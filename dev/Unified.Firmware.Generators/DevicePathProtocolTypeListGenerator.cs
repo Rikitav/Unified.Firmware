@@ -26,7 +26,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 
-namespace Unified.Firmware.BootService.Generators;
+namespace Unified.Firmware.Generators;
 
 [Generator(LanguageNames.CSharp)]
 public class DevicePathProtocolTypeListGenerator : IIncrementalGenerator

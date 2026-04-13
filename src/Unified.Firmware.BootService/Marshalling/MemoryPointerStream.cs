@@ -29,15 +29,13 @@ namespace Unified.Firmware.BootService.Marshalling;
 
 internal class MemoryPointerStream : Stream, IDisposable
 {
-    private readonly IntPtr _BufferLength;
-    private readonly IntPtr _Buffer;
     private readonly bool _LeaveOpen;
     private long _CurPos;
 
     public override bool CanRead => true;
     public override bool CanSeek => true;
     public override bool CanWrite => true;
-    public override long Length => _BufferLength.ToInt64();
+    public override long Length => NativeLength.ToInt64();
     
     public override long Position
     {
@@ -45,41 +43,34 @@ internal class MemoryPointerStream : Stream, IDisposable
         set => Seek(value, SeekOrigin.Begin);
     }
 
-    public IntPtr NativeLength
-    {
-        get => _BufferLength;
-    }
-
-    public IntPtr Buffer
-    {
-        get => _Buffer;
-    }
+    public IntPtr NativeLength { get; }
+    public IntPtr Buffer { get; }
 
     public MemoryPointerStream(IntPtr buffer, int bufferLength, bool leaveOpen)
     {
-        _Buffer = buffer;
-        _BufferLength = new IntPtr(bufferLength);
+        Buffer = buffer;
+        NativeLength = new IntPtr(bufferLength);
         _LeaveOpen = leaveOpen;
     }
 
     public MemoryPointerStream(IntPtr buffer, IntPtr bufferLength, bool leaveOpen)
     {
-        _Buffer = buffer;
-        _BufferLength = bufferLength;
+        Buffer = buffer;
+        NativeLength = bufferLength;
         _LeaveOpen = leaveOpen;
     }
 
     public MemoryPointerStream(int bufferLength)
     {
-        _Buffer = Marshal.AllocHGlobal(bufferLength);
-        _BufferLength = new IntPtr(bufferLength);
+        Buffer = Marshal.AllocHGlobal(bufferLength);
+        NativeLength = new IntPtr(bufferLength);
         _LeaveOpen = false;
     }
 
     public MemoryPointerStream(IntPtr bufferLength)
     {
-        _Buffer = Marshal.AllocHGlobal(bufferLength);
-        _BufferLength = bufferLength;
+        Buffer = Marshal.AllocHGlobal(bufferLength);
+        NativeLength = bufferLength;
         _LeaveOpen = false;
     }
 
@@ -92,7 +83,7 @@ internal class MemoryPointerStream : Stream, IDisposable
             throw new ArgumentOutOfRangeException("Trying to read beyond the end of a chunk");
 
         for (int i = offset; i < count; i++)
-            buffer[i] = Marshal.ReadByte(_Buffer, (int)_CurPos++);
+            buffer[i] = Marshal.ReadByte(Buffer, (int)_CurPos++);
 
         return count;
     }
@@ -103,7 +94,7 @@ internal class MemoryPointerStream : Stream, IDisposable
             throw new ArgumentOutOfRangeException("Trying to write beyond the end of a chunk");
 
         for (int i = offset; i < count; i++)
-            Marshal.WriteByte(_Buffer, (int)_CurPos++, buffer[i]);
+            Marshal.WriteByte(Buffer, (int)_CurPos++, buffer[i]);
     }
 
     public override long Seek(long offset, SeekOrigin origin)
@@ -163,7 +154,7 @@ internal class MemoryPointerStream : Stream, IDisposable
     protected override void Dispose(bool disposing)
     {
         if (disposing && !_LeaveOpen)
-            Marshal.FreeHGlobal(_Buffer);
+            Marshal.FreeHGlobal(Buffer);
 
         base.Dispose(disposing);
     }

@@ -28,8 +28,14 @@ using Unified.Firmware.PlatformBackend;
 
 namespace Unified.Firmware;
 
+/// <summary>
+/// Entry point for firmware capabilities: platform backend selection, availability, EFI system partition path, and boot-to-firmware UI.
+/// </summary>
 public static class FirmwareInterface
 {
+    /// <summary>
+    /// Gets the firmware backend for the current operating system (for example, Windows or Linux).
+    /// </summary>
     public static IFirmwareBackend CurrentBackend
     {
         get => field ??= Environment.OSVersion.Platform switch

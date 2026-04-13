@@ -31,17 +31,12 @@ namespace Unified.Firmware.SystemPartition;
 /// </summary>
 public class EfiExecutableInfo
 {
-    // private fields
-    private readonly string _FilePath;
     private FileInfo? _FileInfo;
 
     /// <summary>
     /// Full path to the executable file, including the partition path
     /// </summary>
-    public string FullName
-    {
-        get => _FilePath;
-    }
+    public string FullName { get; }
 
     /// <summary>
     /// The name of the folder in which the EFI executable is stored is the name of the provider of the executable file
@@ -56,7 +51,7 @@ public class EfiExecutableInfo
     /// </summary>
     public FileInfo FileInfo
     {
-        get => _FileInfo ??= new FileInfo(_FilePath);
+        get => _FileInfo ??= new FileInfo(FullName);
     }
 
     /// <summary>
@@ -90,7 +85,7 @@ public class EfiExecutableInfo
             throw new ArgumentNullException(nameof(EfiExecutableFile));
 
         _FileInfo = EfiExecutableFile;
-        _FilePath = EfiExecutableFile.FullName;
+        FullName = EfiExecutableFile.FullName;
     }
 
     /// <summary>
@@ -111,7 +106,7 @@ public class EfiExecutableInfo
         if (!ext.Equals(".efi", StringComparison.CurrentCultureIgnoreCase))
             throw new ArgumentException(string.Format("Applications provided in the path have an extension other than \".EFI\" ({0})", ext));
 
-        _FilePath = FullPath;
+        FullName = FullPath;
     }
 
     /// <summary>

@@ -27,7 +27,7 @@ namespace Unified.Firmware;
 
 /// <summary>
 /// Represents a boot option index, which is a 16-bit unsigned integer index used to identify a specific boot option in the system's firmware.
-/// The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
+/// The structure provides an implicit conversion to and from ushort, as well as a string representation in the format "BootXXXX", where XXXX is the hexadecimal representation of the index.
 /// </summary>
 /// <param name="index"></param>
 public readonly struct BootOptionIndex(ushort index) : IEquatable<BootOptionIndex>, IEquatable<ushort>, IComparable<BootOptionIndex>, IComparable<ushort>
@@ -69,7 +69,7 @@ public readonly struct BootOptionIndex(ushort index) : IEquatable<BootOptionInde
     public static bool operator !=(BootOptionIndex left, BootOptionIndex right) => !left.Equals(right);
 
     /// <summary>
-    /// Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index index.
+    /// Returns a string that represents boot option index in format "BootXXXX", where XXXX is the hexadecimal representation of the index.
     /// </summary>
     public override readonly string ToString() => $"Boot{_index:X4}";
 

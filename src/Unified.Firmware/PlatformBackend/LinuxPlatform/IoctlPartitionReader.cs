@@ -40,7 +40,6 @@ internal static class IoctlPartitionReader
         if (!Directory.Exists(SysBlockPath))
             yield break;
 
-        List<string> allEspList = [];
         foreach (string diskDir in Directory.EnumerateDirectories(SysBlockPath))
         {
             string diskName = Path.GetFileName(diskDir);

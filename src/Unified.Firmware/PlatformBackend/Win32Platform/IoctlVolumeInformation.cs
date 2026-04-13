@@ -35,6 +35,10 @@ namespace Unified.Firmware.PlatformBackend.Win32Platform;
 /// </summary>
 public static class IoctlVolumeInformation
 {
+    /// <summary>
+    /// Enumerates all partition on first disk
+    /// </summary>
+    /// <returns></returns>
     public static IEnumerable<PARTITION_INFORMATION_EX> EnumeratePartitions()
     {
         foreach (PARTITION_INFORMATION_EX partition in new IoctlVolumeEnumerable(0))
